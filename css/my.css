@@ -1,0 +1,42 @@
+body { 
+    padding-top: 60px;
+}
+
+#logout:hover {
+    background-color: Crimson;
+    color: white;
+    font-weight: bold;
+}
+
+#fromdatepicker,#todatepicker {
+    background: white url(../css/images/calendar_icon.png) right no-repeat;
+    padding-right: 17px;
+}
+
+div.col-xs-4 {
+    padding: 0;
+}
+
+button.btn.btn-default, a.btn.btn-default {
+    height: 34px;
+}
+
+label.btn.btn-default.active{
+    color: white;
+    background-color: #337ab7;
+    font-weight: bold;
+}
+
+li.parsley-required, li.parsley-type, div.invalid-form-error-message-require-emailORphone.parsley-required, li.parsley-range, li.parsley-custom-error-message {
+    color: red;
+    font-weight: bold;
+}
+
+a.right.carousel-control,
+a.left.carousel-control {
+    width: 75px;
+}
+
+ul li{
+    list-style: none;
+}
