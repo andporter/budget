@@ -9,13 +9,10 @@
  */
 
 require_once("../classes/Login.php");
-require_once("../config/db.php");
+require_once("../config/config.php");
 $login = new Login();
 
 date_default_timezone_set('America/Denver');
-
-// Define whether an HTTPS connection is required
-$HTTPS_required = FALSE;
 
 // Set default HTTP response
 $response['code'] = 0;
@@ -34,7 +31,7 @@ $api_response_code = array(
 );
 
 // --- Step 2: Optionally require connections to be made via HTTPS
-if ($HTTPS_required && $_SERVER['HTTPS'] != 'on')
+if (HTTPS_required === "TRUE" && $_SERVER['HTTPS'] != 'on')
 {
     $response['code'] = 2;
     $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
