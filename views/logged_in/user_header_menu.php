@@ -21,11 +21,11 @@ function echoActiveClassIfRequestMatches($requestUri)
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.php?budget">Cottages of Hope</a>
+            <a class="navbar-brand" href="index.php?budgets">Cottages of Hope</a>
         </div>
         <div class="collapse navbar-collapse" id="navigationbar">
             <ul class="nav navbar-nav">
-                <li <?php echoActiveClassIfRequestMatches("index.php?budget")?>><a href="index.php?budget"><span class="glyphicon glyphicon glyphicon-inbox"></span> Budget</a></li>
+                <li <?php echoActiveClassIfRequestMatches("index.php?budgets")?>><a href="index.php?budgets"><span class="glyphicon glyphicon glyphicon-inbox"></span> Budgets</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li <?php echoActiveClassIfRequestMatches("index.php?settings")?> class="dropdown">

@@ -54,11 +54,11 @@ if ($login->isUserLoggedIn() == true)  //the user is logged in.
             break;
 
         //inbox is the default
-        case "budget":
+        case "budgets":
         default:
             {
                 require("views/logged_in/user_header_menu.php");
-                require("views/logged_in/budget.php");
+                require("views/logged_in/budgets.php");
             }
             break;
     }
