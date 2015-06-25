@@ -34,17 +34,8 @@ if ($login->isUserLoggedIn() == true)  //the user is logged in.
     {
         case "reports":
             {
-                require("views/logged_in/admin_header_menu.php");
+                require("views/logged_in/user_header_menu.php");
                 require("views/logged_in/reports.php");
-            }
-            break;
-
-        case "expungementForm":
-            {
-                //show the expungement page and then log out
-                require("views/not_logged_in/header_menu.php");
-                require("views/logged_in/expungement_form.php");
-                $login->doLogout();
             }
             break;
 
@@ -57,17 +48,17 @@ if ($login->isUserLoggedIn() == true)  //the user is logged in.
                 $registration = new Registration();
 
                 // show the register view (with the registration form, and messages/errors)
-                require("views/logged_in/admin_header_menu.php");
-                require("views/logged_in/admin_settings.php");
+                require("views/logged_in/user_header_menu.php");
+                require("views/logged_in/user_settings.php");
             }
             break;
 
         //inbox is the default
-        case "inbox":
+        case "budget":
         default:
             {
-                require("views/logged_in/admin_header_menu.php");
-                require("views/logged_in/inbox.php");
+                require("views/logged_in/user_header_menu.php");
+                require("views/logged_in/budget.php");
             }
             break;
     }

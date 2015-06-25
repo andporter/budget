@@ -129,7 +129,7 @@ if (isset($registration))
 
     $('#buttonSave_formAdminEditCOHContact').on('click', function ()
     {
-        var btn = $(this).button('loading')
+        var btn = $(this).button('loading');
 
         var newCOHfirstName = ($('#COHfirstName').val());
         var newCOHlastName = ($('#COHlastName').val());
@@ -145,7 +145,7 @@ if (isset($registration))
         SendAjax("api/api.php?method=adminUpdateCOHContact", postJSONData, "none", true);
 
         setTimeout(function () {
-            btn.button('reset')
-        }, 1500)
-    })
+            btn.button('reset');
+        }, 1500);
+    });
 </script>
