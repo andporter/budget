@@ -16,22 +16,19 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> Login<span class="caret"></span>
-                    <ul class="dropdown-menu">
-                        <li><a href="#adminLoginModal" data-toggle="modal"><span class="glyphicon glyphicon-log-in"></span>  Admin Login</a></li>
-                    </ul>
+                    <a href="#loginModal" data-toggle="modal"><span class="glyphicon glyphicon-user"></span>  Login</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
 
-<div id="adminLoginModal" class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+<div id="loginModal" class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content well">
             <form method="post" action="index.php?budgets" data-parsley-validate>
                 <div class="modal-header">
-                    <h4><span class="glyphicon glyphicon-log-in"></span> Admin Login</h4>
+                    <h4><span class="glyphicon glyphicon-user"></span> User Login</h4>
                 </div>
                 <div class="modal-body">
                     <p><input id="admin_login_input_username" class="login_input form-control" type="text" name="user_name" placeholder=" Username" required minlength="2" data-parsley-required-message="Please enter your username"/></p>
