@@ -70,7 +70,7 @@ else //the user is not logged in.
         default:
             {
                 require("views/not_logged_in/header_menu.php");
-                require("views/not_logged_in/initial_form.php");
+                require("views/not_logged_in/incomeForm.php");
             }
             break;
     }
