@@ -11,9 +11,6 @@
             <a class="navbar-brand" href="index.php">Cottages of Hope</a>
         </div>
         <div class="collapse navbar-collapse" id="navigationbar">
-            <ul class="nav navbar-nav">
-
-            </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#loginModal" data-toggle="modal"><span class="glyphicon glyphicon-user"></span>  Login</a>
