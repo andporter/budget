@@ -1,6 +1,6 @@
 -- CREATE DATABASE IF NOT EXISTS expungement;
 
-DROP DATABASE budget;
+DROP DATABASE IF EXISTS budget;
 CREATE DATABASE budget;
 
 USE budget;
