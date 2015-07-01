@@ -31,10 +31,10 @@ function getForm($CategoryParentType, $CategoryParentOrder)
 {
     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
     $sql = $db_connection->prepare("SELECT cp.categoryParentType, cp.categoryParentOrder, cp.categoryParentName, c.categoryOrder, c.categoryName, c.categoryHoverToolTip
-                                    FROM categoryParent cp
-                                    LEFT JOIN category c ON c.categoryParentId = cp.categoryParentId
-                                    WHERE cp.categoryParentOrder = :categoryParentOrder and cp.categoryParentType = :categoryParentType
-                                    ORDER BY c.categoryOrder");
+                                FROM categoryParent cp
+                                LEFT JOIN category c ON c.categoryParentId = cp.categoryParentId
+                                WHERE cp.categoryParentOrder = :categoryParentOrder and cp.categoryParentType = :categoryParentType
+                                ORDER BY c.categoryOrder");
     $sql->bindParam(':categoryParentOrder', $CategoryParentOrder);
     $sql->bindParam(':categoryParentType', $CategoryParentType);
 
@@ -80,9 +80,6 @@ function getForm($CategoryParentType, $CategoryParentOrder)
 
     <div class='container theme-showcase'>
         <?php
-        getForm("Income", 1);
-        getForm("Income", 2);
-        getForm("Income", 3);
         getForm("Expense", 1);
         getForm("Expense", 2);
         getForm("Expense", 3);
