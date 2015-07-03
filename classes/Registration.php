@@ -195,7 +195,7 @@ class Registration
 
                     // using PHP 5.5's password_verify() function to check if the provided password fits
                     // the hash of that user's password
-                    if (password_verify($_POST['user_password_old'], $result_row->user_password_hash))
+                    if (password_verify($_POST['user_password_old'], $result_row->userPasswordHash))
                     {
                         $user_password = $_POST['user_password_new'];
 
@@ -270,7 +270,7 @@ class Registration
 
                     // using PHP 5.5's password_verify() function to check if the provided password fits
                     // the hash of that user's password
-                    if (password_verify($_POST['user_password'], $result_row->user_password_hash))
+                    if (password_verify($_POST['user_password'], $result_row->userPasswordHash))
                     {
                         // write user's new password into database
                         $sql = "DELETE from users WHERE userName = '" . $_SESSION['user_name'] . "';";

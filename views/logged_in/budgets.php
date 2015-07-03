@@ -4,7 +4,7 @@ date_default_timezone_set('America/Denver');
 
 <div id="divBudgets" class="container-fluid" role="main">
     <div id="budgetTableToolbar" class="btn-group">
-        <a href="#DeleteContactsConfirmModal" data-toggle="modal" rel="tooltip" role="button" class="btn btn-default" data-placement="bottom" title="Delete Selected"><i class="glyphicon glyphicon-trash"></i></a>
+        <a href="#DeleteContactsConfirmModal" data-toggle="modal" rel="tooltip" role="button" class="btn btn-default" data-placement="bottom" title="Delete Selected"><i class="glyphicon glyphicon-trash"></i> Delete</a>
     </div>
     <table id="budgetTable"
            data-click-to-select="true"
@@ -23,10 +23,10 @@ date_default_timezone_set('America/Denver');
            data-sortable="true">
         <thead>
             <tr>
-                <th data-field="state" data-checkbox="true"></th>
-                <th class="col-xs-3" data-field="dateCreated" data-sortable="true">Date Created</th>
-                <th class="col-xs-3" data-field="dateUpdated" data-sortable="true">Date Updated</th>
-                <th class="col-xs-6" data-field="budgetName" data-sortable="true">Budget Name</th>
+                <th data-field="state" data-radio="true"></th>
+                <th class="col-xs-2" data-field="dateCreated" data-sortable="true">Date Created</th>
+                <th class="col-xs-2" data-field="dateUpdated" data-sortable="true">Date Updated</th>
+                <th class="col-xs-8" data-field="budgetName" data-sortable="true">Budget Name</th>
             </tr>
         </thead>
     </table>
@@ -81,7 +81,7 @@ date_default_timezone_set('America/Denver');
     }
     
     $('#deleteConfirmButton').click(function (e)
-    {
+    {        
         $('#DeleteContactsConfirmModal').modal('hide');
         $('#progressBarModal').modal('show');
         

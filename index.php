@@ -54,7 +54,7 @@ if ($login->isUserLoggedIn() == true)  //the user is logged in.
                 {
                     require("views/logged_in/budgets.php");
                 }
-                else //No existing budgets(s). Show incomeForm.
+                else //No existing budget. Show incomeForm.
                 {
                     require("views/logged_in/incomeForm.php");
                 }
