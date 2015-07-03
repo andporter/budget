@@ -28,6 +28,11 @@ class Registration
      */
     public function __construct()
     {
+        //        foreach ($_POST as $key => $value)
+        //        {
+        //            echo $key . '=' . $value . '<br />';
+        //        }
+
         if (isset($_POST["register"]))
         {
             $this->registerNewUser();
@@ -112,7 +117,7 @@ class Registration
                 $user_password_hash = password_hash($user_password, PASSWORD_DEFAULT);
 
                 // check if user or email address already exists
-                $sql = "SELECT * FROM users WHERE user_name = '" . $user_name . "' OR user_email = '" . $user_email . "';";
+                $sql = "SELECT * FROM users WHERE userName = '" . $user_name . "' OR userEmail = '" . $user_email . "';";
                 $query_check_user_name = $this->db_connection->query($sql);
 
                 if ($query_check_user_name->num_rows == 1)
@@ -122,13 +127,13 @@ class Registration
                 else
                 {
                     // write new user's data into database
-                    $sql = "INSERT INTO users (user_name, user_password_hash, user_email) VALUES('" . $user_name . "', '" . $user_password_hash . "', '" . $user_email . "');";
+                    $sql = "INSERT INTO users (userName, userPasswordHash, userEmail) VALUES('" . $user_name . "', '" . $user_password_hash . "', '" . $user_email . "');";
                     $query_new_user_insert = $this->db_connection->query($sql);
 
                     // if user has been added successfully
                     if ($query_new_user_insert)
                     {
-                        $this->messages[] = "Your account has been created successfully!";
+                        $this->messages[] = "Your account has been created successfully! You can now login!";
                     }
                     else
                     {
@@ -179,7 +184,7 @@ class Registration
             if (!$this->db_connection->connect_errno)
             {
                 // database query, getting password hash to verify old password
-                $sql = "SELECT user_password_hash FROM users WHERE user_name = '" . $_SESSION['user_name'] . "';";
+                $sql = "SELECT userPasswordHash FROM users WHERE userName = '" . $_SESSION['user_name'] . "';";
                 $result_of_login_check = $this->db_connection->query($sql);
 
                 // if this user exists
@@ -200,7 +205,7 @@ class Registration
                         $user_password_hash = password_hash($user_password, PASSWORD_DEFAULT);
 
                         // write user's new password into database
-                        $sql = "UPDATE users SET user_password_hash = '" . $user_password_hash . "' WHERE user_name = '" . $_SESSION['user_name'] . "';";
+                        $sql = "UPDATE users SET userPasswordHash = '" . $user_password_hash . "' WHERE userName = '" . $_SESSION['user_name'] . "';";
                         $query_change_password = $this->db_connection->query($sql);
 
                         // if user has been added successfully
@@ -211,7 +216,7 @@ class Registration
                         else
                         {
                             $this->errors[] = "Failed to change password!";
-                        }                 
+                        }
                     }
                     else
                     {
@@ -254,7 +259,7 @@ class Registration
             if (!$this->db_connection->connect_errno)
             {
                 // database query, getting password hash to verify old password
-                $sql = "SELECT user_password_hash FROM users WHERE user_name = '" . $_SESSION['user_name'] . "';";
+                $sql = "SELECT userPasswordHash FROM users WHERE userName = '" . $_SESSION['user_name'] . "';";
                 $result_of_login_check = $this->db_connection->query($sql);
 
                 // if this user exists
@@ -268,7 +273,7 @@ class Registration
                     if (password_verify($_POST['user_password'], $result_row->user_password_hash))
                     {
                         // write user's new password into database
-                        $sql = "DELETE from users WHERE user_name = '" . $_SESSION['user_name'] . "';";
+                        $sql = "DELETE from users WHERE userName = '" . $_SESSION['user_name'] . "';";
                         $query_delete_account = $this->db_connection->query($sql);
 
                         // if user has been added successfully
@@ -280,7 +285,7 @@ class Registration
                         else
                         {
                             $this->errors[] = "Failed to change password!";
-                        }                 
+                        }
                     }
                     else
                     {
@@ -298,4 +303,5 @@ class Registration
             }
         }
     }
+
 }

@@ -41,6 +41,11 @@ function getForm($CategoryParentType, $CategoryParentOrder)
     {
         $ResultsToReturn = $sql->fetchAll(PDO::FETCH_ASSOC);
     }
+    else
+    {
+        print_r($sql->errorCode());
+        $ResultsToReturn;
+    }
     ?>
 
     <div class='panel panal-content panel-primary'>
@@ -95,7 +100,7 @@ function getForm($CategoryParentType, $CategoryParentOrder)
 
     <div class='container theme-showcase'>
         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-            <div class="panel panel-default">
+            <div class="panel panel-primary">
                 <div class="panel-heading" role="tab" id="headingOne">
                     <h4 class="panel-title">
                         <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -109,7 +114,7 @@ function getForm($CategoryParentType, $CategoryParentOrder)
                     </div>
                 </div>
             </div>
-            <div class="panel panel-default">
+            <div class="panel panel-primary">
                 <div class="panel-heading" role="tab" id="headingTwo">
                     <h4 class="panel-title">
                         <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
@@ -123,7 +128,7 @@ function getForm($CategoryParentType, $CategoryParentOrder)
                     </div>
                 </div>
             </div>
-            <div class="panel panel-default">
+            <div class="panel panel-primary">
                 <div class="panel-heading" role="tab" id="headingThree">
                     <h4 class="panel-title">
                         <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">

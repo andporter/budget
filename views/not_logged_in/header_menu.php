@@ -28,8 +28,8 @@
                     <h4><span class="glyphicon glyphicon-user"></span> User Login</h4>
                 </div>
                 <div class="modal-body">
-                    <p><input id="admin_login_input_username" class="login_input form-control" type="text" name="user_name" placeholder=" Username" required minlength="2" data-parsley-required-message="Please enter your username"/></p>
-                    <p><input id="admin_login_input_password" class="login_input form-control" type="password" name="user_password" placeholder=" Password" autocomplete="off" required minlength="2" data-parsley-required-message="Please enter your password" /></p>
+                    <p><input id="login_input_username" class="login_input form-control" type="text" name="user_name" placeholder=" Username" required minlength="2" data-parsley-required-message="Please enter your username"/></p>
+                    <p><input id="login_input_password" class="login_input form-control" type="password" name="user_password" placeholder=" Password" autocomplete="off" required minlength="2" data-parsley-required-message="Please enter your password" /></p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

@@ -1,6 +1,6 @@
 
 <head>
-    <title>Cottages of Hope - Expungement Form</title>
+    <title>Cottages of Hope - Budget</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">

@@ -81,9 +81,7 @@ class Login
 
                 // database query, getting all the info of the selected user (allows login via email address in the
                 // username field)
-                $sql = "SELECT user_name, user_email, user_password_hash
-                        FROM users
-                        WHERE user_name = '" . $user_name . "' OR user_email = '" . $user_name . "';";
+                $sql = "SELECT userName, userEmail, userPasswordHash FROM users WHERE userName = '" . $user_name . "' OR userEmail = '" . $user_name . "';";
                 $result_of_login_check = $this->db_connection->query($sql);
 
                 // if this user exists
@@ -94,12 +92,13 @@ class Login
 
                     // using PHP 5.5's password_verify() function to check if the provided password fits
                     // the hash of that user's password
-                    if (password_verify($_POST['user_password'], $result_row->user_password_hash))
+                    if (password_verify($_POST['user_password'], $result_row->userPasswordHash))
                     {
                         // write user data into PHP SESSION (a file on your server)
-                        $_SESSION['user_name'] = $result_row->user_name;
-                        $_SESSION['user_email'] = $result_row->user_email;
+                        $_SESSION['user_name'] = $result_row->userName;
+                        $_SESSION['user_email'] = $result_row->userEmail;
                         $_SESSION['user_login_status'] = 1;
+                        $_SESSION['user_has_budget'] = 0;
                     }
                     else
                     {
@@ -146,4 +145,17 @@ class Login
         return false;
     }
 
+    /**
+     * returns true or false if the user has any budgets created
+     * @return boolean user's bugdet status
+     */
+    public function userHasBugdet()
+    {
+        if (isset($_SESSION['user_has_budget']) AND $_SESSION['user_has_budget'] == 1)
+        {
+            return true;
+        }
+        // default return
+        return false;
+    }
 }

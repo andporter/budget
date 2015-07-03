@@ -32,13 +32,6 @@ if ($login->isUserLoggedIn() == true)  //the user is logged in.
 {
     switch (key($_GET))
     {
-        case "reports":
-            {
-                require("views/logged_in/user_header_menu.php");
-                require("views/logged_in/reports.php");
-            }
-            break;
-
         case "settings":
             {
                 // load the registration class
@@ -53,8 +46,21 @@ if ($login->isUserLoggedIn() == true)  //the user is logged in.
             }
             break;
 
-        //inbox is the default
         case "budgets":
+            {
+                require("views/logged_in/user_header_menu.php");
+                
+                if ($login->userHasBugdet() == true) //Already has at least one budget. Show list of budgets.
+                {
+                    require("views/logged_in/budgets.php");
+                }
+                else //No existing budgets(s). Show incomeForm.
+                {
+                    require("views/logged_in/incomeForm.php");
+                }
+            }
+            break;
+
         default:
             {
                 require("views/logged_in/user_header_menu.php");
@@ -67,10 +73,24 @@ else //the user is not logged in.
 {
     switch (key($_GET))
     {
+        case "register":
+            {
+                // load the registration class
+                require_once("classes/Registration.php");
+
+                // create the registration object. when this object is created, it will do all registration stuff automatically
+                $registration = new Registration();
+
+                // show the register view (with the registration form, and messages/errors)
+                require("views/not_logged_in/header_menu.php");
+                require("views/not_logged_in/introLogin.php");
+            }
+            break;
+
         default:
             {
                 require("views/not_logged_in/header_menu.php");
-                require("views/not_logged_in/incomeForm.php");
+                require("views/not_logged_in/introLogin.php");
             }
             break;
     }
