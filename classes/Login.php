@@ -81,7 +81,7 @@ class Login
 
                 // database query, getting all the info of the selected user (allows login via email address in the
                 // username field)
-                $sql = "SELECT userName, userEmail, userPasswordHash FROM users WHERE userName = '" . $user_name . "' OR userEmail = '" . $user_name . "';";
+                $sql = "SELECT userId, userType, userName, userEmail, userPasswordHash FROM users WHERE userName = '" . $user_name . "' OR userEmail = '" . $user_name . "';";
                 $result_of_login_check = $this->db_connection->query($sql);
 
                 // if this user exists
@@ -97,8 +97,24 @@ class Login
                         // write user data into PHP SESSION (a file on your server)
                         $_SESSION['user_name'] = $result_row->userName;
                         $_SESSION['user_email'] = $result_row->userEmail;
+                        $_SESSION['user_id'] = $result_row->userId;
                         $_SESSION['user_login_status'] = 1;
-                        $_SESSION['user_has_budget'] = 0;
+                        
+                        //Store the user type
+                        $_SESSION['user_account_type'] = $result_row->userType;
+                        
+                        //Check if the user has any budgets
+                        $sql = "SELECT b.* FROM budget b JOIN users u ON b.userId = u.userId WHERE u.userId = " . $result_row->userId .";";
+                        $does_user_have_budget = $this->db_connection->query($sql);
+                        
+                        if ($does_user_have_budget->num_rows >= 1)
+                        {
+                            $_SESSION['user_has_budget'] = 1;
+                        }
+                        else
+                        {
+                            $_SESSION['user_has_budget'] = 0;
+                        }
                     }
                     else
                     {
@@ -157,5 +173,14 @@ class Login
         }
         // default return
         return false;
+    }
+    
+     /**
+     * returns true or false if the user has any budgets created
+     * @return boolean user's bugdet status
+     */
+    public function getUserType()
+    {
+        return $_SESSION['user_account_type'];
     }
 }

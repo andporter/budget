@@ -68,11 +68,45 @@ switch ($_GET['method'])
             $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
         }
         break;
+
+    case "userGetBudgets":
+        {
+            try
+            {   
+                if ($login->isUserLoggedIn() == true) //requires login
+                {
+                    $jsonData = json_decode($_POST["data"], true);
+                    $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
+                    $sql = $db_connection->prepare("SELECT * FROM budget WHERE userId = :userId;");
+                    $sql->bindParam(':userId', $_SESSION['user_id']);
+                    
+                    if ($sql->execute())
+                    {
+                        $ResultsToReturn = $sql->fetchAll(PDO::FETCH_ASSOC);
+                        $response['code'] = 1;
+                        $response['data'] = $ResultsToReturn;
+                        $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
+                    }
+                }
+                else //not logged in
+                {
+                    $response['code'] = 3;
+                    $response['data'] = $api_response_code[$response['code']]['Message'];
+                    $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
+                }
+            }
+            catch (Exception $e)
+            {
+                $response['code'] = 0;
+                $response['data'] = $e->getMessage();
+                $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
+            }
+        }
+        break;
 }
 
 // --- Step 3: Deliver Response
 deliver_response($response, $_GET['format'], $_GET['filename']);
-
 
 /**
  * Deliver HTTP Response
