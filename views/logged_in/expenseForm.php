@@ -1,40 +1,13 @@
 <?php
-if (isset($login))
-{ // show potential errors / feedback (from login object)
-    if ($login->errors)
-    {
-        foreach ($login->errors as $error)
-        {
-            echo "<div id=\"alertErrors\" class=\"container theme-showcase\">";
-            echo "<div class=\"alert alert-danger\" role=\"alert\"><strong>Error: </strong>" . $error;
-            echo "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>";
-            echo "</div>";
-            echo "</div>";
-        }
-    }
-    if ($login->messages)
-    {
-        foreach ($login->messages as $message)
-        {
-            echo "<div id=\"alertMessages\" class=\"container theme-showcase\">";
-            echo "<div class=\"alert alert-success\" role=\"alert\">" . $message;
-            echo "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>";
-            echo "</div>";
-            echo "</div>";
-        }
-    }
-}
-
-require_once("../config/db.php");
 
 function getForm($CategoryParentType, $CategoryParentOrder)
 {
     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
     $sql = $db_connection->prepare("SELECT cp.categoryParentType, cp.categoryParentOrder, cp.categoryParentName, c.categoryOrder, c.categoryName, c.categoryHoverToolTip
-                                FROM categoryParent cp
-                                LEFT JOIN category c ON c.categoryParentId = cp.categoryParentId
-                                WHERE cp.categoryParentOrder = :categoryParentOrder and cp.categoryParentType = :categoryParentType
-                                ORDER BY c.categoryOrder");
+                                    FROM categoryParent cp
+                                    LEFT JOIN category c ON c.categoryParentId = cp.categoryParentId
+                                    WHERE cp.categoryParentOrder = :categoryParentOrder and cp.categoryParentType = :categoryParentType
+                                    ORDER BY c.categoryOrder");
     $sql->bindParam(':categoryParentOrder', $CategoryParentOrder);
     $sql->bindParam(':categoryParentType', $CategoryParentType);
 
@@ -42,6 +15,11 @@ function getForm($CategoryParentType, $CategoryParentOrder)
     if ($sql->execute())
     {
         $ResultsToReturn = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+    else
+    {
+        print_r($sql->errorInfo());
+        $ResultsToReturn;
     }
 
     echo "<div class='panel panal-content panel-primary'>";
@@ -94,17 +72,8 @@ function getForm($CategoryParentType, $CategoryParentOrder)
 
 
     <script type="text/javascript">
-
+        
         $(function () {
-            window.setTimeout(function () {
-                $("#alertErrors").fadeTo(1500, 0).slideUp(500, function () {
-                    $(this).remove();
-                });
-                $("#alertMessages").fadeTo(1500, 0).slideUp(500, function () {
-                    $(this).remove();
-                });
-            }, 5000);
-
             $("[rel=tooltip]").tooltip({placement: 'right'});
         });
 

@@ -1,29 +1,4 @@
 <?php
-if (isset($login))
-{ // show potential errors / feedback (from login object)
-    if ($login->errors)
-    {
-        foreach ($login->errors as $error)
-        {
-            echo "<div id=\"alertErrors\" class=\"container theme-showcase\">";
-            echo "<div class=\"alert alert-danger\" role=\"alert\"><strong>Error: </strong>" . $error;
-            echo "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>";
-            echo "</div>";
-            echo "</div>";
-        }
-    }
-    if ($login->messages)
-    {
-        foreach ($login->messages as $message)
-        {
-            echo "<div id=\"alertMessages\" class=\"container theme-showcase\">";
-            echo "<div class=\"alert alert-success\" role=\"alert\">" . $message;
-            echo "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>";
-            echo "</div>";
-            echo "</div>";
-        }
-    }
-}
 
 function getForm($CategoryParentType, $CategoryParentOrder)
 {
@@ -43,7 +18,7 @@ function getForm($CategoryParentType, $CategoryParentOrder)
     }
     else
     {
-        print_r($sql->errorCode());
+        print_r($sql->errorInfo());
         $ResultsToReturn;
     }
     ?>
@@ -149,15 +124,6 @@ function getForm($CategoryParentType, $CategoryParentOrder)
     <script type="text/javascript">
 
         $(function () {
-            window.setTimeout(function () {
-                $("#alertErrors").fadeTo(1500, 0).slideUp(500, function () {
-                    $(this).remove();
-                });
-                $("#alertMessages").fadeTo(1500, 0).slideUp(500, function () {
-                    $(this).remove();
-                });
-            }, 5000);
-
             $("[rel=tooltip]").tooltip({placement: 'right'});
         });
 
