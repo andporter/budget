@@ -29,25 +29,34 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
                 foreach ($ResultsToReturn as $row) {
                     ?>
                     <div class = 'form-group'>
-                        <label class = 'control-label col-sm-7' for = 'self_<?php echo $row["categoryOrder"] . str_replace(' ', '_', $row["categoryName"]) ?>'><?php echo $row["categoryOrder"] . '. ' . $row["categoryName"] ?></label>
-                        <div class = 'col-sm-5 input-group input-group-unstyled'>
-                            <span class='input-group-addon glyphicon glyphicon-info-sign' rel='tooltip' title='<?php echo $row["categoryHoverToolTip"] ?>'></span>
-                            <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Self $$' value='' id = 'self_<?php echo $row["categoryOrder"] . str_replace(' ', '_', $row["categoryName"]) ?>'></input>
+                        <label class = 'control-label col-sm-3' for = 'self_<?php echo $row["categoryOrder"] . str_replace(' ', '_', $row["categoryName"]) ?>'><?php echo $row["categoryOrder"] . '. ' . $row["categoryName"] ?></label>
+                        <div class = 'col-sm-9 input-group input-group-unstyled'>
+                            <div class = 'col-sm-1'>
+                                <span class='input-group-addon glyphicon glyphicon-info-sign' rel='tooltip' title='<?php echo $row["categoryHoverToolTip"] ?>'></span>
+                            </div>
+                            <div class = 'col-sm-3'>
+                                <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Self $$' value='' id = 'self_<?php echo $row["categoryOrder"] . str_replace(' ', '_', $row["categoryName"]) ?>'></input>
+                            </div>
+                            <div class = 'col-sm-1'>
+                                <?php if ($row["calculatorType"] == 'MonthlyWage') { ?>
+                                    <span><button type="button" class="btn btn-info" data-toggle="modal" data-target="#wageCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>
+                                <?php } elseif ($row["calculatorType"] == 'MonthlySE') { ?>
+                                    <span><button type="button" class="btn btn-info" data-toggle="modal" data-target="#seCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>
 
-                            <?php if ($row["calculatorType"] != NULL) { ?>
-                                <span><button type="button" class="btn btn-info" data-toggle="modal" data-target="#wageCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>
-                            <?php } else { ?>
-                                <span class='input-group-addon glyphicon glyphicon-modal-window'></span>
-                            <?php } ?>
-
-                            <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Spouse $$' value='' id = 'spouse_<?php echo $row["categoryOrder"] . str_replace(' ', '_', $row["categoryName"]) ?>'></input>
-
-                            <?php if ($row["calculatorType"] != NULL) { ?>
-                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#wageCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button>
-                            <?php } else { ?>
-                                <span class='input-group-addon glyphicon glyphicon-modal-window'></span>
-                            <?php } ?>
-
+                                <?php } else { ?>
+                                    <span class='input-group-addon glyphicon glyphicon-modal-window'></span>
+                                <?php } ?>
+                            </div>
+                            <div class = 'col-sm-3'>
+                                <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Spouse $$' value='' id = 'spouse_<?php echo $row["categoryOrder"] . str_replace(' ', '_', $row["categoryName"]) ?>'></input>
+                            </div>
+                            <div class = 'col-sm-1'>
+                                <?php if ($row["calculatorType"] != NULL) { ?>
+                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#wageCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button>
+                                <?php } else { ?>
+                                    <span class='input-group-addon glyphicon glyphicon-modal-window'></span>
+                                <?php } ?>
+                            </div>
                         </div>
                     </div>
                 <?php } ?>
