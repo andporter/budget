@@ -42,7 +42,8 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
                                     <span><button type="button" class="btn btn-info" data-toggle="modal" data-target="#wageCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>
                                 <?php } elseif ($row["calculatorType"] == 'MonthlySE') { ?>
                                     <span><button type="button" class="btn btn-info" data-toggle="modal" data-target="#seCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>
-
+                                <?php } elseif ($row["calculatorType"] == 'NonMonthly') { ?>
+                                    <span><button type="button" class="btn btn-info" data-toggle="modal" data-target="#nonMonthlyCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>
                                 <?php } else { ?>
                                     <span class='input-group-addon glyphicon glyphicon-modal-window'></span>
                                 <?php } ?>
@@ -51,8 +52,12 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
                                 <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Spouse $$' value='' id = 'spouse_<?php echo $row["categoryOrder"] . str_replace(' ', '_', $row["categoryName"]) ?>'></input>
                             </div>
                             <div class = 'col-sm-1'>
-                                <?php if ($row["calculatorType"] != NULL) { ?>
-                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#wageCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button>
+                                <?php if ($row["calculatorType"] == 'MonthlyWage') { ?>
+                                    <span><button type="button" class="btn btn-info" data-toggle="modal" data-target="#wageCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>
+                                <?php } elseif ($row["calculatorType"] == 'MonthlySE') { ?>
+                                    <span><button type="button" class="btn btn-info" data-toggle="modal" data-target="#seCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>
+                                <?php } elseif ($row["calculatorType"] == 'NonMonthly') { ?>
+                                    <span><button type="button" class="btn btn-info" data-toggle="modal" data-target="#nonMonthlyCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>
                                 <?php } else { ?>
                                     <span class='input-group-addon glyphicon glyphicon-modal-window'></span>
                                 <?php } ?>
@@ -148,6 +153,26 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
             return !(charCode > 31 && (charCode < 48 || charCode > 57));
         }
 
+        $('#wageCalcModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var recipient = button.data('whatever') // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var modal = $(this)
+            modal.find('.modal-title').text('Wage Calculator')
+            modal.find('.modal-body input').val(recipient)
+        });
+
+        $('#seCalcModal').on('show.bs.modal', function (event) {
+
+        });
+
+        $('#nonMonthlyCalcModal').on('show.bs.modal', function (event) {
+
+        });
+
+        $('#wageCalcModal').modal(options);
+
     </script>
 
     <!-- Wage Calculator Modal-->
@@ -177,15 +202,14 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
         </div>
     </div><!-- End Modal-->
 
-    <!-- SE Calculator Modals-->
-
+    <!-- Self-Employed Calculator Modal-->
     <div class="modal fade" id="seCalcModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
-                    <h4 class="modal-title">Wage Calculator</h4>
+                    <h4 class="modal-title">Self-Employment Calculator</h4>
                 </div>
 
                 <div class="modal-body">
@@ -204,6 +228,51 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
             </div>
         </div>
     </div><!-- End Modal-->
+
+    <!-- Non-Monthly Calculator Modal -->
+    <div class="modal fade" id="nonMonthlyCalcModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                    <h4 class="modal-title">Non-Monthly Calculator</h4>
+                </div>
+
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-sm-4">
+
+                                <form class="navbar-form">
+                                    <div class="form-group" style="text-align: center;">
+                                        <label class = 'control-label'>Estimate for the Year</label>
+                                        <input type="number" class="form-control" id="typical-month-income" placeholder="$">
+
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-sm-8">
+                                <form class="navbar-form">
+                                    <div class="form-group">
+                                        <div class="col-sm-12" style="text-align: center;"><label class = 'control-label'>Frequency Method</label></div>
+                                   
+                                            <div class="col-sm-6"><label class = 'control-label'>Times per Year:</label></div>
+                                            <div class="col-sm-6"><input type="number" class="form-control" id="last-year-taxes" placeholder="Times Per Year #"></div>
+                                            <div class="col-sm-6"><label class = 'control-label'>Cost per Time:</label></div>
+                                            <div class="col-sm-6"><input type="number" class="form-control" id="last-year-taxes" placeholder="Cost Per Time $"></div>
+                                            <div class="col-sm-6"><label class = 'control-label'>Yearly Estimate:</label></div>
+                                            <div class="col-sm-6"><input type="number" class="form-control" id="last-year-taxes" placeholder="Yearly Estimate $"></div>
+                                      
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary pull-right">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div><!-- End Modal-->
 
 
 </body>
