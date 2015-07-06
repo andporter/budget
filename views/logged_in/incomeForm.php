@@ -1,9 +1,8 @@
 <?php
 
-function getForm($CategoryParentType, $CategoryParentOrder)
-{
+function getForm($CategoryParentType, $CategoryParentOrder) {
     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
-    $sql = $db_connection->prepare("SELECT cp.categoryParentType, cp.categoryParentOrder, cp.categoryParentName, c.categoryOrder, c.categoryName, c.categoryHoverToolTip
+    $sql = $db_connection->prepare("SELECT cp.categoryParentType, cp.categoryParentOrder, cp.categoryParentName, c.categoryOrder, c.categoryName, c.categoryHoverToolTip, c.calculatorType
                                     FROM categoryParent cp
                                     LEFT JOIN category c ON c.categoryParentId = cp.categoryParentId
                                     WHERE cp.categoryParentOrder = :categoryParentOrder and cp.categoryParentType = :categoryParentType
@@ -12,12 +11,9 @@ function getForm($CategoryParentType, $CategoryParentOrder)
     $sql->bindParam(':categoryParentType', $CategoryParentType);
 
 
-    if ($sql->execute())
-    {
+    if ($sql->execute()) {
         $ResultsToReturn = $sql->fetchAll(PDO::FETCH_ASSOC);
-    }
-    else
-    {
+    } else {
         print_r($sql->errorInfo());
         $ResultsToReturn;
     }
@@ -30,17 +26,28 @@ function getForm($CategoryParentType, $CategoryParentOrder)
         <div class='panel-body'>
             <form class='form-horizontal' role='form'>
                 <?php
-                foreach ($ResultsToReturn as $row)
-                {
+                foreach ($ResultsToReturn as $row) {
                     ?>
                     <div class = 'form-group'>
                         <label class = 'control-label col-sm-7' for = 'self_<?php echo $row["categoryOrder"] . str_replace(' ', '_', $row["categoryName"]) ?>'><?php echo $row["categoryOrder"] . '. ' . $row["categoryName"] ?></label>
                         <div class = 'col-sm-5 input-group input-group-unstyled'>
                             <span class='input-group-addon glyphicon glyphicon-info-sign' rel='tooltip' title='<?php echo $row["categoryHoverToolTip"] ?>'></span>
                             <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Self $$' value='' id = 'self_<?php echo $row["categoryOrder"] . str_replace(' ', '_', $row["categoryName"]) ?>'></input>
-                            <span class='input-group-addon glyphicon glyphicon-modal-window'></span>
+
+                            <?php if ($row["calculatorType"] != NULL) { ?>
+                                <span><button type="button" class="btn btn-info" data-toggle="modal" data-target="#wageCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>
+                            <?php } else { ?>
+                                <span class='input-group-addon glyphicon glyphicon-modal-window'></span>
+                            <?php } ?>
+
                             <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Spouse $$' value='' id = 'spouse_<?php echo $row["categoryOrder"] . str_replace(' ', '_', $row["categoryName"]) ?>'></input>
-                            <span class='input-group-addon glyphicon glyphicon-modal-window'></span>
+
+                            <?php if ($row["calculatorType"] != NULL) { ?>
+                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#wageCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button>
+                            <?php } else { ?>
+                                <span class='input-group-addon glyphicon glyphicon-modal-window'></span>
+                            <?php } ?>
+
                         </div>
                     </div>
                 <?php } ?>
@@ -133,4 +140,61 @@ function getForm($CategoryParentType, $CategoryParentOrder)
         }
 
     </script>
+
+    <!-- Wage Calculator Modal-->
+    <div class="modal fade" id="wageCalcModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                    <h4 class="modal-title">Wage Calculator</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form class="navbar-form">
+                        <div class="form-group">
+                            <input type="number" class="form-control" id="dollars-per-hour" placeholder="$ Per Hour"> <span>X</span> <input type="number" class="form-control" id="hours-per-week" placeholder="Hours Per Week">
+                        </div><button type="button" class="btn btn-primary">Submit</button>
+                    </form>
+
+                    <form class="navbar-form">
+                        <div class="form-group">
+                            <input type="number" class="form-control" id="salary" placeholder="Salary $">
+                        </div><button type="button" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div><!-- End Modal-->
+
+    <!-- SE Calculator Modals-->
+
+    <div class="modal fade" id="seCalcModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                    <h4 class="modal-title">Wage Calculator</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form class="navbar-form">
+                        <div class="form-group">
+                            <input type="number" class="form-control" id="typical-month-income" placeholder="Typical Month's $">
+                        </div><button type="button" class="btn btn-primary">Submit</button>
+                    </form>
+
+                    <form class="navbar-form">
+                        <div class="form-group">
+                            <input type="number" class="form-control" id="last-year-taxes" placeholder="Last Year's Taxes $">
+                        </div><button type="button" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div><!-- End Modal-->
+
+
 </body>
