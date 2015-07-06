@@ -38,29 +38,13 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
                                 <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Self $$' value='' id = 'self_<?php echo $row["categoryOrder"] . str_replace(' ', '_', $row["categoryName"]) ?>'></input>
                             </div>
                             <div class = 'col-sm-1'>
-                                <?php if ($row["calculatorType"] == 'MonthlyWage') { ?>
-                                    <span><button type="button" class="btn btn-info" data-toggle="modal" data-target="#wageCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>
-                                <?php } elseif ($row["calculatorType"] == 'MonthlySE') { ?>
-                                    <span><button type="button" class="btn btn-info" data-toggle="modal" data-target="#seCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>
-                                <?php } elseif ($row["calculatorType"] == 'NonMonthly') { ?>
-                                    <span><button type="button" class="btn btn-info" data-toggle="modal" data-target="#nonMonthlyCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>
-                                <?php } else { ?>
-                                    <span class='input-group-addon glyphicon glyphicon-modal-window'></span>
-                                <?php } ?>
+                                <?php echo getCalculator($row["calculatorType"]); ?>
                             </div>
                             <div class = 'col-sm-3'>
                                 <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Spouse $$' value='' id = 'spouse_<?php echo $row["categoryOrder"] . str_replace(' ', '_', $row["categoryName"]) ?>'></input>
                             </div>
                             <div class = 'col-sm-1'>
-                                <?php if ($row["calculatorType"] == 'MonthlyWage') { ?>
-                                    <span><button type="button" class="btn btn-info" data-toggle="modal" data-target="#wageCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>
-                                <?php } elseif ($row["calculatorType"] == 'MonthlySE') { ?>
-                                    <span><button type="button" class="btn btn-info" data-toggle="modal" data-target="#seCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>
-                                <?php } elseif ($row["calculatorType"] == 'NonMonthly') { ?>
-                                    <span><button type="button" class="btn btn-info" data-toggle="modal" data-target="#nonMonthlyCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>
-                                <?php } else { ?>
-                                    <span class='input-group-addon glyphicon glyphicon-modal-window'></span>
-                                <?php } ?>
+                                <?php echo getCalculator($row["calculatorType"]); ?>
                             </div>
                         </div>
                     </div>
@@ -75,6 +59,21 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
         </div>
     </div>
 <?php } ?>
+
+<?php
+
+function getCalculator($calcType) {
+    if ($calcType == 'MonthlyWage') {
+        echo '<span><button type="button" class="btn btn-info" data-toggle="modal" data-target="#wageCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>';
+    } elseif ($calcType == 'MonthlySE') {
+        echo '<span><button type="button" class="btn btn-info" data-toggle="modal" data-target="#seCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>';
+    } elseif ($calcType == 'NonMonthly') {
+        echo '<span><button type="button" class="btn btn-info" data-toggle="modal" data-target="#nonMonthlyCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>';
+    } else {
+        echo '<span class="input-group-addon glyphicon glyphicon-modal-window"></span>';
+    }
+}
+?>
 
 <body>
     <div class='container theme-showcase'>
@@ -110,16 +109,16 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
                     </div>
                 </div>
             </div>
-            <div class="panel panel-primary">
-                <div class="panel-heading" role="tab" id="headingTwo">
-                    <h4 class="panel-title">
-                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+            <div class = "panel panel-primary">
+                <div class = "panel-heading" role = "tab" id = "headingTwo">
+                    <h4 class = "panel-title">
+                        <a class = "collapsed" role = "button" data-toggle = "collapse" data-parent = "#accordion" href = "#collapseTwo" aria-expanded = "false" aria-controls = "collapseTwo">
                             Collapsible Group Item #2
                         </a>
                     </h4>
                 </div>
-                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                    <div class="panel-body">
+                <div id = "collapseTwo" class = "panel-collapse collapse" role = "tabpanel" aria-labelledby = "headingTwo">
+                    <div class = "panel-body">
                         Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
                     </div>
                 </div>
@@ -142,7 +141,7 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
     </div>
 
 
-    <script type="text/javascript">
+    <script type = "text/javascript">
 
         $(function () {
             $("[rel=tooltip]").tooltip({placement: 'right'});
@@ -261,6 +260,5 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
             </div>
         </div>
     </div><!-- End Modal-->
-
 
 </body>
