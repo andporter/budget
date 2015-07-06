@@ -181,17 +181,14 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-
                     <h4 class="modal-title">Wage Calculator</h4>
                 </div>
-
                 <div class="modal-body">
                     <form class="navbar-form">
                         <div class="form-group">
                             <input type="number" class="form-control" id="dollars-per-hour" placeholder="$ Per Hour"> <span>X</span> <input type="number" class="form-control" id="hours-per-week" placeholder="Hours Per Week">
                         </div><button type="button" class="btn btn-primary">Submit</button>
                     </form>
-
                     <form class="navbar-form">
                         <div class="form-group">
                             <input type="number" class="form-control" id="salary" placeholder="Salary $">
@@ -208,17 +205,14 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-
                     <h4 class="modal-title">Self-Employment Calculator</h4>
                 </div>
-
                 <div class="modal-body">
                     <form class="navbar-form">
                         <div class="form-group">
                             <input type="number" class="form-control" id="typical-month-income" placeholder="Typical Month's $">
                         </div><button type="button" class="btn btn-primary">Submit</button>
                     </form>
-
                     <form class="navbar-form">
                         <div class="form-group">
                             <input type="number" class="form-control" id="last-year-taxes" placeholder="Last Year's Taxes $">
@@ -230,25 +224,21 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
     </div><!-- End Modal-->
 
     <!-- Non-Monthly Calculator Modal -->
-    <div class="modal fade" id="nonMonthlyCalcModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2">
+    <div class="modal fade" id="nonMonthlyCalcModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel3">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-
                     <h4 class="modal-title">Non-Monthly Calculator</h4>
                 </div>
-
                 <div class="modal-body">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-sm-4">
-
                                 <form class="navbar-form">
                                     <div class="form-group" style="text-align: center;">
                                         <label class = 'control-label'>Estimate for the Year</label>
-                                        <input type="number" class="form-control" id="typical-month-income" placeholder="$">
-
+                                        <input type="number" class="form-control" id="estimate-for-year" placeholder="$">
                                     </div>
                                 </form>
                             </div>
@@ -256,23 +246,21 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
                                 <form class="navbar-form">
                                     <div class="form-group">
                                         <div class="col-sm-12" style="text-align: center;"><label class = 'control-label'>Frequency Method</label></div>
-                                   
-                                            <div class="col-sm-6"><label class = 'control-label'>Times per Year:</label></div>
-                                            <div class="col-sm-6"><input type="number" class="form-control" id="last-year-taxes" placeholder="Times Per Year #"></div>
-                                            <div class="col-sm-6"><label class = 'control-label'>Cost per Time:</label></div>
-                                            <div class="col-sm-6"><input type="number" class="form-control" id="last-year-taxes" placeholder="Cost Per Time $"></div>
-                                            <div class="col-sm-6"><label class = 'control-label'>Yearly Estimate:</label></div>
-                                            <div class="col-sm-6"><input type="number" class="form-control" id="last-year-taxes" placeholder="Yearly Estimate $"></div>
-                                      
+                                        <div class="col-sm-6"><label class = 'control-label'>Times per Year:</label></div>
+                                        <div class="col-sm-6"><input type="number" class="form-control" id="times-per-year" placeholder="Times Per Year #"></div>
+                                        <div class="col-sm-6"><label class = 'control-label'>Cost per Time:</label></div>
+                                        <div class="col-sm-6"><input type="number" class="form-control" id="cost-per-time" placeholder="Cost Per Time $"></div>
+                                        <div class="col-sm-6"><label class = 'control-label'>Yearly Estimate:</label></div>
+                                        <div class="col-sm-6"><input type="number" class="form-control" id="yearly-estimate" placeholder="Yearly Estimate $"></div>
                                     </div>
                                 </form>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-primary pull-right">Submit</button>
                     </div>
                 </div>
             </div>
-        </div><!-- End Modal-->
+        </div>
+    </div><!-- End Modal-->
 
 
 </body>
