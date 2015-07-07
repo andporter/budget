@@ -1,6 +1,7 @@
 <?php
 
-function getForm($CategoryParentType, $CategoryParentOrder) {
+function getForm($CategoryParentType, $CategoryParentOrder)
+{
     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
     $sql = $db_connection->prepare("SELECT cp.categoryParentType, cp.categoryParentOrder, cp.categoryParentName, c.categoryOrder, c.categoryName, c.categoryHoverToolTip, c.calculatorType
                                     FROM categoryParent cp
@@ -11,14 +12,15 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
     $sql->bindParam(':categoryParentType', $CategoryParentType);
 
 
-    if ($sql->execute()) {
+    if ($sql->execute())
+    {
         $ResultsToReturn = $sql->fetchAll(PDO::FETCH_ASSOC);
-    } else {
+    }
+    else
+    {
         print_r($sql->errorInfo());
         $ResultsToReturn;
     }
-    
-    echo json_decode($ResultsToReturn);
     ?>
 
     <div class='panel panal-content panel-primary'>
@@ -26,24 +28,24 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
             <h3 class='panel-title'><?php echo $ResultsToReturn[0]["categoryParentOrder"] . ". " . $ResultsToReturn[0]["categoryParentName"] ?></h3>
         </div>
         <div class='panel-body'>
-            <form class='form-horizontal' role='form'>
+            <form class='form-horizontal' role='form' id='<?php echo $CategoryParentType . $CategoryParentOrder ?>'>
                 <?php
-                foreach ($ResultsToReturn as $row) {
-                    ?>
+                foreach ($ResultsToReturn as $row)
+                {?>
                     <div class = 'form-group'>
-                        <label class = 'control-label col-sm-3' for = 'self_<?php echo $row["categoryParentOrder"] . '.' . $row["categoryOrder"]?>'><?php echo $row["categoryOrder"] . '. ' . $row["categoryName"] ?></label>
-                        <div class = 'col-sm-9 input-group input-group-unstyled'>
+                        <label class = 'control-label col-sm-5' for = 'self_<?php echo $row["categoryParentOrder"] . '.' . $row["categoryOrder"] ?>'><?php echo $row["categoryOrder"] . '. ' . $row["categoryName"] ?></label>
+                        <div class = 'input-group input-group-unstyled'>
                             <div class = 'col-sm-1'>
                                 <span class='input-group-addon glyphicon glyphicon-info-sign' rel='tooltip' title='<?php echo $row["categoryHoverToolTip"] ?>'></span>
                             </div>
                             <div class = 'col-sm-3'>
-                                <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Self $$' value='' id = 'self_<?php echo $row["categoryParentOrder"] . '.' . $row["categoryOrder"]?>'></input>
+                                <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Self $$' value='' id = 'self_<?php echo $row["categoryParentOrder"] . '.' . $row["categoryOrder"] ?>' name = 'self_<?php echo $row["categoryParentOrder"] . '.' . $row["categoryOrder"] ?>'></input>
                             </div>
                             <div class = 'col-sm-1'>
                                 <?php echo getCalculator($row["calculatorType"]); ?>
                             </div>
                             <div class = 'col-sm-3'>
-                                <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Spouse $$' value='' id = 'spouse_<?php echo $row["categoryParentOrder"] . '.' . $row["categoryOrder"]?>'></input>
+                                <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Spouse $$' value='' id = 'spouse_<?php echo $row["categoryParentOrder"] . '.' . $row["categoryOrder"] ?>' name = 'spouse_<?php echo $row["categoryParentOrder"] . '.' . $row["categoryOrder"] ?>'></input>
                             </div>
                             <div class = 'col-sm-1'>
                                 <?php echo getCalculator($row["calculatorType"]); ?>
@@ -54,7 +56,7 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
 
                 <div class='form-group'>
                     <div class='col-sm-offset-2 col-sm-10'>
-                        <button type='submit' class='btn btn-primary pull-right'>Next</button>
+                        <input type="submit" value="Next" class="btn btn-primary pull-right" />
                     </div>
                 </div>
             </form>
@@ -64,14 +66,22 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
 
 <?php
 
-function getCalculator($calcType) {
-    if ($calcType == 'MonthlyWage') {
+function getCalculator($calcType)
+{
+    if ($calcType == 'MonthlyWage')
+    {
         echo '<span><button type="button" class="btn btn-info" data-toggle="modal" data-target="#wageCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>';
-    } elseif ($calcType == 'MonthlySE') {
+    }
+    elseif ($calcType == 'MonthlySE')
+    {
         echo '<span><button type="button" class="btn btn-info" data-toggle="modal" data-target="#seCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>';
-    } elseif ($calcType == 'NonMonthly') {
+    }
+    elseif ($calcType == 'NonMonthly')
+    {
         echo '<span><button type="button" class="btn btn-info" data-toggle="modal" data-target="#nonMonthlyCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>';
-    } else {
+    }
+    else
+    {
         echo '<span class="input-group-addon glyphicon glyphicon-modal-window"></span>';
     }
 }
@@ -147,6 +157,12 @@ function getCalculator($calcType) {
 
         $(function () {
             $("[rel=tooltip]").tooltip({placement: 'right'});
+
+            $('#Income1').submit(function (e)
+            {
+                e.preventDefault();
+                console.log($(this).serialize());
+            });
         });
 
         function isNumberKey(evt) {
