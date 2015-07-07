@@ -17,6 +17,8 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
         print_r($sql->errorInfo());
         $ResultsToReturn;
     }
+    
+    echo json_decode($ResultsToReturn);
     ?>
 
     <div class='panel panal-content panel-primary'>
@@ -29,19 +31,19 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
                 foreach ($ResultsToReturn as $row) {
                     ?>
                     <div class = 'form-group'>
-                        <label class = 'control-label col-sm-3' for = 'self_<?php echo $row["categoryOrder"] . str_replace(' ', '_', $row["categoryName"]) ?>'><?php echo $row["categoryOrder"] . '. ' . $row["categoryName"] ?></label>
+                        <label class = 'control-label col-sm-3' for = 'self_<?php echo $row["categoryParentOrder"] . '.' . $row["categoryOrder"]?>'><?php echo $row["categoryOrder"] . '. ' . $row["categoryName"] ?></label>
                         <div class = 'col-sm-9 input-group input-group-unstyled'>
                             <div class = 'col-sm-1'>
                                 <span class='input-group-addon glyphicon glyphicon-info-sign' rel='tooltip' title='<?php echo $row["categoryHoverToolTip"] ?>'></span>
                             </div>
                             <div class = 'col-sm-3'>
-                                <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Self $$' value='' id = 'self_<?php echo $row["categoryOrder"] . str_replace(' ', '_', $row["categoryName"]) ?>'></input>
+                                <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Self $$' value='' id = 'self_<?php echo $row["categoryParentOrder"] . '.' . $row["categoryOrder"]?>'></input>
                             </div>
                             <div class = 'col-sm-1'>
                                 <?php echo getCalculator($row["calculatorType"]); ?>
                             </div>
                             <div class = 'col-sm-3'>
-                                <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Spouse $$' value='' id = 'spouse_<?php echo $row["categoryOrder"] . str_replace(' ', '_', $row["categoryName"]) ?>'></input>
+                                <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Spouse $$' value='' id = 'spouse_<?php echo $row["categoryParentOrder"] . '.' . $row["categoryOrder"]?>'></input>
                             </div>
                             <div class = 'col-sm-1'>
                                 <?php echo getCalculator($row["calculatorType"]); ?>

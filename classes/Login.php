@@ -98,13 +98,11 @@ class Login
                         $_SESSION['user_name'] = $result_row->userName;
                         $_SESSION['user_email'] = $result_row->userEmail;
                         $_SESSION['user_id'] = $result_row->userId;
+                        $_SESSION['user_type'] = $result_row->userType;
                         $_SESSION['user_login_status'] = 1;
                         
-                        //Store the user type
-                        $_SESSION['user_account_type'] = $result_row->userType;
-                        
                         //Check if the user has any budgets
-                        $sql = "SELECT b.* FROM budget b JOIN users u ON b.userId = u.userId WHERE u.userId = " . $result_row->userId .";";
+                        $sql = "SELECT b.budgetId FROM budget b JOIN users u ON b.userId = u.userId WHERE u.userId = " . $result_row->userId .";";
                         $does_user_have_budget = $this->db_connection->query($sql);
                         
                         if ($does_user_have_budget->num_rows >= 1)
@@ -181,6 +179,6 @@ class Login
      */
     public function getUserType()
     {
-        return $_SESSION['user_account_type'];
+        return $_SESSION['user_type'];
     }
 }
