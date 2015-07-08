@@ -4,8 +4,9 @@ date_default_timezone_set('America/Denver');
 
 <div id="divBudgets" class="container-fluid" role="main">
     <div id="budgetTableToolbar" class="btn-group">
-        <a href="#DeleteBudgetConfirmModal" data-toggle="modal" rel="tooltip" role="button" class="btn btn-default" data-placement="bottom" title="Delete Selected"><i class="glyphicon glyphicon-trash"></i> Delete</a>
         <a href="#AddBudgetConfirmModal" data-toggle="modal" rel="tooltip" role="button" class="btn btn-default" data-placement="bottom" title="Add New Budget"><i class="glyphicon glyphicon-plus"></i> Add</a>
+        <a href="#EditBudgetConfirmModal" data-toggle="modal" rel="tooltip" role="button" class="btn btn-default" data-placement="bottom" title="Edit Selected Budget"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+        <a href="#DeleteBudgetConfirmModal" data-toggle="modal" rel="tooltip" role="button" class="btn btn-default" data-placement="bottom" title="Delete Selected Budget"><i class="glyphicon glyphicon-trash"></i> Delete</a>
     </div>
     <table id="budgetTable"
            data-click-to-select="true"
@@ -24,13 +25,47 @@ date_default_timezone_set('America/Denver');
            data-sortable="true">
         <thead>
             <tr>
-                <th data-field="state" data-checkbox="true"></th>
+                <th data-field="state" data-radio="true"></th>
                 <th class="col-xs-2" data-field="dateCreated" data-sortable="true">Date Created</th>
                 <th class="col-xs-2" data-field="dateUpdated" data-sortable="true">Date Updated</th>
                 <th class="col-xs-8" data-field="budgetName" data-sortable="true">Budget Name</th>
             </tr>
         </thead>
     </table>
+</div>
+
+<div id="AddBudgetConfirmModal" class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content well">
+            <div class="modal-header">
+                <h4><span class="glyphicon glyphicon-plus"></span> Confirm New</h4>
+            </div>
+            <div class="modal-body">
+                <p>Add new budget?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a href="index.php?newbudget" class="btn btn-success btn-ok" id="addConfirmButton">Yes, Add</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="EditBudgetConfirmModal" class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content well">
+            <div class="modal-header">
+                <h4><span class="glyphicon glyphicon-edit"></span> Confirm Edit</h4>
+            </div>
+            <div class="modal-body">
+                <p>Edit the selected budget?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a href="#" class="btn btn-primary btn-ok" id="editConfirmButton">Yes, Edit</a>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div id="DeleteBudgetConfirmModal" class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
@@ -45,23 +80,6 @@ date_default_timezone_set('America/Denver');
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 <a href="#" class="btn btn-danger btn-ok" id="deleteConfirmButton">Yes, Delete</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="AddBudgetConfirmModal" class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content well">
-            <div class="modal-header">
-                <h4><span class="glyphicon glyphicon-plus"></span> Confirm New Budget</h4>
-            </div>
-            <div class="modal-body">
-                <p>Add new budget?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <a href="index.php?newbudget" class="btn btn-success btn-ok" id="addConfirmButton">Yes, Add New</a>
             </div>
         </div>
     </div>

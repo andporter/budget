@@ -3,7 +3,7 @@
 function getForm($CategoryParentType, $CategoryParentOrder)
 {
     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
-    $sql = $db_connection->prepare("SELECT cp.categoryParentType, cp.categoryParentOrder, cp.categoryParentName, c.categoryOrder, c.categoryName, c.categoryHoverToolTip, c.calculatorType
+    $sql = $db_connection->prepare("SELECT cp.categoryParentType, cp.categoryParentOrder, cp.categoryParentName, c.categoryId, c.categoryOrder, c.categoryName, c.categoryHoverToolTip, c.calculatorType
                                     FROM categoryParent cp
                                     LEFT JOIN category c ON c.categoryParentId = cp.categoryParentId
                                     WHERE cp.categoryParentOrder = :categoryParentOrder 
@@ -33,19 +33,19 @@ function getForm($CategoryParentType, $CategoryParentOrder)
                 foreach ($ResultsToReturn as $row)
                 {?>
                     <div class = 'form-group'>
-                        <label class = 'control-label col-sm-5' for = 'self_<?php echo $row["categoryParentOrder"] . '.' . $row["categoryOrder"] ?>'><?php echo $row["categoryOrder"] . '. ' . $row["categoryName"] ?></label>
+                        <label class = 'control-label col-sm-5' for = 'self_<?php echo $row["categoryId"]?>'><?php echo $row["categoryOrder"] . '. ' . $row["categoryName"] ?></label>
                         <div class = 'input-group input-group-unstyled'>
                             <div class = 'col-sm-1'>
                                 <span class='input-group-addon glyphicon glyphicon-info-sign' rel='tooltip' title='<?php echo $row["categoryHoverToolTip"] ?>'></span>
                             </div>
                             <div class = 'col-sm-3'>
-                                <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Self $$' value='' id = 'self_<?php echo $row["categoryParentOrder"] . '.' . $row["categoryOrder"] ?>' name = 'self_<?php echo $row["categoryParentOrder"] . '.' . $row["categoryOrder"] ?>'></input>
+                                <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Self $$' value='' id = 'self_<?php echo $row["categoryId"]?>' name = 'self_<?php echo $row["categoryId"]?>'></input>
                             </div>
                             <div class = 'col-sm-1'>
                                 <?php echo getCalculator($row["calculatorType"]); ?>
                             </div>
                             <div class = 'col-sm-3'>
-                                <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Spouse $$' value='' id = 'spouse_<?php echo $row["categoryParentOrder"] . '.' . $row["categoryOrder"] ?>' name = 'spouse_<?php echo $row["categoryParentOrder"] . '.' . $row["categoryOrder"] ?>'></input>
+                                <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Spouse $$' value='' id = 'spouse_<?php echo $row["categoryId"]?>' name = 'spouse_<?php echo $row["categoryId"]?>'></input>
                             </div>
                             <div class = 'col-sm-1'>
                                 <?php echo getCalculator($row["calculatorType"]); ?>
