@@ -1,7 +1,6 @@
 <?php
 
-function getForm($CategoryParentType, $CategoryParentOrder)
-{
+function getForm($CategoryParentType, $CategoryParentOrder) {
     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
     $sql = $db_connection->prepare("SELECT cp.categoryParentType, cp.categoryParentOrder, cp.categoryParentName, c.categoryId, c.categoryOrder, c.categoryName, c.categoryHoverToolTip, c.calculatorType
                                     FROM categoryParent cp
@@ -12,12 +11,9 @@ function getForm($CategoryParentType, $CategoryParentOrder)
     $sql->bindParam(':categoryParentOrder', $CategoryParentOrder);
     $sql->bindParam(':categoryParentType', $CategoryParentType);
 
-    if ($sql->execute())
-    {
+    if ($sql->execute()) {
         $ResultsToReturn = $sql->fetchAll(PDO::FETCH_ASSOC);
-    }
-    else
-    {
+    } else {
         print_r($sql->errorInfo());
         $ResultsToReturn;
     }
@@ -30,22 +26,22 @@ function getForm($CategoryParentType, $CategoryParentOrder)
         <div class='panel-body'>
             <form class='form-horizontal' role='form' id='<?php echo $CategoryParentType . $CategoryParentOrder ?>'>
                 <?php
-                foreach ($ResultsToReturn as $row)
-                {?>
+                foreach ($ResultsToReturn as $row) {
+                    ?>
                     <div class = 'form-group'>
-                        <label class = 'control-label col-sm-5' for = 'self_<?php echo $row["categoryId"]?>'><?php echo $row["categoryOrder"] . '. ' . $row["categoryName"] ?></label>
+                        <label class = 'control-label col-sm-5' for = 'self_<?php echo $row["categoryId"] ?>'><?php echo $row["categoryOrder"] . '. ' . $row["categoryName"] ?></label>
                         <div class = 'input-group input-group-unstyled'>
                             <div class = 'col-sm-1'>
                                 <span class='input-group-addon glyphicon glyphicon-info-sign' rel='tooltip' title='<?php echo $row["categoryHoverToolTip"] ?>'></span>
                             </div>
                             <div class = 'col-sm-3'>
-                                <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Self $$' value='' id = 'self_<?php echo $row["categoryId"]?>' name = 'self_<?php echo $row["categoryId"]?>'></input>
+                                <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Self $$' value='' id = 'self_<?php echo $row["categoryId"] ?>' name = 'self_<?php echo $row["categoryId"] ?>'></input>
                             </div>
                             <div class = 'col-sm-1'>
                                 <?php echo getCalculator($row["calculatorType"]); ?>
                             </div>
                             <div class = 'col-sm-3'>
-                                <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Spouse $$' value='' id = 'spouse_<?php echo $row["categoryId"]?>' name = 'spouse_<?php echo $row["categoryId"]?>'></input>
+                                <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Spouse $$' value='' id = 'spouse_<?php echo $row["categoryId"] ?>' name = 'spouse_<?php echo $row["categoryId"] ?>'></input>
                             </div>
                             <div class = 'col-sm-1'>
                                 <?php echo getCalculator($row["calculatorType"]); ?>
@@ -66,22 +62,14 @@ function getForm($CategoryParentType, $CategoryParentOrder)
 
 <?php
 
-function getCalculator($calcType)
-{
-    if ($calcType == 'MonthlyWage')
-    {
+function getCalculator($calcType) {
+    if ($calcType == 'MonthlyWage') {
         echo '<span><button type="button" class="btn btn-info" data-toggle="modal" data-target="#wageCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>';
-    }
-    elseif ($calcType == 'MonthlySE')
-    {
+    } elseif ($calcType == 'MonthlySE') {
         echo '<span><button type="button" class="btn btn-info" data-toggle="modal" data-target="#seCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>';
-    }
-    elseif ($calcType == 'NonMonthly')
-    {
+    } elseif ($calcType == 'NonMonthly') {
         echo '<span><button type="button" class="btn btn-info" data-toggle="modal" data-target="#nonMonthlyCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>';
-    }
-    else
-    {
+    } else {
         echo '<span class="input-group-addon glyphicon glyphicon-modal-window"></span>';
     }
 }
@@ -171,13 +159,13 @@ function getCalculator($calcType)
         }
 
         $('#wageCalcModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget) // Button that triggered the modal
-            var recipient = button.data('whatever') // Extract info from data-* attributes
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var recipient = button.data('whatever'); // Extract info from data-* attributes
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-            var modal = $(this)
-            modal.find('.modal-title').text('Wage Calculator')
-            modal.find('.modal-body input').val(recipient)
+            var modal = $(this);
+            modal.find('.modal-title').text('Wage Calculator');
+            modal.find('.modal-body input').val(recipient);
         });
 
         $('#seCalcModal').on('show.bs.modal', function (event) {
@@ -188,7 +176,7 @@ function getCalculator($calcType)
 
         });
 
-        $('#wageCalcModal').modal(options);
+        //$('#wageCalcModal').modal(options);
 
     </script>
 
@@ -203,12 +191,12 @@ function getCalculator($calcType)
                 <div class="modal-body">
                     <form class="navbar-form">
                         <div class="form-group">
-                            <input type="number" class="form-control" id="dollars-per-hour" placeholder="$ Per Hour"> <span>X</span> <input type="number" class="form-control" id="hours-per-week" placeholder="Hours Per Week">
+                            <input type="number" onkeypress='return isNumberKey(event);' class="form-control" id="dollars-per-hour" placeholder="$ Per Hour"> <span>X</span> <input type="number" onkeypress='return isNumberKey(event);' class="form-control" id="hours-per-week" placeholder="Hours Per Week">
                         </div><button type="button" class="btn btn-primary">Submit</button>
                     </form>
                     <form class="navbar-form">
                         <div class="form-group">
-                            <input type="number" class="form-control" id="salary" placeholder="Salary $">
+                            <input type="number" onkeypress='return isNumberKey(event);' class="form-control" id="salary" placeholder="Salary $">
                         </div><button type="button" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
@@ -227,12 +215,12 @@ function getCalculator($calcType)
                 <div class="modal-body">
                     <form class="navbar-form">
                         <div class="form-group">
-                            <input type="number" class="form-control" id="typical-month-income" placeholder="Typical Month's $">
+                            <input type="number" onkeypress='return isNumberKey(event);' class="form-control" id="typical-month-income" placeholder="Typical Month's $">
                         </div><button type="button" class="btn btn-primary">Submit</button>
                     </form>
                     <form class="navbar-form">
                         <div class="form-group">
-                            <input type="number" class="form-control" id="last-year-taxes" placeholder="Last Year's Taxes $">
+                            <input type="number" onkeypress='return isNumberKey(event);' class="form-control" id="last-year-taxes" placeholder="Last Year's Taxes $">
                         </div><button type="button" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
@@ -255,7 +243,7 @@ function getCalculator($calcType)
                                 <form class="navbar-form">
                                     <div class="form-group" style="text-align: center;">
                                         <label class = 'control-label'>Estimate for the Year</label>
-                                        <input type="number" class="form-control" id="estimate-for-year" placeholder="$">
+                                        <input type="number" onkeypress='return isNumberKey(event);' class="form-control" id="estimate-for-year" placeholder="$">
                                     </div>
                                 </form>
                             </div>
@@ -264,11 +252,11 @@ function getCalculator($calcType)
                                     <div class="form-group">
                                         <div class="col-sm-12" style="text-align: center;"><label class = 'control-label'>Frequency Method</label></div>
                                         <div class="col-sm-6"><label class = 'control-label'>Times per Year:</label></div>
-                                        <div class="col-sm-6"><input type="number" class="form-control" id="times-per-year" placeholder="Times Per Year #"></div>
+                                        <div class="col-sm-6"><input type="number" onkeypress='return isNumberKey(event);' class="form-control" id="times-per-year" placeholder="Times Per Year #"></div>
                                         <div class="col-sm-6"><label class = 'control-label'>Cost per Time:</label></div>
-                                        <div class="col-sm-6"><input type="number" class="form-control" id="cost-per-time" placeholder="Cost Per Time $"></div>
+                                        <div class="col-sm-6"><input type="number" onkeypress='return isNumberKey(event);' class="form-control" id="cost-per-time" placeholder="Cost Per Time $"></div>
                                         <div class="col-sm-6"><label class = 'control-label'>Yearly Estimate:</label></div>
-                                        <div class="col-sm-6"><input type="number" class="form-control" id="yearly-estimate" placeholder="Yearly Estimate $"></div>
+                                        <div class="col-sm-6"><input type="number" onkeypress='return isNumberKey(event);' class="form-control" id="yearly-estimate" placeholder="Yearly Estimate $"></div>
                                     </div>
                                 </form>
                             </div>
