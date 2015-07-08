@@ -1,31 +1,3 @@
-<?php
-// show potential errors / feedback (from registration object)
-if (isset($registration))
-{
-    if ($registration->errors)
-    {
-        foreach ($registration->errors as $error)
-        {
-            echo "<div id=\"alertErrors\" class=\"container theme-showcase\">";
-            echo "<div class=\"alert alert-danger\" role=\"alert\"><strong>Error: </strong>" . $error;
-            echo "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>";
-            echo "</div>";
-            echo "</div>";
-        }
-    }
-    if ($registration->messages)
-    {
-        foreach ($registration->messages as $message)
-        {
-            echo "<div id=\"alertMessages\" class=\"container theme-showcase\">";
-            echo "<div class=\"alert alert-success\" role=\"alert\">" . $message;
-            echo "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>";
-            echo "</div>";
-            echo "</div>";
-        }
-    }
-}
-?>
 
 <div id="divChangePassword" class="container theme-showcase">
     <div class="panel panal-content panel-primary">

@@ -22,11 +22,10 @@ if (HTTPS_required === "TRUE" && $_SERVER['HTTPS'] != 'on')
 // load the login class & registration class
 require_once("classes/Login.php");
 require_once("classes/Registration.php");
+require_once("classes/Budget.php");
 
-// create a login object. when this object is created, it will do all login/logout stuff automatically
+// create a login & registration object. when this object is created, it will do all login/logout stuff automatically
 $login = new Login();
-
-// create the registration object. when this object is created, it will do all registration stuff automatically
 $registration = new Registration();
 
 require_once("views/globalCSS.php");
@@ -46,9 +45,30 @@ if ($login->isUserLoggedIn() == true)  //the user is logged in.
                 }
                 else //No existing budget.
                 {
+                    require("views/logged_in/budgets.php");
+//                    require("views/logged_in/demographicsForm.php");
+//                    require("views/logged_in/incomeForm.php");
+                }
+            }
+            break;
+
+        case "newbudget":
+            {
+                $budget = new Budget();
+                
+                $budget->createNewBudget();
+                
+                if ($budget->getNumberOfUserBudgets() >= MAX_BUDGETS)
+                {
+                    require("views/logged_in/user_header_menu.php");
+                    require("views/logged_in/budgets.php");
+                }
+                else //can create a new budget
+                {
+                    require("views/logged_in/user_header_menu.php");
                     require("views/logged_in/demographicsForm.php");
                     require("views/logged_in/incomeForm.php");
-                }
+                }     
             }
             break;
 

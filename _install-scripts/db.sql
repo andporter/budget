@@ -161,12 +161,12 @@ INSERT INTO category (categoryId, categoryParentId, categoryOrder, categoryName,
 
 DROP TABLE IF EXISTS budget;
 CREATE TABLE budget (
-    budgetId int(11),
-    userId int(11),
+    budgetId int(11) NOT NULL AUTO_INCREMENT,
+    userId int(11) NOT NULL,
     budgetName varchar(64),
     isBaseline boolean,
     isComplete boolean,
-    dateCreated DATETIME,
+    dateCreated DATETIME NOT NULL,
     dateUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (budgetId),
     FOREIGN KEY (userId) references users(userId) on delete cascade
@@ -175,9 +175,9 @@ CREATE TABLE budget (
 
 DROP TABLE IF EXISTS budgetDetail;
 CREATE TABLE budgetDetail (
-    budgetDetailId int(11),
-    budgetId int(11),
-    categoryId int(5),
+    budgetDetailId int(11)  NOT NULL AUTO_INCREMENT,
+    budgetId int(11) NOT NULL,
+    categoryId int(5) NOT NULL,
     amount int(10),
     spouseAmount int(10),
     PRIMARY KEY (budgetDetailId),

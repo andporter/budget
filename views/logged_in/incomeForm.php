@@ -6,11 +6,11 @@ function getForm($CategoryParentType, $CategoryParentOrder)
     $sql = $db_connection->prepare("SELECT cp.categoryParentType, cp.categoryParentOrder, cp.categoryParentName, c.categoryOrder, c.categoryName, c.categoryHoverToolTip, c.calculatorType
                                     FROM categoryParent cp
                                     LEFT JOIN category c ON c.categoryParentId = cp.categoryParentId
-                                    WHERE cp.categoryParentOrder = :categoryParentOrder and cp.categoryParentType = :categoryParentType
+                                    WHERE cp.categoryParentOrder = :categoryParentOrder 
+                                    AND cp.categoryParentType = :categoryParentType
                                     ORDER BY c.categoryOrder");
     $sql->bindParam(':categoryParentOrder', $CategoryParentOrder);
     $sql->bindParam(':categoryParentType', $CategoryParentType);
-
 
     if ($sql->execute())
     {
@@ -161,7 +161,7 @@ function getCalculator($calcType)
             $('#Income1').submit(function (e)
             {
                 e.preventDefault();
-                console.log($(this).serialize());
+                console.log($(this).serializeArray());
             });
         });
 

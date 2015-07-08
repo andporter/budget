@@ -173,10 +173,6 @@ class Login
         return false;
     }
     
-     /**
-     * returns true or false if the user has any budgets created
-     * @return boolean user's bugdet status
-     */
     public function getUserType()
     {
         return $_SESSION['user_type'];

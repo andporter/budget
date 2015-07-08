@@ -4,7 +4,8 @@ date_default_timezone_set('America/Denver');
 
 <div id="divBudgets" class="container-fluid" role="main">
     <div id="budgetTableToolbar" class="btn-group">
-        <a href="#DeleteContactsConfirmModal" data-toggle="modal" rel="tooltip" role="button" class="btn btn-default" data-placement="bottom" title="Delete Selected"><i class="glyphicon glyphicon-trash"></i> Delete</a>
+        <a href="#DeleteBudgetConfirmModal" data-toggle="modal" rel="tooltip" role="button" class="btn btn-default" data-placement="bottom" title="Delete Selected"><i class="glyphicon glyphicon-trash"></i> Delete</a>
+        <a href="#AddBudgetConfirmModal" data-toggle="modal" rel="tooltip" role="button" class="btn btn-default" data-placement="bottom" title="Add New Budget"><i class="glyphicon glyphicon-plus"></i> Add</a>
     </div>
     <table id="budgetTable"
            data-click-to-select="true"
@@ -23,7 +24,7 @@ date_default_timezone_set('America/Denver');
            data-sortable="true">
         <thead>
             <tr>
-                <th data-field="state" data-radio="true"></th>
+                <th data-field="state" data-checkbox="true"></th>
                 <th class="col-xs-2" data-field="dateCreated" data-sortable="true">Date Created</th>
                 <th class="col-xs-2" data-field="dateUpdated" data-sortable="true">Date Updated</th>
                 <th class="col-xs-8" data-field="budgetName" data-sortable="true">Budget Name</th>
@@ -32,18 +33,35 @@ date_default_timezone_set('America/Denver');
     </table>
 </div>
 
-<div id="DeleteContactsConfirmModal" class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+<div id="DeleteBudgetConfirmModal" class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content well">
             <div class="modal-header">
                 <h4><span class="glyphicon glyphicon-trash"></span> Confirm Delete</h4>
             </div>
             <div class="modal-body">
-                <p>Delete the selected contacts?</p>
+                <p>Delete the selected budget?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 <a href="#" class="btn btn-danger btn-ok" id="deleteConfirmButton">Yes, Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="AddBudgetConfirmModal" class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content well">
+            <div class="modal-header">
+                <h4><span class="glyphicon glyphicon-plus"></span> Confirm New Budget</h4>
+            </div>
+            <div class="modal-body">
+                <p>Add new budget?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a href="index.php?newbudget" class="btn btn-success btn-ok" id="addConfirmButton">Yes, Add New</a>
             </div>
         </div>
     </div>
@@ -72,17 +90,20 @@ date_default_timezone_set('America/Denver');
     
     function getSelectedRowIDs()
     {
-        var jsonInboxContacts = $('#budgetTable').bootstrapTable('getSelections');
-        var inboxContactIDs = new Array();
-        jsonInboxContacts.forEach(function (obj) {
-            inboxContactIDs.push(obj.id);
+        var selectedTableRows = $('#budgetTable').bootstrapTable('getSelections');
+        var selectedTableRowIDs = new Array();
+        
+        selectedTableRows.forEach(function (obj) 
+        {
+            selectedTableRowIDs.push(obj.budgetId);
         });
-        return JSON.stringify(inboxContactIDs);
+        
+        return JSON.stringify(selectedTableRowIDs);
     }
     
     $('#deleteConfirmButton').click(function (e)
     {        
-        $('#DeleteContactsConfirmModal').modal('hide');
+        $('#DeleteBudgetConfirmModal').modal('hide');
         $('#progressBarModal').modal('show');
         
         if (e.handled !== true) //Checking for the event whether it has occurred or not.
@@ -90,7 +111,7 @@ date_default_timezone_set('America/Denver');
             e.handled = true;
             
             var postJSONData = getSelectedRowIDs();
-            SendAjax("api/api.php?method=adminDeleteInboxContact", postJSONData, AjaxSuccess_DeleteORIncrementContacts, true);
+            SendAjax("api/api.php?method=userDeleteBudget", postJSONData, AjaxSubmit_getBudgets, true);
         }
     });
 

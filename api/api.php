@@ -72,14 +72,13 @@ switch ($_GET['method'])
     case "userGetBudgets":
         {
             try
-            {   
+            {
                 if ($login->isUserLoggedIn() == true) //requires login
                 {
-                    $jsonData = json_decode($_POST["data"], true);
                     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
                     $sql = $db_connection->prepare("SELECT * FROM budget WHERE userId = :userId;");
                     $sql->bindParam(':userId', $_SESSION['user_id']);
-                    
+
                     if ($sql->execute())
                     {
                         $ResultsToReturn = $sql->fetchAll(PDO::FETCH_ASSOC);
@@ -87,6 +86,42 @@ switch ($_GET['method'])
                         $response['data'] = $ResultsToReturn;
                         $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
                     }
+                }
+                else //not logged in
+                {
+                    $response['code'] = 3;
+                    $response['data'] = $api_response_code[$response['code']]['Message'];
+                    $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
+                }
+            }
+            catch (Exception $e)
+            {
+                $response['code'] = 0;
+                $response['data'] = $e->getMessage();
+                $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
+            }
+        }
+        break;
+
+    case "userDeleteBudget":
+        {
+            try
+            {
+                if ($login->isUserLoggedIn() == true) //requires login
+                {
+                    $jsonData = json_decode($_POST["data"], true);
+                    $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
+                    $sql = $db_connection->prepare("DELETE FROM budget WHERE budgetId = :id");
+                    
+                    foreach ($jsonData as $id)
+                    {
+                        $sql->bindParam(':id', $id);
+                        $sql->execute();
+                    }
+                    
+                    $response['code'] = 1;
+                    $response['data'] = $api_response_code[$response['code']]['Message'];
+                    $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
                 }
                 else //not logged in
                 {

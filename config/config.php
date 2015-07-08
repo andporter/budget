@@ -9,3 +9,6 @@ define("DB_PASS", "password");
 
 // Define whether an HTTPS connection is required
 define("HTTPS_required", "FALSE");
+
+//Define Max number of budgets
+define("MAX_BUDGETS","10");
