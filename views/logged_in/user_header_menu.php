@@ -1,14 +1,14 @@
 <?php 
 
-function echoActiveClassIfRequestMatches($requestUri)
-{
-    $current_file_name = basename($_SERVER['REQUEST_URI'], ".php");
-
-    if ($current_file_name == $requestUri)
-    {
-        echo 'class="active"';
-    }  
-}
+//function echoActiveClassIfRequestMatches($requestUri)
+//{
+//    $current_file_name = basename($_SERVER['REQUEST_URI'], ".php");
+//
+//    if ($current_file_name == $requestUri)
+//    {
+//        echo 'class="active"';
+//    }  
+//}
 
 ?>
 
@@ -25,13 +25,13 @@ function echoActiveClassIfRequestMatches($requestUri)
         </div>
         <div class="collapse navbar-collapse" id="navigationbar">
             <ul class="nav navbar-nav">
-                <li <?php echoActiveClassIfRequestMatches("index.php?budgets")?>><a href="index.php?budgets"><span class="glyphicon glyphicon glyphicon-inbox"></span> Budgets</a></li>
+                <li><a href="index.php?budgets"><span class="glyphicon glyphicon glyphicon-inbox"></span> Budgets</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li <?php echoActiveClassIfRequestMatches("index.php?settings")?> class="dropdown">
+                <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> <?php echo ucwords($_SESSION['user_name']); ?><span class="caret"></span>
                         <ul class="dropdown-menu">
-                            <li <?php echoActiveClassIfRequestMatches("index.php?settings")?> ><a href="index.php?settings"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
+                            <li><a href="index.php?settings"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
                             <li><a href="#adminLogoutConfirmModal" id="logout" data-toggle="modal"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li> 
                         </ul>
                 </li>

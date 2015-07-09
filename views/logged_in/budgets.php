@@ -25,7 +25,7 @@ date_default_timezone_set('America/Denver');
            data-sortable="true">
         <thead>
             <tr>
-                <th data-field="state" data-radio="true"></th>
+                <th data-field="state" data-checkbox="true"></th>
                 <th class="col-xs-2" data-field="dateCreated" data-sortable="true">Date Created</th>
                 <th class="col-xs-2" data-field="dateUpdated" data-sortable="true">Date Updated</th>
                 <th class="col-xs-8" data-field="budgetName" data-sortable="true">Budget Name</th>
@@ -45,7 +45,7 @@ date_default_timezone_set('America/Denver');
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <a href="index.php?newbudget" class="btn btn-success btn-ok" id="addConfirmButton">Yes, Add</a>
+                <a href="index.php?editbudget=new" class="btn btn-success btn-ok" id="addConfirmButton">Yes, Add</a>
             </div>
         </div>
     </div>
@@ -106,7 +106,7 @@ date_default_timezone_set('America/Denver');
         }, 1000);
     }
     
-    function getSelectedRowIDs()
+    function getSelectedRowIDs(dataformat)
     {
         var selectedTableRows = $('#budgetTable').bootstrapTable('getSelections');
         var selectedTableRowIDs = new Array();
@@ -116,8 +116,21 @@ date_default_timezone_set('America/Denver');
             selectedTableRowIDs.push(obj.budgetId);
         });
         
-        return JSON.stringify(selectedTableRowIDs);
+        if (dataformat === 'json')
+        {
+            return JSON.stringify(selectedTableRowIDs);
+        }
+        else
+        {
+            return selectedTableRowIDs;
+        }
+        
     }
+    
+    $('#editConfirmButton').click(function (e)
+    {        
+        window.location.href="index.php?editbudget="+getSelectedRowIDs();
+    });
     
     $('#deleteConfirmButton').click(function (e)
     {        
@@ -128,7 +141,7 @@ date_default_timezone_set('America/Denver');
         { 
             e.handled = true;
             
-            var postJSONData = getSelectedRowIDs();
+            var postJSONData = getSelectedRowIDs("json");
             SendAjax("api/api.php?method=userDeleteBudget", postJSONData, AjaxSubmit_getBudgets, true);
         }
     });
