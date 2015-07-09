@@ -3,7 +3,7 @@
 function getForm($CategoryParentType, $CategoryParentOrder)
 {
     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
-    $sql = $db_connection->prepare("SELECT u.userId, b.budgetId, cp.categoryParentType, cp.categoryParentOrder, cp.categoryParentName, c.categoryId, c.categoryOrder, c.categoryName, c.categoryHoverToolTip, c.calculatorType, COALESCE(bd.amount,'Self $$') as selfAmount, COALESCE(bd.spouseAmount,'Spouse $$') as spouseAmount
+    $sql = $db_connection->prepare("SELECT u.userId, b.budgetId, cp.categoryParentType, cp.categoryParentOrder, cp.categoryParentName, c.categoryId, c.categoryOrder, c.categoryName, c.categoryHoverToolTip, c.calculatorType, bd.amount, bd.spouseAmount
                                     FROM categoryParent cp
                                     JOIN category c ON (cp.categoryParentId = c.categoryParentId)
                                     JOIN budgetDetail bd ON (c.categoryId = bd.categoryId)
@@ -48,13 +48,13 @@ function getForm($CategoryParentType, $CategoryParentOrder)
                                 <span class='input-group-addon glyphicon glyphicon-info-sign' rel='tooltip' title='<?php echo $row["categoryHoverToolTip"] ?>'></span>
                             </div>
                             <div class = 'col-sm-3'>
-                                <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = '<?php echo $row["selfAmount"] ?>' value='' id = 'self_<?php echo $row["categoryId"] ?>' name = 'self_<?php echo $row["categoryId"] ?>'></input>
+                                <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Self $$' value = '<?php echo $row["amount"] ?>' value='' id = 'self_<?php echo $row["categoryId"] ?>' name = 'self_<?php echo $row["categoryId"] ?>'></input>
                             </div>
                             <div class = 'col-sm-1'>
                                 <?php echo getCalculator($row["calculatorType"]); ?>
                             </div>
                             <div class = 'col-sm-3'>
-                                <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = '<?php echo $row["spouseAmount"] ?>' value='' id = 'spouse_<?php echo $row["categoryId"] ?>' name = 'spouse_<?php echo $row["categoryId"] ?>'></input>
+                                <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Spouse $$' value = '<?php echo $row["spouseAmount"] ?>' value='' id = 'spouse_<?php echo $row["categoryId"] ?>' name = 'spouse_<?php echo $row["categoryId"] ?>'></input>
                             </div>
                             <div class = 'col-sm-1'>
                                 <?php echo getCalculator($row["calculatorType"]); ?>
