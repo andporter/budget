@@ -52,23 +52,30 @@ if ($login->isUserLoggedIn() == true)  //the user is logged in.
             }
             break;
 
-        case "newbudget":
+        case "editbudget":
             {
                 $budget = new Budget();
                 
-                $budget->createNewBudget();
-                
+                if ($_GET['editbudget'] == "new")
+                {
+                    $budget->createNewBudget();
+                }
+                else
+                {
+                    $_SESSION['user_budgetid'] = $_GET['editbudget'];
+                }
+
                 if ($budget->getNumberOfUserBudgets() >= MAX_BUDGETS)
                 {
                     require("views/logged_in/user_header_menu.php");
                     require("views/logged_in/budgets.php");
                 }
-                else //can create a new budget
+                else
                 {
                     require("views/logged_in/user_header_menu.php");
-                    require("views/logged_in/demographicsForm.php");
+//                    require("views/logged_in/demographicsForm.php");
                     require("views/logged_in/incomeForm.php");
-                }     
+                }
             }
             break;
 
