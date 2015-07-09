@@ -1,19 +1,31 @@
 <?php
 
-function getForm($CategoryParentType, $CategoryParentOrder) {
+function getForm($CategoryParentType, $CategoryParentOrder)
+{
     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
-    $sql = $db_connection->prepare("SELECT cp.categoryParentType, cp.categoryParentOrder, cp.categoryParentName, c.categoryId, c.categoryOrder, c.categoryName, c.categoryHoverToolTip, c.calculatorType
+    $sql = $db_connection->prepare("SELECT u.userId, b.budgetId, cp.categoryParentType, cp.categoryParentOrder, cp.categoryParentName, c.categoryId, c.categoryOrder, c.categoryName, c.categoryHoverToolTip, c.calculatorType, COALESCE(bd.amount,'Self $$') as selfAmount, COALESCE(bd.spouseAmount,'Spouse $$') as spouseAmount
                                     FROM categoryParent cp
-                                    LEFT JOIN category c ON c.categoryParentId = cp.categoryParentId
-                                    WHERE cp.categoryParentOrder = :categoryParentOrder 
+                                    JOIN category c ON (cp.categoryParentId = c.categoryParentId)
+                                    JOIN budgetDetail bd ON (c.categoryId = bd.categoryId)
+                                    JOIN budget b ON (bd.budgetId = b.budgetId)
+                                    JOIN users u ON b.userId = u.userId
+                                    WHERE cp.categoryParentOrder = :categoryParentOrder
                                     AND cp.categoryParentType = :categoryParentType
-                                    ORDER BY c.categoryOrder");
+                                    AND u.userId = :userId
+                                    AND b.budgetId = :budgetId
+                                    ORDER BY c.categoryOrder;");
+    
     $sql->bindParam(':categoryParentOrder', $CategoryParentOrder);
     $sql->bindParam(':categoryParentType', $CategoryParentType);
+    $sql->bindParam(':userId', $_SESSION['user_id']);
+    $sql->bindParam(':budgetId', $_SESSION['user_budgetid']);
 
-    if ($sql->execute()) {
+    if ($sql->execute())
+    {
         $ResultsToReturn = $sql->fetchAll(PDO::FETCH_ASSOC);
-    } else {
+    }
+    else
+    {
         print_r($sql->errorInfo());
         $ResultsToReturn;
     }
@@ -26,7 +38,8 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
         <div class='panel-body'>
             <form class='form-horizontal' role='form' id='<?php echo $CategoryParentType . $CategoryParentOrder ?>'>
                 <?php
-                foreach ($ResultsToReturn as $row) {
+                foreach ($ResultsToReturn as $row)
+                {
                     ?>
                     <div class = 'form-group'>
                         <label class = 'control-label col-sm-5' for = 'self_<?php echo $row["categoryId"] ?>'><?php echo $row["categoryOrder"] . '. ' . $row["categoryName"] ?></label>
@@ -35,13 +48,13 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
                                 <span class='input-group-addon glyphicon glyphicon-info-sign' rel='tooltip' title='<?php echo $row["categoryHoverToolTip"] ?>'></span>
                             </div>
                             <div class = 'col-sm-3'>
-                                <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Self $$' value='' id = 'self_<?php echo $row["categoryId"] ?>' name = 'self_<?php echo $row["categoryId"] ?>'></input>
+                                <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = '<?php echo $row["selfAmount"] ?>' value='' id = 'self_<?php echo $row["categoryId"] ?>' name = 'self_<?php echo $row["categoryId"] ?>'></input>
                             </div>
                             <div class = 'col-sm-1'>
                                 <?php echo getCalculator($row["calculatorType"]); ?>
                             </div>
                             <div class = 'col-sm-3'>
-                                <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Spouse $$' value='' id = 'spouse_<?php echo $row["categoryId"] ?>' name = 'spouse_<?php echo $row["categoryId"] ?>'></input>
+                                <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = '<?php echo $row["spouseAmount"] ?>' value='' id = 'spouse_<?php echo $row["categoryId"] ?>' name = 'spouse_<?php echo $row["categoryId"] ?>'></input>
                             </div>
                             <div class = 'col-sm-1'>
                                 <?php echo getCalculator($row["calculatorType"]); ?>
@@ -62,14 +75,22 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
 
 <?php
 
-function getCalculator($calcType) {
-    if ($calcType == 'MonthlyWage') {
+function getCalculator($calcType)
+{
+    if ($calcType == 'MonthlyWage')
+    {
         echo '<span><button type="button" class="btn btn-info" data-toggle="modal" data-target="#wageCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>';
-    } elseif ($calcType == 'MonthlySE') {
+    }
+    elseif ($calcType == 'MonthlySE')
+    {
         echo '<span><button type="button" class="btn btn-info" data-toggle="modal" data-target="#seCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>';
-    } elseif ($calcType == 'NonMonthly') {
+    }
+    elseif ($calcType == 'NonMonthly')
+    {
         echo '<span><button type="button" class="btn btn-info" data-toggle="modal" data-target="#nonMonthlyCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>';
-    } else {
+    }
+    else
+    {
         echo '<span class="input-group-addon glyphicon glyphicon-modal-window"></span>';
     }
 }

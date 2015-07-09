@@ -25,7 +25,7 @@ date_default_timezone_set('America/Denver');
            data-sortable="true">
         <thead>
             <tr>
-                <th data-field="state" data-radio="true"></th>
+                <th data-field="state" data-checkbox="true"></th>
                 <th class="col-xs-2" data-field="dateCreated" data-sortable="true">Date Created</th>
                 <th class="col-xs-2" data-field="dateUpdated" data-sortable="true">Date Updated</th>
                 <th class="col-xs-8" data-field="budgetName" data-sortable="true">Budget Name</th>
