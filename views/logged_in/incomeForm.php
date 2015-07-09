@@ -1,7 +1,6 @@
 <?php
 
-function getForm($CategoryParentType, $CategoryParentOrder)
-{
+function getForm($CategoryParentType, $CategoryParentOrder) {
     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
     $sql = $db_connection->prepare("SELECT u.userId, b.budgetId, cp.categoryParentType, cp.categoryParentOrder, cp.categoryParentName, c.categoryId, c.categoryOrder, c.categoryName, c.categoryHoverToolTip, c.calculatorType, bd.amount, bd.spouseAmount
                                     FROM categoryParent cp
@@ -14,18 +13,15 @@ function getForm($CategoryParentType, $CategoryParentOrder)
                                     AND u.userId = :userId
                                     AND b.budgetId = :budgetId
                                     ORDER BY c.categoryOrder;");
-    
+
     $sql->bindParam(':categoryParentOrder', $CategoryParentOrder);
     $sql->bindParam(':categoryParentType', $CategoryParentType);
     $sql->bindParam(':userId', $_SESSION['user_id']);
     $sql->bindParam(':budgetId', $_SESSION['user_budgetid']);
 
-    if ($sql->execute())
-    {
+    if ($sql->execute()) {
         $ResultsToReturn = $sql->fetchAll(PDO::FETCH_ASSOC);
-    }
-    else
-    {
+    } else {
         print_r($sql->errorInfo());
         $ResultsToReturn;
     }
@@ -38,8 +34,7 @@ function getForm($CategoryParentType, $CategoryParentOrder)
         <div class='panel-body'>
             <form class='form-horizontal' role='form' id='<?php echo $CategoryParentType . $CategoryParentOrder ?>'>
                 <?php
-                foreach ($ResultsToReturn as $row)
-                {
+                foreach ($ResultsToReturn as $row) {
                     ?>
                     <div class = 'form-group'>
                         <label class = 'control-label col-sm-5' for = 'self_<?php echo $row["categoryId"] ?>'><?php echo $row["categoryOrder"] . '. ' . $row["categoryName"] ?></label>
@@ -51,13 +46,13 @@ function getForm($CategoryParentType, $CategoryParentOrder)
                                 <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Self $$' value = '<?php echo $row["amount"] ?>' value='' id = 'self_<?php echo $row["categoryId"] ?>' name = 'self_<?php echo $row["categoryId"] ?>'></input>
                             </div>
                             <div class = 'col-sm-1'>
-                                <?php echo getCalculator($row["calculatorType"]); ?>
+                                <?php echo getCalculator($row["calculatorType"], 'self_' . $row["categoryId"]); ?>
                             </div>
                             <div class = 'col-sm-3'>
                                 <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Spouse $$' value = '<?php echo $row["spouseAmount"] ?>' value='' id = 'spouse_<?php echo $row["categoryId"] ?>' name = 'spouse_<?php echo $row["categoryId"] ?>'></input>
                             </div>
                             <div class = 'col-sm-1'>
-                                <?php echo getCalculator($row["calculatorType"]); ?>
+                                <?php echo getCalculator($row["calculatorType"], 'spouse_' . $row["categoryId"]); ?>
                             </div>
                         </div>
                     </div>
@@ -75,22 +70,14 @@ function getForm($CategoryParentType, $CategoryParentOrder)
 
 <?php
 
-function getCalculator($calcType)
-{
-    if ($calcType == 'MonthlyWage')
-    {
-        echo '<span><button type="button" class="btn btn-info" data-toggle="modal" data-target="#wageCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>';
-    }
-    elseif ($calcType == 'MonthlySE')
-    {
-        echo '<span><button type="button" class="btn btn-info" data-toggle="modal" data-target="#seCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>';
-    }
-    elseif ($calcType == 'NonMonthly')
-    {
-        echo '<span><button type="button" class="btn btn-info" data-toggle="modal" data-target="#nonMonthlyCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>';
-    }
-    else
-    {
+function getCalculator($calcType, $id) {
+    if ($calcType == 'MonthlyWage') {
+        echo '<span><button type="button" class="btn btn-info" id="' . $id . '" data-toggle="modal" data-target="#wageCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>';
+    } elseif ($calcType == 'MonthlySE') {
+        echo '<span><button type="button" class="btn btn-info" id="' . $id . '" data-toggle="modal" data-target="#seCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>';
+    } elseif ($calcType == 'NonMonthly') {
+        echo '<span><button type="button" class="btn btn-info" id="' . $id . '" data-toggle="modal" data-target="#nonMonthlyCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>';
+    } else {
         echo '<span class="input-group-addon glyphicon glyphicon-modal-window"></span>';
     }
 }
@@ -161,46 +148,6 @@ function getCalculator($calcType)
         </div>
     </div>
 
-
-    <script type = "text/javascript">
-
-        $(function () {
-            $("[rel=tooltip]").tooltip({placement: 'right'});
-
-            $('#Income1').submit(function (e)
-            {
-                e.preventDefault();
-                console.log($(this).serializeArray());
-            });
-        });
-
-        function isNumberKey(evt) {
-            var charCode = (evt.which) ? evt.which : evt.keyCode;
-            return !(charCode > 31 && (charCode < 48 || charCode > 57));
-        }
-
-        $('#wageCalcModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); // Button that triggered the modal
-            var recipient = button.data('whatever'); // Extract info from data-* attributes
-            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-            var modal = $(this);
-            modal.find('.modal-title').text('Wage Calculator');
-            modal.find('.modal-body input').val(recipient);
-        });
-
-        $('#seCalcModal').on('show.bs.modal', function (event) {
-
-        });
-
-        $('#nonMonthlyCalcModal').on('show.bs.modal', function (event) {
-
-        });
-
-        //$('#wageCalcModal').modal(options);
-
-    </script>
-
     <!-- Wage Calculator Modal-->
     <div class="modal fade" id="wageCalcModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog" role="document">
@@ -212,13 +159,15 @@ function getCalculator($calcType)
                 <div class="modal-body">
                     <form class="navbar-form">
                         <div class="form-group">
-                            <input type="number" onkeypress='return isNumberKey(event);' class="form-control" id="dollars-per-hour" placeholder="$ Per Hour"> <span>X</span> <input type="number" onkeypress='return isNumberKey(event);' class="form-control" id="hours-per-week" placeholder="Hours Per Week">
-                        </div><button type="button" class="btn btn-primary">Submit</button>
+                            <input onkeypress='return isNumberKey(event);' class="form-control" id="dollars-per-hour" placeholder="$ Per Hour"> 
+                            <span>X</span> 
+                            <input onkeypress='return isNumberKey(event);' class="form-control" id="hours-per-week" placeholder="Hours Per Week">
+                        </div><button type="button" id="wageSubmit" class="btn btn-primary">Submit</button>
                     </form>
                     <form class="navbar-form">
                         <div class="form-group">
-                            <input type="number" onkeypress='return isNumberKey(event);' class="form-control" id="salary" placeholder="Salary $">
-                        </div><button type="button" class="btn btn-primary">Submit</button>
+                            <input onkeypress='return isNumberKey(event);' class="form-control" id="salary" placeholder="Salary $">
+                        </div><button type="button" id="salarySubmit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
             </div>
@@ -236,13 +185,13 @@ function getCalculator($calcType)
                 <div class="modal-body">
                     <form class="navbar-form">
                         <div class="form-group">
-                            <input type="number" onkeypress='return isNumberKey(event);' class="form-control" id="typical-month-income" placeholder="Typical Month's $">
-                        </div><button type="button" class="btn btn-primary">Submit</button>
+                            <input onkeypress='return isNumberKey(event);' class="form-control" id="typical-month-income" placeholder="Typical Month's $">
+                        </div><button type="button" id="seMonthSubmit" class="btn btn-primary">Submit</button>
                     </form>
                     <form class="navbar-form">
                         <div class="form-group">
-                            <input type="number" onkeypress='return isNumberKey(event);' class="form-control" id="last-year-taxes" placeholder="Last Year's Taxes $">
-                        </div><button type="button" class="btn btn-primary">Submit</button>
+                            <input onkeypress='return isNumberKey(event);' class="form-control" id="last-year-taxes" placeholder="Last Year's Taxes $">
+                        </div><button type="button" id="seTaxSubmit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
             </div>
@@ -264,7 +213,7 @@ function getCalculator($calcType)
                                 <form class="navbar-form">
                                     <div class="form-group" style="text-align: center;">
                                         <label class = 'control-label'>Estimate for the Year</label>
-                                        <input type="number" onkeypress='return isNumberKey(event);' class="form-control" id="estimate-for-year" placeholder="$">
+                                        <input onkeypress='return isNumberKey(event);' class="form-control" id="estimate-for-year" placeholder="$">
                                     </div>
                                 </form>
                             </div>
@@ -273,19 +222,53 @@ function getCalculator($calcType)
                                     <div class="form-group">
                                         <div class="col-sm-12" style="text-align: center;"><label class = 'control-label'>Frequency Method</label></div>
                                         <div class="col-sm-6"><label class = 'control-label'>Times per Year:</label></div>
-                                        <div class="col-sm-6"><input type="number" onkeypress='return isNumberKey(event);' class="form-control" id="times-per-year" placeholder="Times Per Year #"></div>
+                                        <div class="col-sm-6"><input onkeypress='return isNumberKey(event);' class="form-control" id="times-per-year" placeholder="Times Per Year #"></div>
                                         <div class="col-sm-6"><label class = 'control-label'>Cost per Time:</label></div>
-                                        <div class="col-sm-6"><input type="number" onkeypress='return isNumberKey(event);' class="form-control" id="cost-per-time" placeholder="Cost Per Time $"></div>
+                                        <div class="col-sm-6"><input onkeypress='return isNumberKey(event);' class="form-control" id="cost-per-time" placeholder="Cost Per Time $"></div>
                                         <div class="col-sm-6"><label class = 'control-label'>Yearly Estimate:</label></div>
-                                        <div class="col-sm-6"><input type="number" onkeypress='return isNumberKey(event);' class="form-control" id="yearly-estimate" placeholder="Yearly Estimate $"></div>
+                                        <div class="col-sm-6"><input onkeypress='return isNumberKey(event);' class="form-control" id="yearly-estimate" placeholder="Yearly Estimate $"></div>
                                     </div>
                                 </form>
                             </div>
+                            <button type="button" id="nonMonthlySubmit" class="btn btn-primary pull-right">Submit</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div><!-- End Modal-->
+
+    <script type = "text/javascript">
+
+        $(function () {
+            $("[rel=tooltip]").tooltip({placement: 'right'});
+
+            $('#Income1').submit(function (e)
+            {
+                e.preventDefault();
+                console.log($(this).serializeArray());
+            });
+        });
+
+        function isNumberKey(evt) {
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            return !(charCode > 31 && (charCode < 48 || charCode > 57));
+        }
+
+        $('#wageCalcModal').on('show.bs.modal', function (event) {
+            //var button = $(event.relatedTarget); // Button that triggered the modal
+            //var recipient = button.data('whatever'); // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            //var modal = $(this);
+            //modal.find('.modal-title').text('Wage Calculator');
+            //modal.find('.modal-body input').val(recipient);
+            //var id = $(event.relatedTarget).data('id');
+            //$(event.currentTarget).find('input[name="id"]').val(id);
+            //document.getElementById(id).innerHTML = (document.getElementById('dollars-per-hour').innerHTML).toFixed(2);
+        });
+        
+        //$('#wageCalcModal').modal(options);
+    </script>
 
 </body>
