@@ -62,6 +62,8 @@ class Budget
                     
                     $this->buildFirstTimeBudgetDetails($_SESSION['user_budgetid']);
                     
+                    $_SESSION['user_has_budget'] = 1;
+                    
                     $this->messages[] = "Your new budget has been created.";
                 }
                 else
@@ -90,7 +92,7 @@ class Budget
             foreach ($ResultsToReturn as $row)
             {
                 $sql->bindParam(':budgetId', $budgetId);
-                $sql->bindParam(':categoryId', $row[categoryId]);
+                $sql->bindParam(':categoryId', $row["categoryId"]);
                 $sql->execute();
             }
         }

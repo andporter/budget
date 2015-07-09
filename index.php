@@ -27,6 +27,7 @@ require_once("classes/Budget.php");
 // create a login & registration object. when this object is created, it will do all login/logout stuff automatically
 $login = new Login();
 $registration = new Registration();
+$budget = new Budget();
 
 require_once("views/globalCSS.php");
 require_once("views/globalJS.php");
@@ -45,17 +46,15 @@ if ($login->isUserLoggedIn() == true)  //the user is logged in.
                 }
                 else //No existing budget.
                 {
-                    require("views/logged_in/budgets.php");
-//                    require("views/logged_in/demographicsForm.php");
-//                    require("views/logged_in/incomeForm.php");
+                    $budget->createNewBudget();
+                    require("views/logged_in/user_header_menu.php");
+                    require("views/logged_in/incomeForm.php");
                 }
             }
             break;
 
         case "editbudget":
-            {
-                $budget = new Budget();
-                
+            {   
                 if ($_GET['editbudget'] == "new")
                 {
                     $budget->createNewBudget();
