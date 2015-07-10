@@ -54,7 +54,7 @@ if ($login->isUserLoggedIn() == true)  //the user is logged in.
             break;
 
         case "editbudget":
-            {   
+            {
                 if ($_GET['editbudget'] == "new")
                 {
                     $budget->createNewBudget();
@@ -96,15 +96,6 @@ if ($login->isUserLoggedIn() == true)  //the user is logged in.
 }
 else //the user is not logged in.
 {
-    switch (key($_GET))
-    {
-        case "register":
-        default:
-            {
-                // show the register view (with the registration form, and messages/errors)
-                require("views/not_logged_in/header_menu.php");
-                require("views/not_logged_in/introLogin.php");
-            }
-            break;
-    }
+    require("views/not_logged_in/header_menu.php");
+    require("views/not_logged_in/introLogin.php");
 }
