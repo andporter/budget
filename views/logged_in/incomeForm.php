@@ -60,7 +60,7 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
                                         <span class='input-group-addon glyphicon glyphicon-info-sign' rel='tooltip' title='<?php echo $row["categoryHoverToolTip"] ?>'></span>
                                     </div>
                                     <div class = 'col-sm-3'>
-                                        <input type = 'text' class = 'form-control' placeholder = 'Self $$' value='' id = 'self_<?php echo $row["categoryId"] ?>' name = 'self_<?php echo $row["categoryId"] ?>'></input>
+                                        <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Self $$' value='' id = 'self_<?php echo $row["categoryId"] ?>' name = 'self_<?php echo $row["categoryId"] ?>'></input>
                                     </div>
                                     <div class = 'col-sm-1'>
                                         <?php
@@ -158,7 +158,7 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
                 <div class = "modal-body">
                     <form class = "navbar-form">
                         <div class = "form-group">
-                            <input type="number" onkeypress = 'return isNumberKey(event);' class = "form-control" id = "dollars-per-hour<?php ?>" placeholder = "$ Per Hour">
+                            <input type="number" onkeypress = 'return isNumberKey(event);' class = "form-control" id = "dollars-per-hour" placeholder = "$ Per Hour">
                             <span>X</span>
                             <input type="number" onkeypress = 'return isNumberKey(event);' class = "form-control" id = "hours-per-week" placeholder = "Hours Per Week">
                         </div><button type = "button" id = "wageSubmit" class = "btn btn-primary">Submit</button>
@@ -248,11 +248,34 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
                 container: 'body'
             });
 
-
-            $('#Income1').submit(function (e)
-            {
+            $('#Income1').submit(function (e) {
                 e.preventDefault();
                 console.log($(this).serializeArray());
+            });
+
+            $('#wageSubmit').click(function () {
+                var x = document.getElementById('dollars-per-hour').value;
+                var y = document.getElementById('hours-per-week').value;
+                var total = x * y * 52 / 12;
+                document.getElementById("self_1").value = total;
+                $('#wageCalcModal').modal('hide');
+            });
+
+            $('#salarySubmit').click(function () {
+                document.getElementById("self_1").value =
+                        document.getElementById('salary').value / 2080 * 40 * 52 / 12;
+                $('#wageCalcModal').modal('hide');
+            });
+
+            $('#seMonthSubmit').click(function () {
+                $('#seCalcModal').modal('hide');
+            });
+            $('#seTaxSubmit').click(function () {
+                $('#seCalcModal').modal('hide');
+            });
+
+            $('#nonMonthlySubmit').click(function () {
+                $('#nonMonthlyCalcModal').modal('hide');
             });
         });
 
@@ -261,14 +284,6 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
             return !(charCode > 31 && (charCode < 48 || charCode > 57));
         }
 
-        $('#wageSubmit').click(function () {
-            var x = document.getElementById('dollars-per-hour').innerHTML;
-            var y = document.getElementById('hours-per-week').innerHTML;
-            var q = x * y * 52 / 12;
-            document.getElementById("self_1").innerHTML = q;
-            $('#wageCalcModal').modal('hide');
-        });
-        
     </script>
 
 </body>
