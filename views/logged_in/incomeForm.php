@@ -1,4 +1,5 @@
 <?php
+
 function getForm($CategoryParentType, $CategoryParentOrder) {
     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
     $sql = $db_connection->prepare("SELECT u.userId, b.budgetId, cp.categoryParentType, cp.categoryParentOrder, cp.categoryParentName, c.categoryId, c.categoryOrder, c.categoryName, c.categoryHoverToolTip, c.calculatorType, bd.amount, bd.spouseAmount
@@ -32,42 +33,39 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
 
     </style>
 
-    
-<div class='container theme-showcase'>
-    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                
-                <?php                   
-                        echo'<h3 class="panel-title" id="budgetTitles">';
-                            echo '<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#'. $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"]  .'" >';
-                            
-                                echo $ResultsToReturn[0]["categoryParentOrder"] . ". " . $ResultsToReturn[0]["categoryParentName"];
-                            
-                            echo '</a>';
-                        echo'</h3>';     
-                ?>
-                
-            </div>
-            
-            <?php
-            if($ResultsToReturn[0]["categoryParentOrder"]==1 && $ResultsToReturn[0]["categoryParentName"]=="Monthly Earned Income")
-            {
-                echo '<div id="' . $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"]
-                     .'" class="panel-collapse collapse in" '. ' >';
-            }
-            else 
-            {
-                echo '<div id="' . $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"]
-                     .'" class="panel-collapse collapse " '. ' >';
-            }
+    <div class='container theme-showcase'>
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+
+                    <?php
+                    echo'<h3 class="panel-title" id="budgetTitles">';
+                    echo '<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#' . $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"] . '" >';
+
+                    echo $ResultsToReturn[0]["categoryParentOrder"] . ". " . $ResultsToReturn[0]["categoryParentName"];
+
+                    echo '</a>';
+                    echo'</h3>';
+                    ?>
+
+                </div>
+
+                <?php
+                if ($ResultsToReturn[0]["categoryParentOrder"] == 1 && $ResultsToReturn[0]["categoryParentName"] == "Monthly Earned Income") {
+                    echo '<div id="' . $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"]
+                    . '" class="panel-collapse collapse in" ' . ' >';
+                } else {
+                    echo '<div id="' . $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"]
+                    . '" class="panel-collapse collapse " ' . ' >';
+                }
                 ?>
                 <div class='panel-body'>
                     <form class='form-horizontal' role='form' id='<?php echo $CategoryParentType . $CategoryParentOrder ?>'>
-                        <?php
-                        foreach ($ResultsToReturn as $row) {
-                            ?>
+    <?php
+    foreach ($ResultsToReturn as $row) {
+        ?>
                             <div class = 'form-group'>
                                 <label class = 'control-label col-sm-5' for = 'self_<?php echo $row["categoryId"] ?>'><?php echo $row["categoryOrder"] . '. ' . $row["categoryName"] ?></label>
                                 <div class = 'input-group input-group-unstyled'>
@@ -78,25 +76,25 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
                                         <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Self $$' value='' id = 'self_<?php echo $row["categoryId"] ?>' name = 'self_<?php echo $row["categoryId"] ?>'></input>
                                     </div>
                                     <div class = 'col-sm-1'>
-                                        <?php
-                                        $x = "self_" . $row["categoryId"];
-                                        $$x = new Calculator($row["calculatorType"], $x);
-                                        echo $$x->drawCalculator();
-                                        ?>
+        <?php
+        $x = "self_" . $row["categoryId"];
+        $$x = new Calculator($row["calculatorType"], $x);
+        echo $$x->drawCalculator();
+        ?>
                                     </div>
                                     <div class = 'col-sm-3'>
                                         <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Spouse $$' value='' id = 'spouse_<?php echo $row["categoryId"] ?>' name = 'spouse_<?php echo $row["categoryId"] ?>'></input>
                                     </div>
                                     <div class = 'col-sm-1'>
-                                        <?php
-                                        $y = "spouse_" . $row["categoryId"];
-                                        $$y = new Calculator($row["calculatorType"], $y);
-                                        echo $$y->drawCalculator();
-                                        ?>
+        <?php
+        $y = "spouse_" . $row["categoryId"];
+        $$y = new Calculator($row["calculatorType"], $y);
+        echo $$y->drawCalculator();
+        ?>
                                     </div>
                                 </div>
                             </div>
-                        <?php } ?>
+    <?php } ?>
 
                         <div class='form-group'>
                             <div class='col-sm-offset-2 col-sm-10'>
@@ -108,57 +106,56 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
             </div>
         </div>
 
-</div>
+    </div>
 <?php } ?>
 
 <body>
     <div class='container theme-showcase'>
-        <?php
-        getForm("Income", 1);
-        getForm("Income", 2);
-        getForm("Income", 3);
-        getForm("Expense", 1);
-        getForm("Expense", 2);
-        getForm("Expense", 3);
-        getForm("Expense", 4);
-        getForm("Expense", 5);
-        getForm("Expense", 6);
-        getForm("Expense", 7);
-        getForm("Expense", 8);
-        getForm("Expense", 9);
-        ?>
+<?php
+getForm("Income", 1);
+getForm("Income", 2);
+getForm("Income", 3);
+getForm("Expense", 1);
+getForm("Expense", 2);
+getForm("Expense", 3);
+getForm("Expense", 4);
+getForm("Expense", 5);
+getForm("Expense", 6);
+getForm("Expense", 7);
+getForm("Expense", 8);
+getForm("Expense", 9);
+?>
     </div>
 
-    <?php
-    /*
-     * Calculator class for all calculators needed for the budget
-     * Author: Braden Talbot
-     */
+<?php
+/*
+ * Calculator class for all calculators needed for the budget
+ */
 
-    class Calculator {
+class Calculator {
 
-        public $calcType;
-        public $calcId;
+    private $calcType;
+    private $calcId;
 
-        public function __construct($type, $id) {
-            $this->calcType = $type;
-            $this->calcId = $id;
-        }
-
-        public function drawCalculator() {
-            if ($this->calcType === 'MonthlyWage') {
-                return '<span><button type="button" class="btn btn-info" id="' . $this->calcId . 'm" data-toggle="modal" data-target="#wageCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>';
-            } elseif ($this->calcType === 'MonthlySE') {
-                return '<span><button type="button" class="btn btn-info" id="' . $this->calcId . 'm" data-toggle="modal" data-target="#seCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>';
-            } elseif ($this->calcType === 'NonMonthly') {
-                return '<span><button type="button" class="btn btn-info" id="' . $this->calcId . 'm" data-toggle="modal" data-target="#nonMonthlyCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>';
-            } else {
-                return '<span class="input-group-addon glyphicon glyphicon-modal-window"></span>';
-            }
-        }
-
+    public function __construct($type, $id) {
+        $this->calcType = $type;
+        $this->calcId = $id;
     }
-    ?>
+
+    public function drawCalculator() {
+        if ($this->calcType === 'MonthlyWage') {
+            return '<span><button type="button" class="btn btn-info" id="' . $this->calcId . 'm" data-toggle="modal" data-target="#wageCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>';
+        } elseif ($this->calcType === 'MonthlySE') {
+            return '<span><button type="button" class="btn btn-info" id="' . $this->calcId . 'm" data-toggle="modal" data-target="#seCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>';
+        } elseif ($this->calcType === 'NonMonthly') {
+            return '<span><button type="button" class="btn btn-info" id="' . $this->calcId . 'm" data-toggle="modal" data-target="#nonMonthlyCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>';
+        } else {
+            return '<span class="input-group-addon glyphicon glyphicon-modal-window"></span>';
+        }
+    }
+
+}
+?>
 
     <!--Wage Calculator Modal-->
     <div class = "modal fade" id = "wageCalcModal" tabindex = "-1" role = "dialog" aria-labelledby = "exampleModalLabel">
@@ -267,11 +264,18 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
                 console.log($(this).serializeArray());
             });
 
-            $('#wageSubmit').click(function () {
+            $('#wageSubmit').click(function (event) {
                 var x = document.getElementById('dollars-per-hour').value;
                 var y = document.getElementById('hours-per-week').value;
                 var total = x * y * 52 / 12;
-                document.getElementById("self_1").value = total;
+                //var button = $(event.relatedTarget); // Button that triggered the modal
+                //var recipient = button.data('whatever');
+                //var modal = $(this).data('modal');
+                //var $trigger = $(modal.options.source);
+                //modal.find('.modal-title').text('New message to ' + recipient);
+                //modal.find('.modal-body input').val(recipient);
+                //alert(button);
+                document.getElementById("spouse_1").value = total.toFixed(2);
                 $('#wageCalcModal').modal('hide');
             });
 
