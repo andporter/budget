@@ -1,5 +1,4 @@
 <?php
-
 function getForm($CategoryParentType, $CategoryParentOrder) {
     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
     $sql = $db_connection->prepare("SELECT u.userId, b.budgetId, cp.categoryParentType, cp.categoryParentOrder, cp.categoryParentName, c.categoryId, c.categoryOrder, c.categoryName, c.categoryHoverToolTip, c.calculatorType, bd.amount, bd.spouseAmount
@@ -33,21 +32,37 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
 
     </style>
 
-    <!--<div class='panel panal-content panel-primary'>-->
+    
+<div class='container theme-showcase'>
     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 
         <div class="panel panel-primary">
-            <div class="panel-heading" role="tab" id="headingOne">
-                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#<?php echo $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"]
-    ?>" aria-expanded="true" aria-controls="<?php echo $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"] ?>">
-                    <h3 class='panel-title' id="budgetTitles"><?php echo $ResultsToReturn[0]["categoryParentOrder"] . ". " . $ResultsToReturn[0]["categoryParentName"] ?></h3>
-                </a>
+            <div class="panel-heading">
+                
+                <?php                   
+                        echo'<h3 class="panel-title" id="budgetTitles">';
+                            echo '<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#'. $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"]  .'" >';
+                            
+                                echo $ResultsToReturn[0]["categoryParentOrder"] . ". " . $ResultsToReturn[0]["categoryParentName"];
+                            
+                            echo '</a>';
+                        echo'</h3>';     
+                ?>
+                
             </div>
-            <div id="<?php echo $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"]
-    ?>" aria-expanded="true" aria-controls="<?php
-                 echo $ResultsToReturn[0]["categoryParentOrder"] .
-                 $ResultsToReturn[0]["categoryParentType"]
-                 ?>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+            
+            <?php
+            if($ResultsToReturn[0]["categoryParentOrder"]==1 && $ResultsToReturn[0]["categoryParentName"]=="Monthly Earned Income")
+            {
+                echo '<div id="' . $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"]
+                     .'" class="panel-collapse collapse in" '. ' >';
+            }
+            else 
+            {
+                echo '<div id="' . $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"]
+                     .'" class="panel-collapse collapse " '. ' >';
+            }
+                ?>
                 <div class='panel-body'>
                     <form class='form-horizontal' role='form' id='<?php echo $CategoryParentType . $CategoryParentOrder ?>'>
                         <?php
@@ -93,8 +108,7 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
             </div>
         </div>
 
-    </div>
-    <!--</div>-->
+</div>
 <?php } ?>
 
 <body>
