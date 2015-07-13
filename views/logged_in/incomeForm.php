@@ -291,53 +291,55 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
             total = x * y * 52 / 12;
             setBId();
             $('#wageCalcModal').modal('hide');
-            document.getElementById('dollars-per-hour').value = null;
-            document.getElementById('hours-per-week').value = null;
-            document.getElementById('salary').value = null;
+            setModalLabelsToNull();
         });
 
         $('#salarySubmit').click(function () {
             total = document.getElementById('salary').value / 2080 * 40 * 52 / 12;
             setBId();
             $('#wageCalcModal').modal('hide');
-            document.getElementById('dollars-per-hour').value = null;
-            document.getElementById('hours-per-week').value = null;
-            document.getElementById('salary').value = null;
+            setModalLabelsToNull();
         });
 
         $('#seMonthSubmit').click(function () {
             total = document.getElementById('typical-month-income').value * 1;
             setBId();
             $('#seCalcModal').modal('hide');
-            document.getElementById('typical-month-income').value = null;
-            document.getElementById('last-year-taxes').value = null;
+            setModalLabelsToNull();
         });
 
         $('#seTaxSubmit').click(function () {
             total = document.getElementById('last-year-taxes').value / 12;
             setBId();
             $('#seCalcModal').modal('hide');
-            document.getElementById('typical-month-income').value = null;
-            document.getElementById('last-year-taxes').value = null;
+            setModalLabelsToNull();
         });
 
         $('#nonMonthlyTotalSubmit').click(function () {
             total = document.getElementById('estimate-for-year').value / 12;
             setBId();
             $('#nonMonthlyCalcModal').modal('hide');
-            document.getElementById('estimate-for-year').value = null;
-            document.getElementById('times-per-year').value = null;
-            document.getElementById('cost-per-time').value = null;
+            setModalLabelsToNull();
         });
 
         $('#nonMonthlySubmit').click(function () {
-            total = document.getElementById('times-per-year').value * document.getElementById('cost-per-time').value / 12;
+            total = document.getElementById('times-per-year').value 
+                    * document.getElementById('cost-per-time').value / 12;
             setBId();
             $('#nonMonthlyCalcModal').modal('hide');
+            setModalLabelsToNull();
+        });
+        
+        function setModalLabelsToNull() {
+            document.getElementById('dollars-per-hour').value = null;
+            document.getElementById('hours-per-week').value = null;
+            document.getElementById('salary').value = null;
             document.getElementById('estimate-for-year').value = null;
             document.getElementById('times-per-year').value = null;
             document.getElementById('cost-per-time').value = null;
-        });
+            document.getElementById('typical-month-income').value = null;
+            document.getElementById('last-year-taxes').value = null;
+        }
         
         function setBId() {
             bId = button.attr('id');
