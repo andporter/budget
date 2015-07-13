@@ -197,12 +197,14 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
                     <form class = "navbar-form">
                         <div class = "form-group">
                             <input type="number" onkeypress = 'return isNumberKey(event);' class = "form-control" id = "typical-month-income" placeholder = "Typical Month's $">
-                        </div><button type = "button" id = "seMonthSubmit" class = "btn btn-primary">Submit</button>
+                        </div>
+                        <button type = "button" id = "seMonthSubmit" class = "btn btn-primary">Submit</button>
                     </form>
                     <form class = "navbar-form">
                         <div class = "form-group">
                             <input type="number" onkeypress = 'return isNumberKey(event);' class = "form-control" id = "last-year-taxes" placeholder = "Last Year's Taxes $">
-                        </div><button type = "button" id = "seTaxSubmit" class = "btn btn-primary">Submit</button>
+                        </div>
+                        <button type = "button" id = "seTaxSubmit" class = "btn btn-primary">Submit</button>
                     </form>
                 </div>
             </div>
@@ -228,6 +230,7 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
                                         <input type="number" onkeypress = 'return isNumberKey(event);' class = "form-control" id = "estimate-for-year" placeholder = "$">
                                     </div>
                                 </form>
+                                <button type = "button" id = "nonMonthlyTotalSubmit" class = "btn btn-primary pull-right">Submit</button>
                             </div>
                             <div class = "col-sm-8">
                                 <form class = "navbar-form">
@@ -237,12 +240,10 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
                                         <div class = "col-sm-6"><input type="number" onkeypress = 'return isNumberKey(event);' class = "form-control" id = "times-per-year" placeholder = "Times Per Year #"></div>
                                         <div class = "col-sm-6"><label class = 'control-label'>Cost per Time:</label></div>
                                         <div class = "col-sm-6"><input type="number" onkeypress = 'return isNumberKey(event);' class = "form-control" id = "cost-per-time" placeholder = "Cost Per Time $"></div>
-                                        <div class = "col-sm-6"><label class = 'control-label'>Yearly Estimate:</label></div>
-                                        <div class = "col-sm-6"><input type="number" onkeypress = 'return isNumberKey(event);' class = "form-control" id = "yearly-estimate" placeholder = "Yearly Estimate $"></div>
                                     </div>
                                 </form>
+                                <button type = "button" id = "nonMonthlySubmit" class = "btn btn-primary pull-right">Submit</button>
                             </div>
-                            <button type = "button" id = "nonMonthlySubmit" class = "btn btn-primary pull-right">Submit</button>
                         </div>
                     </div>
                 </div>
@@ -264,68 +265,92 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
                 console.log($(this).serializeArray());
             });
 
-            var button = '';
-
-            $('#wageCalcModal').on('show.bs.modal', function (event) {
-                button = $(event.relatedTarget);
-            });
-
-            $('#wageSubmit').click(function () {
-                var x = document.getElementById('dollars-per-hour').value;
-                var y = document.getElementById('hours-per-week').value;
-                var total = x * y * 52 / 12;
-                var bid = button.attr('id');
-                bid = bid.substr(0, bid.length-1);
-                document.getElementById(bid).value = total.toFixed(2);
-                $('#wageCalcModal').modal('hide');
-            });
-
-            $('#seCalcModal').on('show.bs.modal', function (event) {
-                button = $(event.relatedTarget);
-            });
-            
-            $('#salarySubmit').click(function () {
-                var total = 0;
-                var bid = button.attr('id');
-                bid = bid.substr(0, bid.length-1);
-                document.getElementById(bid).value = total.toFixed(2);
-                document.getElementById(bid).value =
-                        document.getElementById('salary').value / 2080 * 40 * 52 / 12;
-                $('#wageCalcModal').modal('hide');
-            });
-
-            $('#seMonthSubmit').click(function () {
-                var total = 0;
-                var bid = button.attr('id');
-                bid = bid.substr(0, bid.length-1);
-                document.getElementById(bid).value = total.toFixed(2);
-                $('#seCalcModal').modal('hide');
-            });
-            $('#seTaxSubmit').click(function () {
-                var total = 0;
-                var bid = button.attr('id');
-                bid = bid.substr(0, bid.length-1);
-                document.getElementById(bid).value = total.toFixed(2);
-                $('#seCalcModal').modal('hide');
-            });
-
-            $('#nonMonthlyCalcModal').on('show.bs.modal', function (event) {
-                button = $(event.relatedTarget);
-            });
-            
-            $('#nonMonthlySubmit').click(function () {
-                var total = 0;
-                var bid = button.attr('id');
-                bid = bid.substr(0, bid.length-1);
-                document.getElementById(bid).value = total.toFixed(2);
-                $('#nonMonthlyCalcModal').modal('hide');
-            });
         });
+        // Calculator functions and variables 
+        var button = '';
+        var bId = '';
+        var total = 0;
+
+        // set modals to identify the button that prompted the modal
+        $('#wageCalcModal').on('show.bs.modal', function (event) {
+            button = $(event.relatedTarget);
+        });
+
+        $('#seCalcModal').on('show.bs.modal', function (event) {
+            button = $(event.relatedTarget);
+        });
+
+        $('#nonMonthlyCalcModal').on('show.bs.modal', function (event) {
+            button = $(event.relatedTarget);
+        });
+
+        // calculator functions
+        $('#wageSubmit').click(function () {
+            var x = document.getElementById('dollars-per-hour').value;
+            var y = document.getElementById('hours-per-week').value;
+            total = x * y * 52 / 12;
+            setBId();
+            $('#wageCalcModal').modal('hide');
+            document.getElementById('dollars-per-hour').value = null;
+            document.getElementById('hours-per-week').value = null;
+            document.getElementById('salary').value = null;
+        });
+
+        $('#salarySubmit').click(function () {
+            total = document.getElementById('salary').value / 2080 * 40 * 52 / 12;
+            setBId();
+            $('#wageCalcModal').modal('hide');
+            document.getElementById('dollars-per-hour').value = null;
+            document.getElementById('hours-per-week').value = null;
+            document.getElementById('salary').value = null;
+        });
+
+        $('#seMonthSubmit').click(function () {
+            total = document.getElementById('typical-month-income').value * 1;
+            setBId();
+            $('#seCalcModal').modal('hide');
+            document.getElementById('typical-month-income').value = null;
+            document.getElementById('last-year-taxes').value = null;
+        });
+
+        $('#seTaxSubmit').click(function () {
+            total = document.getElementById('last-year-taxes').value / 12;
+            setBId();
+            $('#seCalcModal').modal('hide');
+            document.getElementById('typical-month-income').value = null;
+            document.getElementById('last-year-taxes').value = null;
+        });
+
+        $('#nonMonthlyTotalSubmit').click(function () {
+            total = document.getElementById('estimate-for-year').value / 12;
+            setBId();
+            $('#nonMonthlyCalcModal').modal('hide');
+            document.getElementById('estimate-for-year').value = null;
+            document.getElementById('times-per-year').value = null;
+            document.getElementById('cost-per-time').value = null;
+        });
+
+        $('#nonMonthlySubmit').click(function () {
+            total = document.getElementById('times-per-year').value * document.getElementById('cost-per-time').value / 12;
+            setBId();
+            $('#nonMonthlyCalcModal').modal('hide');
+            document.getElementById('estimate-for-year').value = null;
+            document.getElementById('times-per-year').value = null;
+            document.getElementById('cost-per-time').value = null;
+        });
+        
+        function setBId() {
+            bId = button.attr('id');
+            bId = bId.substr(0, bId.length - 1);
+            document.getElementById(bId).value = total.toFixed(2);
+        }
 
         function isNumberKey(evt) {
             var charCode = (evt.which) ? evt.which : evt.keyCode;
             return !(charCode > 31 && (charCode < 48 || charCode > 57));
         }
+
+        // end Calculator functions
 
     </script>
 
