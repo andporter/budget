@@ -268,35 +268,56 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
 
             $('#wageCalcModal').on('show.bs.modal', function (event) {
                 button = $(event.relatedTarget);
-                var buttonText = button.text();
-                var modal = $(this);
-                modal.find('.modal-body input').val(buttonText);
             });
 
             $('#wageSubmit').click(function () {
                 var x = document.getElementById('dollars-per-hour').value;
                 var y = document.getElementById('hours-per-week').value;
                 var total = x * y * 52 / 12;
-                var bid = button.attr('id'); 
+                var bid = button.attr('id');
                 bid = bid.substr(0, bid.length-1);
                 document.getElementById(bid).value = total.toFixed(2);
                 $('#wageCalcModal').modal('hide');
             });
 
+            $('#seCalcModal').on('show.bs.modal', function (event) {
+                button = $(event.relatedTarget);
+            });
+            
             $('#salarySubmit').click(function () {
-                document.getElementById("self_1").value =
+                var total = 0;
+                var bid = button.attr('id');
+                bid = bid.substr(0, bid.length-1);
+                document.getElementById(bid).value = total.toFixed(2);
+                document.getElementById(bid).value =
                         document.getElementById('salary').value / 2080 * 40 * 52 / 12;
                 $('#wageCalcModal').modal('hide');
             });
 
             $('#seMonthSubmit').click(function () {
+                var total = 0;
+                var bid = button.attr('id');
+                bid = bid.substr(0, bid.length-1);
+                document.getElementById(bid).value = total.toFixed(2);
                 $('#seCalcModal').modal('hide');
             });
             $('#seTaxSubmit').click(function () {
+                var total = 0;
+                var bid = button.attr('id');
+                bid = bid.substr(0, bid.length-1);
+                document.getElementById(bid).value = total.toFixed(2);
                 $('#seCalcModal').modal('hide');
             });
 
+            $('#nonMonthlyCalcModal').on('show.bs.modal', function (event) {
+                button = $(event.relatedTarget);
+            });
+            
             $('#nonMonthlySubmit').click(function () {
+                var total = 0;
+                var bid = button.attr('id');
+                bid = bid.substr(0, bid.length-1);
+                document.getElementById(bid).value = total.toFixed(2);
                 $('#nonMonthlyCalcModal').modal('hide');
             });
         });
