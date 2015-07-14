@@ -70,13 +70,12 @@ class Calculator {
                     <div class = "form-group">
                         <input type="number" onkeypress = 'return isNumberKey(event);' class = "form-control" id = "typical-month-income" placeholder = "Typical Month's $">
                     </div>
-                    <button type = "button" id = "seMonthSubmit" class = "btn btn-primary">Submit</button>
                 </form>
                 <form class = "navbar-form">
                     <div class = "form-group">
                         <input type="number" onkeypress = 'return isNumberKey(event);' class = "form-control" id = "last-year-taxes" placeholder = "Last Year's Taxes $">
                     </div>
-                    <button type = "button" id = "seTaxSubmit" class = "btn btn-primary">Submit</button>
+                    <button type = "button" id = "seSubmit" class = "btn btn-primary">Submit</button>
                 </form>
             </div>
         </div>
@@ -159,15 +158,9 @@ class Calculator {
         setModalLabelsToNull();
     });
 
-    $('#seMonthSubmit').click(function () {
-        total = document.getElementById('typical-month-income').value * 1;
-        setBId();
-        $('#seCalcModal').modal('hide');
-        setModalLabelsToNull();
-    });
-
-    $('#seTaxSubmit').click(function () {
-        total = document.getElementById('last-year-taxes').value / 12;
+    $('#seSubmit').click(function () {
+        total = document.getElementById('typical-month-income').value  
+                - document.getElementById('last-year-taxes').value / 12;
         setBId();
         $('#seCalcModal').modal('hide');
         setModalLabelsToNull();
