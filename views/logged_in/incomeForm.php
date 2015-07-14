@@ -104,8 +104,9 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
                     </form>
                 </div>
             </div>
-        </div>
         
+        </div>
+    
     </div>
 </div>
 <?php } ?>
