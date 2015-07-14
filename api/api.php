@@ -118,15 +118,31 @@ switch ($_GET['method'])
                 {
                     $jsonData = json_decode($_POST["data"], true);
                     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
-                    $sql = $db_connection->prepare("INSERT INTO budgetDetail (budgetDetailId, budgetId, categoryId, amount, spouseAmount) VALUES (:budgetDetailId, :budgetId, :categoryId, :amount, :spouseAmount)");
 
                     foreach ($jsonData as $row)
                     {
-                        $sql->bindParam(':budgetDetailId', $row["budgetDetailId"]);
+                        $who_budgetDetailId_categoryId = explode("_", $row["name"]);
+
+                        $who = $who_budgetDetailId_categoryId[0];
+                        $budgetDetailId = $who_budgetDetailId_categoryId[1];
+                        $categoryId = $who_budgetDetailId_categoryId[2];
+
+                        if ($who == "self")
+                        {
+                            $sql = $db_connection->prepare("UPDATE budgetDetail SET amount = :amount WHERE budgetDetailId = :budgetDetailId AND budgetId = :budgetId AND categoryId = :categoryId");
+
+                            $sql->bindParam(':amount', $row["value"]);
+                        } elseif ($who == "spouse")
+                        {
+                            $sql = $db_connection->prepare("UPDATE budgetDetail SET spouseAmount = :spouseAmount WHERE budgetDetailId = :budgetDetailId AND budgetId = :budgetId AND categoryId = :categoryId");
+
+                            $sql->bindParam(':spouseAmount', $row["value"]);
+                        }
+
+                        $sql->bindParam(':budgetDetailId', $budgetDetailId);
                         $sql->bindParam(':budgetId', $_SESSION['user_budgetid']);
-                        $sql->bindParam(':categoryId', $row["categoryId"]);
-                        $sql->bindParam(':amount', $row["amount"]);
-                        $sql->bindParam(':spouseAmount', $row["spouseAmount"]);
+                        $sql->bindParam(':categoryId', $categoryId);
+
                         $sql->execute();
                     }
 

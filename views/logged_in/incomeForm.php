@@ -1,7 +1,8 @@
 <?php
 require_once('Calculator.php');
 
-function getForm($CategoryParentType, $CategoryParentOrder) {
+function getForm ($CategoryParentType, $CategoryParentOrder)
+{
     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
     $sql = $db_connection->prepare("SELECT u.userId, b.budgetId, cp.categoryParentType, cp.categoryParentOrder, cp.categoryParentName, c.categoryId, c.categoryOrder, c.categoryName, c.categoryHoverToolTip, c.calculatorType, bd.budgetDetailId, bd.amount, bd.spouseAmount
                                     FROM categoryParent cp
@@ -20,10 +21,12 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
     $sql->bindParam(':userId', $_SESSION['user_id']);
     $sql->bindParam(':budgetId', $_SESSION['user_budgetid']);
 
-    if ($sql->execute()) {
+    if ($sql->execute())
+    {
         $ResultsToReturn = $sql->fetchAll(PDO::FETCH_ASSOC);
 //        print_r($ResultsToReturn);   
-    } else {
+    } else
+    {
         exit("You do not have permission to edit this budget!");
     }
     ?>
@@ -53,10 +56,12 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
                 </div>
 
                 <?php
-                if ($ResultsToReturn[0]["categoryParentOrder"] == 1 && $ResultsToReturn[0]["categoryParentName"] == "Monthly Earned Income") {
+                if ($ResultsToReturn[0]["categoryParentOrder"] == 1 && $ResultsToReturn[0]["categoryParentName"] == "Monthly Earned Income")
+                {
                     echo '<div id="' . $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"]
                     . '" class="panel-collapse collapse in" ' . ' >';
-                } else {
+                } else
+                {
                     echo '<div id="' . $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"]
                     . '" class="panel-collapse collapse " ' . ' >';
                 }
@@ -64,7 +69,8 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
                 <div class='panel-body'>
                     <form class='form-horizontal' role='form' id='<?php echo $CategoryParentType . $CategoryParentOrder ?>'>
                         <?php
-                        foreach ($ResultsToReturn as $row) {
+                        foreach ($ResultsToReturn as $row)
+                        {
                             ?>
                             <div class = 'form-group'>
                                 <label class = 'control-label col-sm-5' for = 'self_<?php echo $row["categoryId"] ?>'><?php echo $row["categoryOrder"] . '. ' . $row["categoryName"] ?></label>
@@ -92,24 +98,24 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
                                         echo $$y->drawCalculator();
                                         ?>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         <?php } ?>
 
                         <div class='form-group'>
                             <div class='col-sm-offset-2 col-sm-10'>
-                                <input type=Button value="Next" class="btn btn-primary pull-right" onclick='serialize(this.form)'/>
+                                <input type=Button value="Next" class="btn btn-primary pull-right" onclick='submitForm(this.form)'/>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
-        
+
         </div>
-    
+
     </div>
-</div>
+    </div>
 <?php } ?>
 
 <body>
@@ -138,13 +144,17 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
                 container: 'body'
             });
 
-            
+
 
         });
-        
-        function serialize(form)
+
+        function submitForm(form)
         {
-            console.log($(form).serializeArray());
+            var postJSONData = $(form).serializeArray();
+
+            postJSONData = JSON.stringify(postJSONData);
+
+            SendAjax("api/api.php?method=userBudgetFormSubmit", postJSONData, "none", true);
         }
 
         function isNumberKey(evt) {

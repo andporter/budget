@@ -7,7 +7,7 @@ USE budget;
 
 DROP TABLE IF EXISTS users;
 CREATE TABLE IF NOT EXISTS users (
-    userId int(11) NOT NULL AUTO_INCREMENT,
+    userId int UNSIGNED NOT NULL AUTO_INCREMENT,
     userType ENUM('Admin', 'Regular') NOT NULL DEFAULT 'Regular',
     userName varchar(64) NOT NULL,
     userPasswordHash varchar(255) NOT NULL,
@@ -20,8 +20,8 @@ CREATE TABLE IF NOT EXISTS users (
     spouseFirstName varchar(64),
     spouseLastName varchar(64),
     spouseEmail varchar(64),
-    dependent0_4 int(2),
-    dependent5_18 int(2),
+    dependent0_4 int,
+    dependent5_18 int,
     PRIMARY KEY (userId),
     UNIQUE KEY userName (userName),
     UNIQUE KEY userEmail (userEmail)
@@ -32,9 +32,9 @@ INSERT INTO users (userName, userType, userPasswordHash, userEmail, firstName, l
 
 DROP TABLE IF EXISTS categoryParent;
 CREATE TABLE IF NOT EXISTS categoryParent (
-  categoryParentId int(5) NOT NULL AUTO_INCREMENT,
+  categoryParentId int UNSIGNED NOT NULL AUTO_INCREMENT,
   categoryParentType enum('Income','Expense') NOT NULL,
-  categoryParentOrder int(5) NOT NULL,
+  categoryParentOrder int UNSIGNED NOT NULL,
   categoryParentName varchar(1000) NOT NULL,
   PRIMARY KEY (categoryParentId)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -56,9 +56,9 @@ INSERT INTO categoryParent (categoryParentId, categoryParentType, categoryParent
 
 DROP TABLE IF EXISTS category;
 CREATE TABLE IF NOT EXISTS category (
-  categoryId int(5) NOT NULL AUTO_INCREMENT,
-  categoryParentId int(5) NOT NULL,
-  categoryOrder int(5) NOT NULL,
+  categoryId int UNSIGNED NOT NULL AUTO_INCREMENT,
+  categoryParentId int UNSIGNED NOT NULL,
+  categoryOrder int UNSIGNED NOT NULL,
   categoryName varchar(1000) NOT NULL,
   categoryHoverToolTip varchar(1000) NOT NULL,
   calculatorType enum('MonthlyWage','MonthlySE','NonMonthly') NULL,
@@ -167,8 +167,8 @@ INSERT INTO category (categoryParentId, categoryOrder, categoryName, categoryHov
 
 DROP TABLE IF EXISTS budget;
 CREATE TABLE budget (
-    budgetId int(11) NOT NULL AUTO_INCREMENT,
-    userId int(11) NOT NULL,
+    budgetId int UNSIGNED NOT NULL AUTO_INCREMENT,
+    userId int UNSIGNED NOT NULL,
     budgetName varchar(64),
     isBaseline boolean,
     isComplete boolean,
@@ -181,11 +181,11 @@ CREATE TABLE budget (
 
 DROP TABLE IF EXISTS budgetDetail;
 CREATE TABLE budgetDetail (
-    budgetDetailId int(11)  NOT NULL AUTO_INCREMENT,
-    budgetId int(11) NOT NULL,
-    categoryId int(5) NOT NULL,
-    amount int(10),
-    spouseAmount int(10),
+    budgetDetailId int UNSIGNED  NOT NULL AUTO_INCREMENT,
+    budgetId int UNSIGNED NOT NULL,
+    categoryId int UNSIGNED NOT NULL,
+    amount int,
+    spouseAmount int,
     PRIMARY KEY (budgetDetailId),
     FOREIGN KEY (budgetId) references budget(budgetId) on delete cascade,
     FOREIGN KEY (categoryId) references category(categoryId) on delete cascade
