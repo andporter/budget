@@ -1,6 +1,6 @@
 <?php
 require_once('Calculator.php');
-
+ $formname;
 function getForm($CategoryParentType, $CategoryParentOrder) {
     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
     $sql = $db_connection->prepare("SELECT u.userId, b.budgetId, cp.categoryParentType, cp.categoryParentOrder, cp.categoryParentName, c.categoryId, c.categoryOrder, c.categoryName, c.categoryHoverToolTip, c.calculatorType, bd.amount, bd.spouseAmount
@@ -23,6 +23,8 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
     if ($sql->execute()) {
         $ResultsToReturn = $sql->fetchAll(PDO::FETCH_ASSOC);
 //        print_r($ResultsToReturn);
+        
+    $formname = $CategoryParentType . $CategoryParentOrder;   
     } else {
         exit("You do not have permission to edit this budget!");
     }
@@ -92,13 +94,14 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
                                         echo $$y->drawCalculator();
                                         ?>
                                     </div>
+                                    
                                 </div>
                             </div>
                         <?php } ?>
 
                         <div class='form-group'>
                             <div class='col-sm-offset-2 col-sm-10'>
-                                <input type="submit" value="Next" class="btn btn-primary pull-right" />
+                                <input type=Button value="Next" class="btn btn-primary pull-right" onclick='serialize(this.form)'/>
                             </div>
                         </div>
                     </form>
@@ -137,12 +140,14 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
                 container: 'body'
             });
 
-            $('#Income1').submit(function (e) {
-                e.preventDefault();
-                console.log($(this).serializeArray());
-            });
+            
 
         });
+        
+        function serialize(form)
+        {
+            console.log($(form).serializeArray());
+        }
 
         function isNumberKey(evt) {
             var charCode = (evt.which) ? evt.which : evt.keyCode;
