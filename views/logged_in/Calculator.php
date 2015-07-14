@@ -1,10 +1,6 @@
 <?php
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- * 
- * 
+ * Calculator class for all calculators needed for the budget
  */
 
 class Calculator {
@@ -19,11 +15,11 @@ class Calculator {
 
     public function drawCalculator() {
         if ($this->calcType === 'MonthlyWage') {
-            return '<span><button type="button" class="btn btn-info" id="' . $this->calcId . '" data-toggle="modal" data-target="#wageCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>';
+            return '<span><button type="button" class="btn btn-info" id="' . $this->calcId . 'm" data-toggle="modal" data-target="#wageCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>';
         } elseif ($this->calcType === 'MonthlySE') {
-            return '<span><button type="button" class="btn btn-info" id="' . $this->calcId . '" data-toggle="modal" data-target="#seCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>';
+            return '<span><button type="button" class="btn btn-info" id="' . $this->calcId . 'm" data-toggle="modal" data-target="#seCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>';
         } elseif ($this->calcType === 'NonMonthly') {
-            return '<span><button type="button" class="btn btn-info" id="' . $this->calcId . '" data-toggle="modal" data-target="#nonMonthlyCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>';
+            return '<span><button type="button" class="btn btn-info" id="' . $this->calcId . 'm" data-toggle="modal" data-target="#nonMonthlyCalcModal"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button></span>';
         } else {
             return '<span class="input-group-addon glyphicon glyphicon-modal-window"></span>';
         }
@@ -31,6 +27,7 @@ class Calculator {
 
 }
 ?>
+
 
 <!--Wage Calculator Modal-->
 <div class = "modal fade" id = "wageCalcModal" tabindex = "-1" role = "dialog" aria-labelledby = "exampleModalLabel">
@@ -44,20 +41,20 @@ class Calculator {
             <div class = "modal-body">
                 <form class = "navbar-form">
                     <div class = "form-group">
-                        <input onkeypress = 'return isNumberKey(event);' class = "form-control" id = "dollars-per-hour" placeholder = "$ Per Hour">
+                        <input type="number" onkeypress = 'return isNumberKey(event);' class = "form-control" id = "dollars-per-hour" placeholder = "$ Per Hour">
                         <span>X</span>
-                        <input onkeypress = 'return isNumberKey(event);' class = "form-control" id = "hours-per-week" placeholder = "Hours Per Week">
+                        <input type="number" onkeypress = 'return isNumberKey(event);' class = "form-control" id = "hours-per-week" placeholder = "Hours Per Week">
                     </div><button type = "button" id = "wageSubmit" class = "btn btn-primary">Submit</button>
                 </form>
                 <form class = "navbar-form">
                     <div class = "form-group">
-                        <input onkeypress = 'return isNumberKey(event);' class = "form-control" id = "salary" placeholder = "Salary $">
+                        <input type="number" onkeypress = 'return isNumberKey(event);' class = "form-control" id = "salary" placeholder = "Salary $">
                     </div><button type = "button" id = "salarySubmit" class = "btn btn-primary">Submit</button>
                 </form>
             </div>
         </div>
     </div>
-</div><!--End Modal-->
+</div><!--End Wage Modal-->
 
 <!--Self-Employed Calculator Modal-->
 <div class = "modal fade" id = "seCalcModal" tabindex = "-1" role = "dialog" aria-labelledby = "exampleModalLabel2">
@@ -71,18 +68,19 @@ class Calculator {
             <div class = "modal-body">
                 <form class = "navbar-form">
                     <div class = "form-group">
-                        <input onkeypress = 'return isNumberKey(event);' class = "form-control" id = "typical-month-income" placeholder = "Typical Month's $">
-                    </div><button type = "button" id = "seMonthSubmit" class = "btn btn-primary">Submit</button>
+                        <input type="number" onkeypress = 'return isNumberKey(event);' class = "form-control" id = "typical-month-income" placeholder = "Typical Month's $">
+                    </div>
                 </form>
                 <form class = "navbar-form">
                     <div class = "form-group">
-                        <input onkeypress = 'return isNumberKey(event);' class = "form-control" id = "last-year-taxes" placeholder = "Last Year's Taxes $">
-                    </div><button type = "button" id = "seTaxSubmit" class = "btn btn-primary">Submit</button>
+                        <input type="number" onkeypress = 'return isNumberKey(event);' class = "form-control" id = "last-year-taxes" placeholder = "Last Year's Taxes $">
+                    </div>
+                    <button type = "button" id = "seSubmit" class = "btn btn-primary">Submit</button>
                 </form>
             </div>
         </div>
     </div>
-</div><!--End Modal-->
+</div><!--End SE Modal-->
 
 <!--Non-Monthly Calculator Modal -->
 <div class = "modal fade" id = "nonMonthlyCalcModal" tabindex = "-1" role = "dialog" aria-labelledby = "exampleModalLabel3">
@@ -100,50 +98,111 @@ class Calculator {
                             <form class = "navbar-form">
                                 <div class = "form-group" style = "text-align: center;">
                                     <label class = 'control-label'>Estimate for the Year</label>
-                                    <input onkeypress = 'return isNumberKey(event);' class = "form-control" id = "estimate-for-year" placeholder = "$">
+                                    <input type="number" onkeypress = 'return isNumberKey(event);' class = "form-control" id = "estimate-for-year" placeholder = "$">
                                 </div>
                             </form>
+                            <button type = "button" id = "nonMonthlyTotalSubmit" class = "btn btn-primary pull-right">Submit</button>
                         </div>
                         <div class = "col-sm-8">
                             <form class = "navbar-form">
                                 <div class = "form-group">
                                     <div class = "col-sm-12" style = "text-align: center;"><label class = 'control-label'>Frequency Method</label></div>
                                     <div class = "col-sm-6"><label class = 'control-label'>Times per Year:</label></div>
-                                    <div class = "col-sm-6"><input onkeypress = 'return isNumberKey(event);' class = "form-control" id = "times-per-year" placeholder = "Times Per Year #"></div>
+                                    <div class = "col-sm-6"><input type="number" onkeypress = 'return isNumberKey(event);' class = "form-control" id = "times-per-year" placeholder = "Times Per Year #"></div>
                                     <div class = "col-sm-6"><label class = 'control-label'>Cost per Time:</label></div>
-                                    <div class = "col-sm-6"><input onkeypress = 'return isNumberKey(event);' class = "form-control" id = "cost-per-time" placeholder = "Cost Per Time $"></div>
-                                    <div class = "col-sm-6"><label class = 'control-label'>Yearly Estimate:</label></div>
-                                    <div class = "col-sm-6"><input onkeypress = 'return isNumberKey(event);' class = "form-control" id = "yearly-estimate" placeholder = "Yearly Estimate $"></div>
+                                    <div class = "col-sm-6"><input type="number" onkeypress = 'return isNumberKey(event);' class = "form-control" id = "cost-per-time" placeholder = "Cost Per Time $"></div>
                                 </div>
                             </form>
+                            <button type = "button" id = "nonMonthlySubmit" class = "btn btn-primary pull-right">Submit</button>
                         </div>
-                        <button type = "button" id = "nonMonthlySubmit" class = "btn btn-primary pull-right">Submit</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div><!--End Modal-->
+</div><!--End Non-Monthly Modal-->
 
-<!--<script type = "text/javascript">
+<script type = "text/javascript">
+    // Calculator functions and variables 
+    var button = '';
+    var bId = '';
+    var total = 0;
+
+    // set modals to identify the button that prompted the modal
+    $('#wageCalcModal').on('show.bs.modal', function (event) {
+        button = $(event.relatedTarget);
+    });
+
+    $('#seCalcModal').on('show.bs.modal', function (event) {
+        button = $(event.relatedTarget);
+    });
+
+    $('#nonMonthlyCalcModal').on('show.bs.modal', function (event) {
+        button = $(event.relatedTarget);
+    });
+
+    // calculator functions
+    $('#wageSubmit').click(function () {
+        var x = document.getElementById('dollars-per-hour').value;
+        var y = document.getElementById('hours-per-week').value;
+        total = x * y * 52 / 12;
+        setBId();
+        $('#wageCalcModal').modal('hide');
+        setModalLabelsToNull();
+    });
+
+    $('#salarySubmit').click(function () {
+        total = document.getElementById('salary').value / 2080 * 40 * 52 / 12;
+        setBId();
+        $('#wageCalcModal').modal('hide');
+        setModalLabelsToNull();
+    });
+
+    $('#seSubmit').click(function () {
+        total = document.getElementById('typical-month-income').value  
+                - document.getElementById('last-year-taxes').value / 12;
+        setBId();
+        $('#seCalcModal').modal('hide');
+        setModalLabelsToNull();
+    });
+
+    $('#nonMonthlyTotalSubmit').click(function () {
+        total = document.getElementById('estimate-for-year').value / 12;
+        setBId();
+        $('#nonMonthlyCalcModal').modal('hide');
+        setModalLabelsToNull();
+    });
+
+    $('#nonMonthlySubmit').click(function () {
+        total = document.getElementById('times-per-year').value
+                * document.getElementById('cost-per-time').value / 12;
+        setBId();
+        $('#nonMonthlyCalcModal').modal('hide');
+        setModalLabelsToNull();
+    });
+
+    function setModalLabelsToNull() {
+        document.getElementById('dollars-per-hour').value = null;
+        document.getElementById('hours-per-week').value = null;
+        document.getElementById('salary').value = null;
+        document.getElementById('estimate-for-year').value = null;
+        document.getElementById('times-per-year').value = null;
+        document.getElementById('cost-per-time').value = null;
+        document.getElementById('typical-month-income').value = null;
+        document.getElementById('last-year-taxes').value = null;
+    }
+
+    function setBId() {
+        bId = button.attr('id');
+        bId = bId.substr(0, bId.length - 1);
+        document.getElementById(bId).value = total.toFixed(2);
+    }
 
     function isNumberKey(evt) {
         var charCode = (evt.which) ? evt.which : evt.keyCode;
         return !(charCode > 31 && (charCode < 48 || charCode > 57));
     }
 
-    $('#wageCalcModal').on('show.bs.modal', function (event) {
-        //var button = $(event.relatedTarget); // Button that triggered the modal
-        //var recipient = button.data('whatever'); // Extract info from data-* attributes
-        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-        //var modal = $(this);
-        //modal.find('.modal-title').text('Wage Calculator');
-        //modal.find('.modal-body input').val(recipient);
-        //var id = $(event.relatedTarget).data('id');
-        //$(event.currentTarget).find('input[name="id"]').val(id);
-        //document.getElementById(id).innerHTML = (document.getElementById('dollars-per-hour').innerHTML).toFixed(2);
-    });
+    // end Calculator functions
 
-    $('#wageCalcModal').modal(options);
-</script>-->
+</script>
