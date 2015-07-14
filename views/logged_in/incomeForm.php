@@ -83,7 +83,7 @@ function getForm ($CategoryParentType, $CategoryParentOrder)
                                     </div>
                                     <div class = 'col-sm-1'>
                                         <?php
-                                        $x = "self_" . $row["categoryId"];
+                                        $x = "self_" . $row["budgetDetailId"]  . "_" . $row["categoryId"];
                                         $$x = new Calculator($row["calculatorType"], $x);
                                         echo $$x->drawCalculator();
                                         ?>
@@ -93,7 +93,7 @@ function getForm ($CategoryParentType, $CategoryParentOrder)
                                     </div>
                                     <div class = 'col-sm-1'>
                                         <?php
-                                        $y = "spouse_" . $row["categoryId"];
+                                        $y = "spouse_" . $row["budgetDetailId"]  . "_" . $row["categoryId"];
                                         $$y = new Calculator($row["calculatorType"], $y);
                                         echo $$y->drawCalculator();
                                         ?>
