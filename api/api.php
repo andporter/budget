@@ -44,31 +44,6 @@ if (HTTPS_required === "TRUE" && $_SERVER['HTTPS'] != 'on')
 // --- Step 2: Process Request
 switch ($_GET['method'])
 {
-    case "hello":
-        {
-            $response['code'] = 1;
-            $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
-            $response['data'] = 'Hello World';
-        }
-        break;
-
-    case "adminHello":
-        {
-            if ($login->isUserLoggedIn() == true) //requires login
-            {
-                $response['code'] = 1;
-                $response['data'] = 'Hello World';
-            }
-            else //user not logged in
-            {
-                $response['code'] = 3;
-                $response['data'] = $api_response_code[$response['code']]['Message'];
-            }
-
-            $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
-        }
-        break;
-
     case "userGetBudgets":
         {
             try
@@ -86,15 +61,13 @@ switch ($_GET['method'])
                         $response['data'] = $ResultsToReturn;
                         $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
                     }
-                }
-                else //not logged in
+                } else //not logged in
                 {
                     $response['code'] = 3;
                     $response['data'] = $api_response_code[$response['code']]['Message'];
                     $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
                 }
-            }
-            catch (Exception $e)
+            } catch (Exception $e)
             {
                 $response['code'] = 0;
                 $response['data'] = $e->getMessage();
@@ -112,25 +85,61 @@ switch ($_GET['method'])
                     $jsonData = json_decode($_POST["data"], true);
                     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
                     $sql = $db_connection->prepare("DELETE FROM budget WHERE budgetId = :id");
-                    
+
                     foreach ($jsonData as $id)
                     {
                         $sql->bindParam(':id', $id);
                         $sql->execute();
                     }
-                    
+
                     $response['code'] = 1;
                     $response['data'] = $api_response_code[$response['code']]['Message'];
                     $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
-                }
-                else //not logged in
+                } else //not logged in
                 {
                     $response['code'] = 3;
                     $response['data'] = $api_response_code[$response['code']]['Message'];
                     $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
                 }
+            } catch (Exception $e)
+            {
+                $response['code'] = 0;
+                $response['data'] = $e->getMessage();
+                $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
             }
-            catch (Exception $e)
+        }
+        break;
+
+    case "userBudgetFormSubmit":
+        {
+            try
+            {
+                if ($login->isUserLoggedIn() == true) //requires login
+                {
+                    $jsonData = json_decode($_POST["data"], true);
+                    $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
+                    $sql = $db_connection->prepare("INSERT INTO budgetDetail (budgetDetailId, budgetId, categoryId, amount, spouseAmount) VALUES (:budgetDetailId, :budgetId, :categoryId, :amount, :spouseAmount)");
+
+                    foreach ($jsonData as $row)
+                    {
+                        $sql->bindParam(':budgetDetailId', $row["budgetDetailId"]);
+                        $sql->bindParam(':budgetId', $_SESSION['user_budgetid']);
+                        $sql->bindParam(':categoryId', $row["categoryId"]);
+                        $sql->bindParam(':amount', $row["amount"]);
+                        $sql->bindParam(':spouseAmount', $row["spouseAmount"]);
+                        $sql->execute();
+                    }
+
+                    $response['code'] = 1;
+                    $response['data'] = $api_response_code[$response['code']]['Message'];
+                    $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
+                } else //not logged in
+                {
+                    $response['code'] = 3;
+                    $response['data'] = $api_response_code[$response['code']]['Message'];
+                    $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
+                }
+            } catch (Exception $e)
             {
                 $response['code'] = 0;
                 $response['data'] = $e->getMessage();
@@ -148,7 +157,7 @@ deliver_response($response, $_GET['format'], $_GET['filename']);
  * @param string $api_response The desired HTTP response data
  * @return void (will echo json or xlsx)
  * */
-function deliver_response($api_response, $format, $filename)
+function deliver_response ($api_response, $format, $filename)
 {
     // Define HTTP responses
     $http_response_code = array(
@@ -178,8 +187,7 @@ function deliver_response($api_response, $format, $filename)
 
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         $objWriter->save('php://output');
-    }
-    else //json is default
+    } else //json is default
     {
         // Set HTTP Response Content Type
         header('Content-Type: application/json; charset=utf-8');

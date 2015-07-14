@@ -68,8 +68,8 @@ CREATE TABLE IF NOT EXISTS category (
 
 INSERT INTO category (categoryParentId, categoryOrder, categoryName, categoryHoverToolTip, calculatorType) VALUES
 (1, 1, 'Wages from Employment', 'Enter monthly gross income from your primary job here, you can use the calculator to the right to help you estimate the amount.','MonthlyWage'),
-(1, 3, 'Additional Wages from Employment (Part-time)', 'Enter monthly gross income from a secondary job you have here, you can use the calculator to the right to help you estimate the amount','MonthlySE'),
-(1, 2, 'Income from Self-employment', 'Enter your estimate of monthly income from your own business here, use calculator if your income is not consistent month to month.','MonthlySE'),
+(1, 2, 'Additional Wages from Employment (Part-time)', 'Enter monthly gross income from a secondary job you have here, you can use the calculator to the right to help you estimate the amount','MonthlySE'),
+(1, 3, 'Income from Self-employment', 'Enter your estimate of monthly income from your own business here, use calculator if your income is not consistent month to month.','MonthlySE'),
 (2, 1, 'Social Security or Railroad Retirement', 'Enter the amount you actually receive (Net amount) each month here, use estimates or averages if necessary.',NULL),
 (2, 2, 'Pension Income', 'Enter the amount you actually receive (Net amount) each month here, use estimates or averages if necessary.',NULL),
 (2, 3, 'Other Retirement (IRA, Annuity, etc.)', 'Enter the amount you actually receive (Net amount) each month here (Would be good to have a calculator that takes annual amount and derives monthly amount).',NULL),

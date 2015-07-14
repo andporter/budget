@@ -1,9 +1,9 @@
 <?php
 require_once('Calculator.php');
- $formname;
+
 function getForm($CategoryParentType, $CategoryParentOrder) {
     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
-    $sql = $db_connection->prepare("SELECT u.userId, b.budgetId, cp.categoryParentType, cp.categoryParentOrder, cp.categoryParentName, c.categoryId, c.categoryOrder, c.categoryName, c.categoryHoverToolTip, c.calculatorType, bd.amount, bd.spouseAmount
+    $sql = $db_connection->prepare("SELECT u.userId, b.budgetId, cp.categoryParentType, cp.categoryParentOrder, cp.categoryParentName, c.categoryId, c.categoryOrder, c.categoryName, c.categoryHoverToolTip, c.calculatorType, bd.budgetDetailId, bd.amount, bd.spouseAmount
                                     FROM categoryParent cp
                                     JOIN category c ON (cp.categoryParentId = c.categoryParentId)
                                     JOIN budgetDetail bd ON (c.categoryId = bd.categoryId)
@@ -22,9 +22,7 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
 
     if ($sql->execute()) {
         $ResultsToReturn = $sql->fetchAll(PDO::FETCH_ASSOC);
-//        print_r($ResultsToReturn);
-        
-    $formname = $CategoryParentType . $CategoryParentOrder;   
+//        print_r($ResultsToReturn);   
     } else {
         exit("You do not have permission to edit this budget!");
     }
@@ -75,7 +73,7 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
                                         <span class='input-group-addon glyphicon glyphicon-info-sign' rel='tooltip' title='<?php echo $row["categoryHoverToolTip"] ?>'></span>
                                     </div>
                                     <div class = 'col-sm-3'>
-                                        <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Self $$' value='' id = 'self_<?php echo $row["categoryId"] ?>' name = 'self_<?php echo $row["categoryId"] ?>'></input>
+                                        <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Self $$' value='<?php echo $row["amount"] ?>' id = 'self_<?php echo $row["budgetDetailId"] . '_' . $row["categoryId"] ?>' name = 'self_<?php echo $row["budgetDetailId"] . '_' . $row["categoryId"] ?>'></input>
                                     </div>
                                     <div class = 'col-sm-1'>
                                         <?php
@@ -85,7 +83,7 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
                                         ?>
                                     </div>
                                     <div class = 'col-sm-3'>
-                                        <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Spouse $$' value='' id = 'spouse_<?php echo $row["categoryId"] ?>' name = 'spouse_<?php echo $row["categoryId"] ?>'></input>
+                                        <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Spouse $$' value='<?php echo $row["spouseAmount"] ?>' id = 'spouse_<?php echo $row["budgetDetailId"] . '_' . $row["categoryId"] ?>' name = 'spouse_<?php echo $row["budgetDetailId"] . '_' . $row["categoryId"] ?>'></input>
                                     </div>
                                     <div class = 'col-sm-1'>
                                         <?php
