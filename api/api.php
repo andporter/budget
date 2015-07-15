@@ -51,9 +51,17 @@ switch ($_GET['method'])
                 if ($login->isUserLoggedIn() == true) //requires login
                 {
                     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
-                    $sql = $db_connection->prepare("SELECT * FROM budget WHERE userId = :userId;");
-                    $sql->bindParam(':userId', $_SESSION['user_id']);
-
+                    
+                    if ($_SESSION['user_type'] == "Regular")
+                    {
+                        $sql = $db_connection->prepare("SELECT b.budgetId, b.budgetName, b.dateCreated, b.dateUpdated, u.userName FROM budget b JOIN users u ON (b.userId = u.userId) WHERE u.userId = :userId");
+                        $sql->bindParam(':userId', $_SESSION['user_id']);
+                    }
+                    elseif ($_SESSION['user_type'] == "Admin")
+                    {
+                        $sql = $db_connection->prepare("SELECT b.budgetId, b.budgetName, b.dateCreated, b.dateUpdated, u.userName FROM budget b JOIN users u ON (b.userId = u.userId)");
+                    }
+                    
                     if ($sql->execute())
                     {
                         $ResultsToReturn = $sql->fetchAll(PDO::FETCH_ASSOC);
@@ -61,7 +69,8 @@ switch ($_GET['method'])
                         $response['data'] = $ResultsToReturn;
                         $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
                     }
-                } else //not logged in
+                } 
+                else //not logged in
                 {
                     $response['code'] = 3;
                     $response['data'] = $api_response_code[$response['code']]['Message'];
@@ -84,11 +93,11 @@ switch ($_GET['method'])
                 {
                     $jsonData = json_decode($_POST["data"], true);
                     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
-                    $sql = $db_connection->prepare("DELETE FROM budget WHERE budgetId = :id");
+                    $sql = $db_connection->prepare("DELETE FROM budget WHERE budgetId = :budgetId");
 
-                    foreach ($jsonData as $id)
+                    foreach ($jsonData as $budgetId)
                     {
-                        $sql->bindParam(':id', $id);
+                        $sql->bindParam(':budgetId', $budgetId);
                         $sql->execute();
                     }
 

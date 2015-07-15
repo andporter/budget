@@ -28,7 +28,8 @@ date_default_timezone_set('America/Denver');
                 <th data-field="state" data-checkbox="true"></th>
                 <th class="col-xs-2" data-field="dateCreated" data-sortable="true">Date Created</th>
                 <th class="col-xs-2" data-field="dateUpdated" data-sortable="true">Date Updated</th>
-                <th class="col-xs-8" data-field="budgetName" data-sortable="true">Budget Name</th>
+                <th class="col-xs-6" data-field="budgetName" data-sortable="true">Budget Name</th>
+                <th class="col-xs-2" data-field="userName" data-sortable="true">User</th>
             </tr>
         </thead>
     </table>

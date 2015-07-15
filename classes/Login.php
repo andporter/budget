@@ -172,9 +172,4 @@ class Login
         // default return
         return false;
     }
-    
-    public function getUserType()
-    {
-        return $_SESSION['user_type'];
-    }
 }
