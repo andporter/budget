@@ -1,4 +1,4 @@
-<?php
+<!DOCTYPE html><?php
 
 // checking for minimum PHP version
 if (version_compare(PHP_VERSION, '5.3.7', '<'))
