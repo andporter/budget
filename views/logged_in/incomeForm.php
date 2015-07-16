@@ -41,71 +41,68 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
         }
     }
     ?>
-    <style> #budgetTitles<?php echo $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"]; ?>{ color: white; }</style>
+    <style> .panel-title { color: white; }</style>
     <div class="panel panel-default">
-        <div class="panel-group" id="accordion<?php echo $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"]; ?>" role="tablist" aria-multiselectable="true">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <?php
-                    echo '<h3 class="panel-title" id="budgetTitles' . $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"] . '">';
-                    echo '<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion' . $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"] . '" href="#' . $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"] . '" >';
-                    echo $ResultsToReturn[0]["categoryParentOrder"] . ". " . $ResultsToReturn[0]["categoryParentName"];
-                    echo '</a>';
-                    echo '</h3>';
-                    ?>
-                </div>
+        <div class="panel-heading" role="tab" id="accordion<?php echo $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"]; ?>" >
+            <?php
+            echo '<h4 class="panel-title>';
+            echo '<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#' . $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"] . '" aria-expanded="true" aria-controls="' . $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"] . '" >';
+            echo $ResultsToReturn[0]["categoryParentOrder"] . ". " . $ResultsToReturn[0]["categoryParentName"];
+            echo '</a>';
+            echo '</h4>';
+            ?>
+        </div>
+        <?php
+        if ($ResultsToReturn[0]["categoryParentOrder"] == 1 && $ResultsToReturn[0]["categoryParentName"] == "Monthly Earned Income") {
+            echo '<div id="' . $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"]
+            . '" class="panel-collapse collapse in" ' . ' role="tabpanel" aria-labelledby="accordion' . $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"] . '" >';
+        } else {
+            echo '<div id="' . $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"]
+            . '" class="panel-collapse collapse " ' . 'role="tabpanel" aria-labelledby="accordion' . $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"] . '" >';
+        }
+        ?>
+        <div class='panel-body'>
+            <form class='form-horizontal' role='form' id='<?php echo $CategoryParentType . $CategoryParentOrder ?>'>
                 <?php
-                if ($ResultsToReturn[0]["categoryParentOrder"] == 1 && $ResultsToReturn[0]["categoryParentName"] == "Monthly Earned Income") {
-                    echo '<div id="' . $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"]
-                    . '" class="panel-collapse collapse in" ' . ' >';
-                } else {
-                    echo '<div id="' . $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"]
-                    . '" class="panel-collapse collapse " ' . ' >';
-                }
-                ?>
-                <div class='panel-body'>
-                    <form class='form-horizontal' role='form' id='<?php echo $CategoryParentType . $CategoryParentOrder ?>'>
-                        <?php
-                        foreach ($ResultsToReturn as $row) {
-                            ?>
-                            <div class = 'form-group'>
-                                <label class = 'control-label col-sm-5' for = 'self_<?php echo $row["categoryId"] ?>'><?php echo $row["categoryOrder"] . '. ' . $row["categoryName"] ?></label>
-                                <div class = 'input-group input-group-unstyled'>
-                                    <div class = 'col-sm-1'>
-                                        <span class='input-group-addon glyphicon glyphicon-info-sign' rel='tooltip' title='<?php echo $row["categoryHoverToolTip"] ?>'></span>
-                                    </div>
-                                    <div class = 'col-sm-3'>
-                                        <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Self $$' value='<?php echo $row["amount"] ?>' id = 'self_<?php echo $row["budgetDetailId"] . '_' . $row["categoryId"] ?>' name = 'self_<?php echo $row["budgetDetailId"] . '_' . $row["categoryId"] ?>'></input>
-                                    </div>
-                                    <div class = 'col-sm-1'>
-                                        <?php
-                                        $x = "self_" . $row["budgetDetailId"] . "_" . $row["categoryId"];
-                                        $$x = new Calculator($row["calculatorType"], $x);
-                                        echo $$x->drawCalculator();
-                                        ?>
-                                    </div>
-                                    <div class = 'col-sm-3'>
-                                        <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Spouse $$' value='<?php echo $row["spouseAmount"] ?>' id = 'spouse_<?php echo $row["budgetDetailId"] . '_' . $row["categoryId"] ?>' name = 'spouse_<?php echo $row["budgetDetailId"] . '_' . $row["categoryId"] ?>'></input>
-                                    </div>
-                                    <div class = 'col-sm-1'>
-                                        <?php
-                                        $y = "spouse_" . $row["budgetDetailId"] . "_" . $row["categoryId"];
-                                        $$y = new Calculator($row["calculatorType"], $y);
-                                        echo $$y->drawCalculator();
-                                        ?>
-                                    </div>
-                                </div>
+                foreach ($ResultsToReturn as $row) {
+                    ?>
+                    <div class = 'form-group'>
+                        <label class = 'control-label col-sm-5' for = 'self_<?php echo $row["categoryId"] ?>'><?php echo $row["categoryOrder"] . '. ' . $row["categoryName"] ?></label>
+                        <div class = 'input-group input-group-unstyled'>
+                            <div class = 'col-sm-1'>
+                                <span class='input-group-addon glyphicon glyphicon-info-sign' rel='tooltip' title='<?php echo $row["categoryHoverToolTip"] ?>'></span>
                             </div>
-                        <?php } ?>
-                        <div class='form-group'>
-                            <div class='col-sm-offset-2 col-sm-10'>
-                                <input type=Button value="Next" class="btn btn-primary pull-right" onclick='submitForm(this.form)'/>
+                            <div class = 'col-sm-3'>
+                                <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Self $$' value='<?php echo $row["amount"] ?>' id = 'self_<?php echo $row["budgetDetailId"] . '_' . $row["categoryId"] ?>' name = 'self_<?php echo $row["budgetDetailId"] . '_' . $row["categoryId"] ?>'></input>
+                            </div>
+                            <div class = 'col-sm-1'>
+                                <?php
+                                $x = "self_" . $row["budgetDetailId"] . "_" . $row["categoryId"];
+                                $$x = new Calculator($row["calculatorType"], $x);
+                                echo $$x->drawCalculator();
+                                ?>
+                            </div>
+                            <div class = 'col-sm-3'>
+                                <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Spouse $$' value='<?php echo $row["spouseAmount"] ?>' id = 'spouse_<?php echo $row["budgetDetailId"] . '_' . $row["categoryId"] ?>' name = 'spouse_<?php echo $row["budgetDetailId"] . '_' . $row["categoryId"] ?>'></input>
+                            </div>
+                            <div class = 'col-sm-1'>
+                                <?php
+                                $y = "spouse_" . $row["budgetDetailId"] . "_" . $row["categoryId"];
+                                $$y = new Calculator($row["calculatorType"], $y);
+                                echo $$y->drawCalculator();
+                                ?>
                             </div>
                         </div>
-                    </form>
+                    </div>
+                <?php } ?>
+                <div class='form-group'>
+                    <div class='col-sm-offset-2 col-sm-10'>
+                        <input type=Button value="Next" class="btn btn-primary pull-right" onclick='submitForm(this.form)'/>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
+    </div>
     </div>
 <?php } ?>
 <body>
