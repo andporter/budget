@@ -53,7 +53,7 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
             ?>
         </div>
         <?php
-        if ($ResultsToReturn[0]["categoryParentOrder"] == 1 && $ResultsToReturn[0]["categoryParentName"] == "Monthly Earned Income") { 
+        if ($ResultsToReturn[0]["categoryParentOrder"] == 1 && $ResultsToReturn[0]["categoryParentName"] == "Monthly Earned Income") {
             echo '<div id="' . $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"]
             . '" class="panel-collapse collapse in" ' . ' role="tabpanel" aria-labelledby="accordion' . $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"] . '" >';
         } else {
@@ -97,7 +97,7 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
                 <?php } ?>
                 <div class='form-group'>
                     <div class='col-sm-offset-2 col-sm-10'>
-                        <input type=Button value="Next" class="btn btn-primary pull-right" onclick='submitForm(this.form)'/>
+                        <button type=Button value="Next" class="btn btn-primary pull-right" onclick="submitForm(this.form, <?php $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"] ?>)" id="next<?php echo $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"]; ?>">Next<button/>
                     </div>
                 </div>
             </form>
@@ -132,20 +132,13 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
                 container: 'body'
             });
         });
-        function submitForm(form) {
+        
+        function submitForm(form, ids) {
             var postJSONData = $(form).serializeArray();
             postJSONData = JSON.stringify(postJSONData);
             SendAjax("api/api.php?method=userBudgetFormSubmit", postJSONData, "none", true);
+            var x = ".accordion" + ids.toString();
+            $(x).collapse();
         }
-        function isNumberKey(evt) {
-            var charCode = (evt.which) ? evt.which : evt.keyCode;
-            return !(charCode > 31 && (charCode < 48 || charCode > 57));
-        }
-        // Warning Duplicate IDs
-        $('[id]').each(function () {
-            var ids = $('[id="' + this.id + '"]');
-            if (ids.length > 1 && ids[0] === this)
-                console.warn('Multiple IDs #' + this.id);
-        });
     </script>
 </body>

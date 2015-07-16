@@ -197,12 +197,6 @@ class Calculator {
         bId = bId.substr(0, bId.length - 1);
         document.getElementById(bId).value = total.toFixed(2);
     }
-
-    function isNumberKey(evt) {
-        var charCode = (evt.which) ? evt.which : evt.keyCode;
-        return !(charCode > 31 && (charCode < 48 || charCode > 57));
-    }
-
     // end Calculator functions
 
 </script>

@@ -22,3 +22,15 @@ function SendAjax(urlMethod, postJSONData, returnFunction, asyncTorF) {
         }
     });
 }
+
+function isNumberKey(evt) {
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    return !(charCode > 31 && (charCode < 48 || charCode > 57));
+}
+
+// Warning Duplicate IDs
+$('[id]').each(function () {
+    var ids = $('[id="' + this.id + '"]');
+    if (ids.length > 1 && ids[0] === this)
+        console.warn('Multiple IDs #' + this.id);
+});
