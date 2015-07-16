@@ -3,7 +3,6 @@ include('Calculator.php');
 
 function getForm($CategoryParentType, $CategoryParentOrder) {
     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
-
     if ($_SESSION['user_type'] == "Regular") { //join and compare their userId
         $sql = $db_connection->prepare("SELECT b.userId, b.budgetId, cp.categoryParentType, cp.categoryParentOrder, cp.categoryParentName, c.categoryId, c.categoryOrder, c.categoryName, c.categoryHoverToolTip, c.calculatorType, bd.budgetDetailId, bd.amount, bd.spouseAmount
                                     FROM categoryParent cp
@@ -16,7 +15,6 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
                                     AND b.userId = :userId
                                     AND b.budgetId = :budgetId
                                     ORDER BY c.categoryOrder");
-
         $sql->bindParam(':userId', $_SESSION['user_id']);
     } elseif ($_SESSION['user_type'] == "Admin") { //does not care to join or compare the userId
         $sql = $db_connection->prepare("SELECT b.userId, b.budgetId, cp.categoryParentType, cp.categoryParentOrder, cp.categoryParentName, c.categoryId, c.categoryOrder, c.categoryName, c.categoryHoverToolTip, c.calculatorType, bd.budgetDetailId, bd.amount, bd.spouseAmount
@@ -29,11 +27,9 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
                                     AND b.budgetId = :budgetId
                                     ORDER BY c.categoryOrder");
     }
-
     $sql->bindParam(':categoryParentOrder', $CategoryParentOrder);
     $sql->bindParam(':categoryParentType', $CategoryParentType);
     $sql->bindParam(':budgetId', $_SESSION['user_budgetid']);
-
     if ($sql->execute()) {
         $ResultsToReturn = $sql->fetchAll(PDO::FETCH_ASSOC);
         if (empty($ResultsToReturn)) {
@@ -89,10 +85,10 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
                                 </div>
                             </div>
                         </div>
-    <?php } ?>
+                    <?php } ?>
                     <div class='form-group'>
                         <div class='col-sm-offset-2 col-sm-10'>
-                            <button type=Button value="Next" class="btn btn-primary pull-right" onclick="submitForm(this.form, <?php $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"] ?>)" id="next<?php echo $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"]; ?>">Next<button/>
+                            <input type="button" value="Next" class="btn btn-primary pull-right" onclick="submitForm(this.form, this)" id="next<?php echo ($ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"]); ?>">
                         </div>
                     </div>
                 </form>
@@ -127,13 +123,21 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
                 container: 'body'
             });
         });
-
-        function submitForm(form, ids) {
+        function submitForm(form, id) {
             var postJSONData = $(form).serializeArray();
             postJSONData = JSON.stringify(postJSONData);
             SendAjax("api/api.php?method=userBudgetFormSubmit", postJSONData, "none", true);
-            var x = ".accordion" + ids.toString();
-            $(x).collapse();
+//            var nextId = (id.id).toString();
+//            nextId = nextId.substr(4, nextId.length - 1);
+//            var num = nextId.charAt(0);
+//            var x = parseInt(num);
+//            var prevId = "#accordion" + x + nextId.substr(1, nextId.length - 1);
+//            ++x;
+//            nextId = "#accordion" + x + nextId.substr(1, nextId.length - 1);
+//            $(prevId).collapse('hide');
+//            $(prevId).on('hidden', function () {
+//                $(nextId).collapse('show');
+//            })
         }
     </script>
 </body>
