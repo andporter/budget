@@ -42,7 +42,7 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
     }
     ?>
     <style> .panel-title { color: white; }</style>
-    <div class="panel panel-default">
+    <div class="panel panel-primary">
         <div class="panel-heading" role="tab" id="accordion<?php echo $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"]; ?>" >
             <?php
             echo '<h4 class="panel-title>';
@@ -53,7 +53,7 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
             ?>
         </div>
         <?php
-        if ($ResultsToReturn[0]["categoryParentOrder"] == 1 && $ResultsToReturn[0]["categoryParentName"] == "Monthly Earned Income") {
+        if ($ResultsToReturn[0]["categoryParentOrder"] == 1 && $ResultsToReturn[0]["categoryParentName"] == "Monthly Earned Income") { 
             echo '<div id="' . $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"]
             . '" class="panel-collapse collapse in" ' . ' role="tabpanel" aria-labelledby="accordion' . $ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"] . '" >';
         } else {
@@ -104,6 +104,7 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
         </div>
     </div>
     </div>
+    <br>
 <?php } ?>
 <body>
     <div class='container theme-showcase'>
