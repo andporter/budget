@@ -48,6 +48,7 @@ if ($login->isUserLoggedIn() == true)  //the user is logged in.
                 {
                     $budget->createNewBudget();
                     require("views/logged_in/user_header_menu.php");
+                    require("views/logged_in/demographicsForm.php");
                     require("views/logged_in/incomeForm.php");
                 }
             }
@@ -72,7 +73,6 @@ if ($login->isUserLoggedIn() == true)  //the user is logged in.
                 else
                 {
                     require("views/logged_in/user_header_menu.php");
-//                    require("views/logged_in/demographicsForm.php");
                     require("views/logged_in/incomeForm.php");
                 }
             }

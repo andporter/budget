@@ -51,17 +51,16 @@ switch ($_GET['method'])
                 if ($login->isUserLoggedIn() == true) //requires login
                 {
                     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
-                    
+
                     if ($_SESSION['user_type'] == "Regular")
                     {
                         $sql = $db_connection->prepare("SELECT b.budgetId, b.budgetName, b.dateCreated, b.dateUpdated, u.userName FROM budget b JOIN users u ON (b.userId = u.userId) WHERE u.userId = :userId");
                         $sql->bindParam(':userId', $_SESSION['user_id']);
-                    }
-                    elseif ($_SESSION['user_type'] == "Admin")
+                    } elseif ($_SESSION['user_type'] == "Admin")
                     {
                         $sql = $db_connection->prepare("SELECT b.budgetId, b.budgetName, b.dateCreated, b.dateUpdated, u.userName FROM budget b JOIN users u ON (b.userId = u.userId)");
                     }
-                    
+
                     if ($sql->execute())
                     {
                         $ResultsToReturn = $sql->fetchAll(PDO::FETCH_ASSOC);
@@ -69,8 +68,7 @@ switch ($_GET['method'])
                         $response['data'] = $ResultsToReturn;
                         $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
                     }
-                } 
-                else //not logged in
+                } else //not logged in
                 {
                     $response['code'] = 3;
                     $response['data'] = $api_response_code[$response['code']]['Message'];
@@ -175,14 +173,14 @@ switch ($_GET['method'])
 }
 
 // --- Step 3: Deliver Response
-deliver_response($response, $_GET['format'], $_GET['filename']);
+deliver_response($response);
 
 /**
  * Deliver HTTP Response
  * @param string $api_response The desired HTTP response data
  * @return void (will echo json or xlsx)
  * */
-function deliver_response ($api_response, $format, $filename)
+function deliver_response ($api_response)
 {
     // Define HTTP responses
     $http_response_code = array(
@@ -196,30 +194,11 @@ function deliver_response ($api_response, $format, $filename)
     // Set HTTP Response
     header('HTTP/1.1 ' . $api_response['status'] . ' ' . $http_response_code[$api_response['status']]);
 
-    // Process different content types
-    if (strcasecmp($format, 'excel') == 0)
-    {
-        require_once("../classes/PHPExcel.php");
+    // Set HTTP Response Content Type
+    header('Content-Type: application/json; charset=utf-8');
 
-        // Create new PHPExcel object
-        $objPHPExcel = new PHPExcel();
-
-        $objPHPExcel->getActiveSheet()->fromArray(array_keys($api_response['data'][0]), NULL, 'A1'); //header row
-        $objPHPExcel->getActiveSheet()->fromArray($api_response['data'], NULL, 'A2'); //data rows
-        // Redirect output to a client’s web browser (Excel2007)
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename="' . $filename . '.xlsx"');
-
-        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-        $objWriter->save('php://output');
-    } else //json is default
-    {
-        // Set HTTP Response Content Type
-        header('Content-Type: application/json; charset=utf-8');
-
-        // Deliver JSON formatted data
-        echo json_encode($api_response);
-    }
+    // Deliver JSON formatted data
+    echo json_encode($api_response);
 
     // End script process
     exit;
