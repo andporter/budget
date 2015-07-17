@@ -1,9 +1,11 @@
 <?php
 include('Calculator.php');
 
-function getForm($CategoryParentType, $CategoryParentOrder) {
+function getForm($CategoryParentType, $CategoryParentOrder)
+{
     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
-    if ($_SESSION['user_type'] == "Regular") { //join and compare their userId
+    if ($_SESSION['user_type'] == "Regular")
+    { //join and compare their userId
         $sql = $db_connection->prepare("SELECT b.userId, b.budgetId, cp.categoryParentType, cp.categoryParentOrder, cp.categoryParentName, c.categoryId, c.categoryOrder, c.categoryName, c.categoryHoverToolTip, c.calculatorType, bd.budgetDetailId, bd.amount, bd.spouseAmount
                                     FROM categoryParent cp
                                     JOIN category c ON (cp.categoryParentId = c.categoryParentId)
@@ -16,7 +18,9 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
                                     AND b.budgetId = :budgetId
                                     ORDER BY c.categoryOrder");
         $sql->bindParam(':userId', $_SESSION['user_id']);
-    } elseif ($_SESSION['user_type'] == "Admin") { //does not care to join or compare the userId
+    }
+    elseif ($_SESSION['user_type'] == "Admin")
+    { //does not care to join or compare the userId
         $sql = $db_connection->prepare("SELECT b.userId, b.budgetId, cp.categoryParentType, cp.categoryParentOrder, cp.categoryParentName, c.categoryId, c.categoryOrder, c.categoryName, c.categoryHoverToolTip, c.calculatorType, bd.budgetDetailId, bd.amount, bd.spouseAmount
                                     FROM categoryParent cp
                                     JOIN category c ON (cp.categoryParentId = c.categoryParentId)
@@ -30,9 +34,11 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
     $sql->bindParam(':categoryParentOrder', $CategoryParentOrder);
     $sql->bindParam(':categoryParentType', $CategoryParentType);
     $sql->bindParam(':budgetId', $_SESSION['user_budgetid']);
-    if ($sql->execute()) {
+    if ($sql->execute())
+    {
         $ResultsToReturn = $sql->fetchAll(PDO::FETCH_ASSOC);
-        if (empty($ResultsToReturn)) {
+        if (empty($ResultsToReturn))
+        {
             exit("This budget doesn't exist, or you do not have permission to view it!");
         }
     }
@@ -48,14 +54,16 @@ function getForm($CategoryParentType, $CategoryParentOrder) {
             ?>
         </div>
         <div id="<?php echo ($ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"]); ?>" class="panel-collapse collapse<?php
-        if ($ResultsToReturn[0]["categoryParentOrder"] == 1 && $ResultsToReturn[0]["categoryParentName"] == "Monthly Earned Income") {
+        if ($ResultsToReturn[0]["categoryParentOrder"] == 1 && $ResultsToReturn[0]["categoryParentName"] == "Monthly Earned Income")
+        {
             echo ' in';
         }
         ?>" role="tabpanel" aria-labelledby="accordion<?php echo ($ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"]); ?>" >
             <div class='panel-body'>
                 <form class='form-horizontal' role='form' id='<?php echo $CategoryParentType . $CategoryParentOrder ?>'>
                     <?php
-                    foreach ($ResultsToReturn as $row) {
+                    foreach ($ResultsToReturn as $row)
+                    {
                         ?>
                         <div class = 'form-group'>
                             <label class = 'control-label col-sm-5' for = 'self_<?php echo $row["categoryId"] ?>'><?php echo $row["categoryOrder"] . '. ' . $row["categoryName"] ?></label>
