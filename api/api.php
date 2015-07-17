@@ -188,7 +188,7 @@ switch ($_GET['method'])
                     $jsonData = json_decode($_POST["data"], true);
                     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
 
-                    $sql = $db_connection->prepare("UPDATE users SET firstName = :firstName, lastName = :lastName, phone = :phone, phoneCanText = :phoneCanText, isMarried = :isMarried, spouseFirstName = :spouseFirstName, spouseLastName = :spouseLastName, spouseEmail = :spouseEmail, dependent0-4 = :dependent0-4, dependent5-18 = :dependent5-18, totalDependents = :totalDependents WHERE userId = :userId");
+                    $sql = $db_connection->prepare("UPDATE users SET firstName = :firstName, lastName = :lastName, phone = :phone, phoneCanText = :phoneCanText, isMarried = :isMarried, spouseFirstName = :spouseFirstName, spouseLastName = :spouseLastName, spouseEmail = :spouseEmail, dependent0_4 = :dependent0_4, dependent5_18 = :dependent5_18, totalDependents = :totalDependents WHERE userId = :userId");
 
                     foreach ($jsonData as $row)
                     {
@@ -200,8 +200,8 @@ switch ($_GET['method'])
                         $sql->bindParam(':spouseFirstName', $row["spouseFirstName"]);
                         $sql->bindParam(':spouseLastName', $row["spouseLastName"]);
                         $sql->bindParam(':spouseEmail', $row["spouseEmail"]);
-                        $sql->bindParam(':dependent0-4', $row["dependent0-4"]);
-                        $sql->bindParam(':dependent5-18', $row["dependent5-18"]);
+                        $sql->bindParam(':dependent0_4', $row["dependent0_4"]);
+                        $sql->bindParam(':dependent5_18', $row["dependent5_18"]);
                         $sql->bindParam(':totalDependents', $row["totalDependents"]);
                         $sql->bindParam(':userId', $_SESSION['user_id']);
                         

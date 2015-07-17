@@ -109,8 +109,8 @@ class Calculator {
                                     <div class = "col-sm-12" style = "text-align: center;"><label class = 'control-label'>Frequency Method</label></div>
                                     <div class = "col-sm-6"><label class = 'control-label'>Times per Year:</label></div>
                                     <div class = "col-sm-6"><input type="number" onkeypress = 'return isNumberKey(event);' class = "form-control" id = "times-per-year" placeholder = "Times Per Year #"></div>
-                                    <div class = "col-sm-6"><label class = 'control-label'>Cost per Time:</label></div>
-                                    <div class = "col-sm-6"><input type="number" onkeypress = 'return isNumberKey(event);' class = "form-control" id = "cost-per-time" placeholder = "Cost Per Time $"></div>
+                                    <div class = "col-sm-6"><label class = 'control-label'>Amount per Time:</label></div>
+                                    <div class = "col-sm-6"><input type="number" onkeypress = 'return isNumberKey(event);' class = "form-control" id = "cost-per-time" placeholder = "Amount Per Time $"></div>
                                 </div>
                             </form>
                             <button type = "button" id = "nonMonthlySubmit" class = "btn btn-primary pull-right">Submit</button>
