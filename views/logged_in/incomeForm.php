@@ -39,7 +39,11 @@ function getForm($CategoryParentType, $CategoryParentOrder)
         $ResultsToReturn = $sql->fetchAll(PDO::FETCH_ASSOC);
         if (empty($ResultsToReturn))
         {
-            exit("This budget doesn't exist, or you do not have permission to view it!");
+            echo "<div class=\"container theme-showcase\">";
+            echo "<div class=\"alert alert-danger\" role=\"alert\"><strong>Error: </strong>" . "This budget doesn't exist, or you don't have permission to view it!";
+            echo "</div>";
+            echo "</div>";
+            exit();
         }
     }
     ?>

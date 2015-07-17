@@ -41,7 +41,6 @@ class Budget
         // if no connection errors (= working database connection)
         if (!$this->db_connection->connect_errno)
         {
-            // check if user or email address already exists
             $sql = "SELECT budgetId FROM budget WHERE userId = '" . $_SESSION['user_id'] . "';";
             $query_check_user_budget = $this->db_connection->query($sql);
 
@@ -49,7 +48,7 @@ class Budget
 
             if ($query_check_user_budget->num_rows >= MAX_BUDGETS)
             {
-                $this->errors[] = "Sorry, you cannot create more than " . MAX_BUDGETS . " budgets. Please delete one and try again.";
+                $this->errors[] = "Sorry, you can't create more than " . MAX_BUDGETS . " budgets. Please delete one and try again.";
             }
             else
             {
@@ -64,7 +63,7 @@ class Budget
                     
                     $_SESSION['user_has_budget'] = 1;
                     
-                    $this->messages[] = "Your new budget has been created.";
+                    //$this->messages[] = "Your new budget has been created.";
                 }
                 else
                 {
@@ -96,11 +95,14 @@ class Budget
                 $sql->execute();
             }
         }
+        else
+        {
+            $this->errors[] = "Database connection problem.";
+        }
     }
 
     public function getNumberOfUserBudgets()
     {
         return $_SESSION['user_number_of_budgets'];
     }
-
 }
