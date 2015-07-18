@@ -60,7 +60,7 @@ if ($login->isUserLoggedIn() == true)  //the user is logged in.
                 {
                     $budget->createNewBudget();
                 }
-                else
+                else // set the user session budgetId to the budgetId supplied in the url
                 {
                     $_SESSION['user_budgetid'] = $_GET['editbudget'];
                 }

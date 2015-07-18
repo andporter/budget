@@ -100,6 +100,11 @@ class Budget
             $this->errors[] = "Database connection problem.";
         }
     }
+    
+    public function duplicateBudgetData($budgetIdToDuplicate)
+    {
+        
+    }
 
     public function getNumberOfUserBudgets()
     {

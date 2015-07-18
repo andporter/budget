@@ -184,8 +184,9 @@ CREATE TABLE budgetDetail (
     budgetDetailId int UNSIGNED  NOT NULL AUTO_INCREMENT,
     budgetId int UNSIGNED NOT NULL,
     categoryId int UNSIGNED NOT NULL,
-    amount int,
-    spouseAmount int,
+    budgetSelfAmount int,
+    budgetSpouseAmount int,
+    actualAmount int,
     PRIMARY KEY (budgetDetailId),
     FOREIGN KEY (budgetId) references budget(budgetId) on delete cascade,
     FOREIGN KEY (categoryId) references category(categoryId) on delete cascade

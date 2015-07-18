@@ -42,11 +42,12 @@ date_default_timezone_set('America/Denver');
                 <h4><span class="glyphicon glyphicon-plus"></span> Confirm New</h4>
             </div>
             <div class="modal-body">
-                <p>Add new budget?</p>
+                <p>Add new budget? Or Duplicate selected budget?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <a href="index.php?editbudget=new" class="btn btn-success btn-ok" id="addConfirmButton">Yes, Add</a>
+                <a href="#" class="btn btn-success btn-ok" id="duplicateConfirmButton">Duplicate</a>
+                <a href="index.php?editbudget=new" class="btn btn-success btn-ok" id="addConfirmButton">New</a>
             </div>
         </div>
     </div>
@@ -131,6 +132,11 @@ date_default_timezone_set('America/Denver');
     $('#editConfirmButton').click(function (e)
     {        
         window.location.href="index.php?editbudget="+getSelectedRowIDs();
+    });
+    
+    $('#duplicateConfirmButton').click(function (e)
+    {        
+        window.location.href="index.php?duplicatebudget="+getSelectedRowIDs();
     });
     
     $('#deleteConfirmButton').click(function (e)

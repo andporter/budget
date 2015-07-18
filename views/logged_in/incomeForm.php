@@ -4,9 +4,10 @@ include('Calculator.php');
 function getForm($CategoryParentType, $CategoryParentOrder)
 {
     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
+    
     if ($_SESSION['user_type'] == "Regular")
     { //join and compare their userId
-        $sql = $db_connection->prepare("SELECT b.userId, b.budgetId, cp.categoryParentType, cp.categoryParentOrder, cp.categoryParentName, c.categoryId, c.categoryOrder, c.categoryName, c.categoryHoverToolTip, c.calculatorType, bd.budgetDetailId, bd.amount, bd.spouseAmount
+        $sql = $db_connection->prepare("SELECT b.userId, b.budgetId, cp.categoryParentType, cp.categoryParentOrder, cp.categoryParentName, c.categoryId, c.categoryOrder, c.categoryName, c.categoryHoverToolTip, c.calculatorType, bd.budgetDetailId, bd.budgetSelfAmount, bd.budgetSpouseAmount
                                     FROM categoryParent cp
                                     JOIN category c ON (cp.categoryParentId = c.categoryParentId)
                                     JOIN budgetDetail bd ON (c.categoryId = bd.categoryId)
@@ -21,7 +22,7 @@ function getForm($CategoryParentType, $CategoryParentOrder)
     }
     elseif ($_SESSION['user_type'] == "Admin")
     { //does not care to join or compare the userId
-        $sql = $db_connection->prepare("SELECT b.userId, b.budgetId, cp.categoryParentType, cp.categoryParentOrder, cp.categoryParentName, c.categoryId, c.categoryOrder, c.categoryName, c.categoryHoverToolTip, c.calculatorType, bd.budgetDetailId, bd.amount, bd.spouseAmount
+        $sql = $db_connection->prepare("SELECT b.userId, b.budgetId, cp.categoryParentType, cp.categoryParentOrder, cp.categoryParentName, c.categoryId, c.categoryOrder, c.categoryName, c.categoryHoverToolTip, c.calculatorType, bd.budgetDetailId, bd.budgetSelfAmount, bd.budgetSpouseAmount
                                     FROM categoryParent cp
                                     JOIN category c ON (cp.categoryParentId = c.categoryParentId)
                                     JOIN budgetDetail bd ON (c.categoryId = bd.categoryId)
@@ -34,6 +35,7 @@ function getForm($CategoryParentType, $CategoryParentOrder)
     $sql->bindParam(':categoryParentOrder', $CategoryParentOrder);
     $sql->bindParam(':categoryParentType', $CategoryParentType);
     $sql->bindParam(':budgetId', $_SESSION['user_budgetid']);
+    
     if ($sql->execute())
     {
         $ResultsToReturn = $sql->fetchAll(PDO::FETCH_ASSOC);
@@ -76,7 +78,7 @@ function getForm($CategoryParentType, $CategoryParentOrder)
                                     <span class='input-group-addon glyphicon glyphicon-info-sign' rel='tooltip' title='<?php echo $row["categoryHoverToolTip"] ?>'></span>
                                 </div>
                                 <div class = 'col-sm-3'>
-                                    <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Self $$' value='<?php echo $row["amount"] ?>' id = 'self_<?php echo $row["budgetDetailId"] . '_' . $row["categoryId"] ?>' name = 'self_<?php echo $row["budgetDetailId"] . '_' . $row["categoryId"] ?>'></input>
+                                    <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Self $$' value='<?php echo $row["budgetSelfAmount"] ?>' id = 'self_<?php echo $row["budgetDetailId"] . '_' . $row["categoryId"] ?>' name = 'self_<?php echo $row["budgetDetailId"] . '_' . $row["categoryId"] ?>'></input>
                                 </div>
                                 <div class = 'col-sm-1'>
                                     <?php
@@ -86,7 +88,7 @@ function getForm($CategoryParentType, $CategoryParentOrder)
                                     ?>
                                 </div>
                                 <div class = 'col-sm-3'>
-                                    <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Spouse $$' value='<?php echo $row["spouseAmount"] ?>' id = 'spouse_<?php echo $row["budgetDetailId"] . '_' . $row["categoryId"] ?>' name = 'spouse_<?php echo $row["budgetDetailId"] . '_' . $row["categoryId"] ?>'></input>
+                                    <input type = 'text' onkeypress='return isNumberKey(event);' class = 'form-control' placeholder = 'Spouse $$' value='<?php echo $row["budgetSpouseAmount"] ?>' id = 'spouse_<?php echo $row["budgetDetailId"] . '_' . $row["categoryId"] ?>' name = 'spouse_<?php echo $row["budgetDetailId"] . '_' . $row["categoryId"] ?>'></input>
                                 </div>
                                 <div class = 'col-sm-1'>
                                     <?php

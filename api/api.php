@@ -141,15 +141,15 @@ switch ($_GET['method'])
 
                         if ($who == "self")
                         {
-                            $sql = $db_connection->prepare("UPDATE budgetDetail SET amount = :amount WHERE budgetDetailId = :budgetDetailId AND budgetId = :budgetId AND categoryId = :categoryId");
+                            $sql = $db_connection->prepare("UPDATE budgetDetail SET budgetSelfAmount = :budgetSelfAmount WHERE budgetDetailId = :budgetDetailId AND budgetId = :budgetId AND categoryId = :categoryId");
 
-                            $sql->bindParam(':amount', $row["value"]);
+                            $sql->bindParam(':budgetSelfAmount', $row["value"]);
                         }
                         elseif ($who == "spouse")
                         {
-                            $sql = $db_connection->prepare("UPDATE budgetDetail SET spouseAmount = :spouseAmount WHERE budgetDetailId = :budgetDetailId AND budgetId = :budgetId AND categoryId = :categoryId");
+                            $sql = $db_connection->prepare("UPDATE budgetDetail SET budgetSpouseAmount = :budgetSpouseAmount WHERE budgetDetailId = :budgetDetailId AND budgetId = :budgetId AND categoryId = :categoryId");
 
-                            $sql->bindParam(':spouseAmount', $row["value"]);
+                            $sql->bindParam(':budgetSpouseAmount', $row["value"]);
                         }
 
                         $sql->bindParam(':budgetDetailId', $budgetDetailId);
