@@ -94,7 +94,45 @@ switch ($_GET['method'])
                 {
                     $jsonData = json_decode($_POST["data"], true);
                     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
+                    
                     $sql = $db_connection->prepare("DELETE FROM budget WHERE budgetId = :budgetId");
+
+                    foreach ($jsonData as $budgetId)
+                    {
+                        $sql->bindParam(':budgetId', $budgetId);
+                        $sql->execute();
+                    }
+
+                    $response['code'] = 1;
+                    $response['data'] = $api_response_code[$response['code']]['Message'];
+                    $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
+                }
+                else //not logged in
+                {
+                    $response['code'] = 3;
+                    $response['data'] = $api_response_code[$response['code']]['Message'];
+                    $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
+                }
+            }
+            catch (Exception $e)
+            {
+                $response['code'] = 0;
+                $response['data'] = $e->getMessage();
+                $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
+            }
+        }
+        break;
+
+    case "userToggleBudgetBaseline":
+        {
+            try
+            {
+                if ($login->isUserLoggedIn() == true) //requires login
+                {
+                    $jsonData = json_decode($_POST["data"], true);
+                    $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
+                    
+                    $sql = $db_connection->prepare("UPDATE budget SET isBaseline = !isBaseline WHERE budgetId = :budgetId");
 
                     foreach ($jsonData as $budgetId)
                     {
@@ -204,7 +242,7 @@ switch ($_GET['method'])
                         $sql->bindParam(':dependent5_18', $row["dependent5_18"]);
                         $sql->bindParam(':totalDependents', $row["totalDependents"]);
                         $sql->bindParam(':userId', $_SESSION['user_id']);
-                        
+
                         $sql->execute();
                     }
 

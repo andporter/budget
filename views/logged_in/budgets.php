@@ -64,7 +64,10 @@ date_default_timezone_set('America/Denver');
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <a href="#" class="btn btn-primary btn-ok" id="editConfirmButton">Yes, Edit</a>
+                <?php if ($_SESSION['user_type'] == "Admin") { ?>
+                    <a href="#" class="btn btn-primary btn-ok" id="baselineConfirmButton">Baseline</a>
+                <?php } ?>
+                <a href="#" class="btn btn-primary btn-ok" id="editConfirmButton">Edit</a>
             </div>
         </div>
     </div>
@@ -81,7 +84,7 @@ date_default_timezone_set('America/Denver');
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <a href="#" class="btn btn-danger btn-ok" id="deleteConfirmButton">Yes, Delete</a>
+                <a href="#" class="btn btn-danger btn-ok" id="deleteConfirmButton">Delete</a>
             </div>
         </div>
     </div>
@@ -128,6 +131,20 @@ date_default_timezone_set('America/Denver');
         }
         
     }
+    
+    $('#baselineConfirmButton').click(function (e)
+    {        
+        $('#EditBudgetConfirmModal').modal('hide');
+        $('#progressBarModal').modal('show');
+        
+        if (e.handled !== true) //Checking for the event whether it has occurred or not.
+        { 
+            e.handled = true;
+            
+            var postJSONData = getSelectedRowIDs("json");
+            SendAjax("api/api.php?method=userToggleBudgetBaseline", postJSONData, AjaxSubmit_getBudgets, true);
+        }
+    });
     
     $('#editConfirmButton').click(function (e)
     {        
