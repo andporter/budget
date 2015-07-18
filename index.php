@@ -45,7 +45,7 @@ if ($login->isUserLoggedIn() == true)  //the user is logged in.
                 }
                 else //No existing budget.
                 {
-                    $budget->createNewBudget();
+                    $budget->createNewBudget("new");
                     require("views/logged_in/user_header_menu.php");
                     require("views/logged_in/demographicsForm.php");
                     require("views/logged_in/incomeForm.php");
