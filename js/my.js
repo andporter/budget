@@ -34,3 +34,10 @@ $('[id]').each(function () {
     if (ids.length > 1 && ids[0] === this)
         console.warn('Multiple IDs #' + this.id);
 });
+
+$(function () {
+    $("[rel=tooltip]").tooltip({
+        placement: 'right',
+        container: 'body'
+    });
+});
