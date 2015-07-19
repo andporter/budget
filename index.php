@@ -1,5 +1,4 @@
-<?php
-
+<!DOCTYPE html><?php
 // checking for minimum PHP version
 if (version_compare(PHP_VERSION, '5.3.7', '<'))
 {
@@ -46,7 +45,7 @@ if ($login->isUserLoggedIn() == true)  //the user is logged in.
                 }
                 else //No existing budget.
                 {
-                    $budget->createNewBudget();
+                    $budget->createNewBudget("new");
                     require("views/logged_in/user_header_menu.php");
                     require("views/logged_in/demographicsForm.php");
                     require("views/logged_in/incomeForm.php");
@@ -58,14 +57,31 @@ if ($login->isUserLoggedIn() == true)  //the user is logged in.
             {
                 if ($_GET['editbudget'] == "new")
                 {
-                    $budget->createNewBudget();
+                    $budget->createNewBudget("new");
                 }
-                else
+                else // set the user session budgetId to the budgetId supplied in the url
                 {
                     $_SESSION['user_budgetid'] = $_GET['editbudget'];
                 }
 
-                if ($budget->getNumberOfUserBudgets() >= MAX_BUDGETS)
+                if ($budget->errors)
+                {
+                    require("views/logged_in/user_header_menu.php");
+                    require("views/logged_in/budgets.php");
+                }
+                else
+                {
+                    require("views/logged_in/user_header_menu.php");
+                    require("views/logged_in/incomeForm.php");
+                }
+            }
+            break;
+
+        case "duplicatebudget":
+            {
+                $budget->createNewBudget($_GET['duplicatebudget']); //duplicate passed in budgetId
+            
+                if ($budget->errors)
                 {
                     require("views/logged_in/user_header_menu.php");
                     require("views/logged_in/budgets.php");

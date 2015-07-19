@@ -56,7 +56,8 @@ switch ($_GET['method'])
                     {
                         $sql = $db_connection->prepare("SELECT b.budgetId, b.budgetName, b.dateCreated, b.dateUpdated, u.userName FROM budget b JOIN users u ON (b.userId = u.userId) WHERE u.userId = :userId");
                         $sql->bindParam(':userId', $_SESSION['user_id']);
-                    } elseif ($_SESSION['user_type'] == "Admin")
+                    }
+                    elseif ($_SESSION['user_type'] == "Admin")
                     {
                         $sql = $db_connection->prepare("SELECT b.budgetId, b.budgetName, b.dateCreated, b.dateUpdated, u.userName FROM budget b JOIN users u ON (b.userId = u.userId)");
                     }
@@ -68,13 +69,15 @@ switch ($_GET['method'])
                         $response['data'] = $ResultsToReturn;
                         $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
                     }
-                } else //not logged in
+                }
+                else //not logged in
                 {
                     $response['code'] = 3;
                     $response['data'] = $api_response_code[$response['code']]['Message'];
                     $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
                 }
-            } catch (Exception $e)
+            }
+            catch (Exception $e)
             {
                 $response['code'] = 0;
                 $response['data'] = $e->getMessage();
@@ -91,6 +94,7 @@ switch ($_GET['method'])
                 {
                     $jsonData = json_decode($_POST["data"], true);
                     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
+                    
                     $sql = $db_connection->prepare("DELETE FROM budget WHERE budgetId = :budgetId");
 
                     foreach ($jsonData as $budgetId)
@@ -102,13 +106,52 @@ switch ($_GET['method'])
                     $response['code'] = 1;
                     $response['data'] = $api_response_code[$response['code']]['Message'];
                     $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
-                } else //not logged in
+                }
+                else //not logged in
                 {
                     $response['code'] = 3;
                     $response['data'] = $api_response_code[$response['code']]['Message'];
                     $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
                 }
-            } catch (Exception $e)
+            }
+            catch (Exception $e)
+            {
+                $response['code'] = 0;
+                $response['data'] = $e->getMessage();
+                $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
+            }
+        }
+        break;
+
+    case "userToggleBudgetBaseline":
+        {
+            try
+            {
+                if ($login->isUserLoggedIn() == true) //requires login
+                {
+                    $jsonData = json_decode($_POST["data"], true);
+                    $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
+                    
+                    $sql = $db_connection->prepare("UPDATE budget SET isBaseline = !isBaseline WHERE budgetId = :budgetId");
+
+                    foreach ($jsonData as $budgetId)
+                    {
+                        $sql->bindParam(':budgetId', $budgetId);
+                        $sql->execute();
+                    }
+
+                    $response['code'] = 1;
+                    $response['data'] = $api_response_code[$response['code']]['Message'];
+                    $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
+                }
+                else //not logged in
+                {
+                    $response['code'] = 3;
+                    $response['data'] = $api_response_code[$response['code']]['Message'];
+                    $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
+                }
+            }
+            catch (Exception $e)
             {
                 $response['code'] = 0;
                 $response['data'] = $e->getMessage();
@@ -136,14 +179,15 @@ switch ($_GET['method'])
 
                         if ($who == "self")
                         {
-                            $sql = $db_connection->prepare("UPDATE budgetDetail SET amount = :amount WHERE budgetDetailId = :budgetDetailId AND budgetId = :budgetId AND categoryId = :categoryId");
+                            $sql = $db_connection->prepare("UPDATE budgetDetail SET budgetSelfAmount = :budgetSelfAmount WHERE budgetDetailId = :budgetDetailId AND budgetId = :budgetId AND categoryId = :categoryId");
 
-                            $sql->bindParam(':amount', $row["value"]);
-                        } elseif ($who == "spouse")
+                            $sql->bindParam(':budgetSelfAmount', $row["value"]);
+                        }
+                        elseif ($who == "spouse")
                         {
-                            $sql = $db_connection->prepare("UPDATE budgetDetail SET spouseAmount = :spouseAmount WHERE budgetDetailId = :budgetDetailId AND budgetId = :budgetId AND categoryId = :categoryId");
+                            $sql = $db_connection->prepare("UPDATE budgetDetail SET budgetSpouseAmount = :budgetSpouseAmount WHERE budgetDetailId = :budgetDetailId AND budgetId = :budgetId AND categoryId = :categoryId");
 
-                            $sql->bindParam(':spouseAmount', $row["value"]);
+                            $sql->bindParam(':budgetSpouseAmount', $row["value"]);
                         }
 
                         $sql->bindParam(':budgetDetailId', $budgetDetailId);
@@ -156,13 +200,64 @@ switch ($_GET['method'])
                     $response['code'] = 1;
                     $response['data'] = $api_response_code[$response['code']]['Message'];
                     $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
-                } else //not logged in
+                }
+                else //not logged in
                 {
                     $response['code'] = 3;
                     $response['data'] = $api_response_code[$response['code']]['Message'];
                     $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
                 }
-            } catch (Exception $e)
+            }
+            catch (Exception $e)
+            {
+                $response['code'] = 0;
+                $response['data'] = $e->getMessage();
+                $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
+            }
+        }
+        break;
+
+    case "userDemographicsFormSubmit":
+        {
+            try
+            {
+                if ($login->isUserLoggedIn() == true) //requires login
+                {
+                    $jsonData = json_decode($_POST["data"], true);
+                    $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
+
+                    $sql = $db_connection->prepare("UPDATE users SET firstName = :firstName, lastName = :lastName, phone = :phone, phoneCanText = :phoneCanText, isMarried = :isMarried, spouseFirstName = :spouseFirstName, spouseLastName = :spouseLastName, spouseEmail = :spouseEmail, dependent0_4 = :dependent0_4, dependent5_18 = :dependent5_18, totalDependents = :totalDependents WHERE userId = :userId");
+
+                    foreach ($jsonData as $row)
+                    {
+                        $sql->bindParam(':firstName', $row["firstName"]);
+                        $sql->bindParam(':lastName', $row["lastName"]);
+                        $sql->bindParam(':phone', $row["phone"]);
+                        $sql->bindParam(':phoneCanText', $row["phoneCanText"]);
+                        $sql->bindParam(':isMarried', $row["isMarried"]);
+                        $sql->bindParam(':spouseFirstName', $row["spouseFirstName"]);
+                        $sql->bindParam(':spouseLastName', $row["spouseLastName"]);
+                        $sql->bindParam(':spouseEmail', $row["spouseEmail"]);
+                        $sql->bindParam(':dependent0_4', $row["dependent0_4"]);
+                        $sql->bindParam(':dependent5_18', $row["dependent5_18"]);
+                        $sql->bindParam(':totalDependents', $row["totalDependents"]);
+                        $sql->bindParam(':userId', $_SESSION['user_id']);
+
+                        $sql->execute();
+                    }
+
+                    $response['code'] = 1;
+                    $response['data'] = $api_response_code[$response['code']]['Message'];
+                    $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
+                }
+                else //not logged in
+                {
+                    $response['code'] = 3;
+                    $response['data'] = $api_response_code[$response['code']]['Message'];
+                    $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
+                }
+            }
+            catch (Exception $e)
             {
                 $response['code'] = 0;
                 $response['data'] = $e->getMessage();
@@ -180,7 +275,7 @@ deliver_response($response);
  * @param string $api_response The desired HTTP response data
  * @return void (will echo json or xlsx)
  * */
-function deliver_response ($api_response)
+function deliver_response($api_response)
 {
     // Define HTTP responses
     $http_response_code = array(

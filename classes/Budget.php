@@ -27,7 +27,7 @@ class Budget
         
     }
 
-    public function createNewBudget()
+    public function createNewBudget($budgetIdToDuplicate)
     {
         // create a database connection, using the constants from config/db.php (which we loaded in index.php)
         $this->db_connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
@@ -41,7 +41,6 @@ class Budget
         // if no connection errors (= working database connection)
         if (!$this->db_connection->connect_errno)
         {
-            // check if user or email address already exists
             $sql = "SELECT budgetId FROM budget WHERE userId = '" . $_SESSION['user_id'] . "';";
             $query_check_user_budget = $this->db_connection->query($sql);
 
@@ -49,9 +48,9 @@ class Budget
 
             if ($query_check_user_budget->num_rows >= MAX_BUDGETS)
             {
-                $this->errors[] = "Sorry, you cannot create more than " . MAX_BUDGETS . " budgets. Please delete one and try again.";
+                $this->errors[] = "Sorry, you can't create more than " . MAX_BUDGETS . " budgets. Please delete one and try again.";
             }
-            else
+            else //less than MAX_BUDGETS so create or duplicate one
             {
                 $sql = "INSERT INTO budget (userId, dateCreated) VALUES ('" . $_SESSION['user_id'] . "', NOW());";
                 $query_new_user_budget = $this->db_connection->query($sql);
@@ -60,11 +59,21 @@ class Budget
                 {
                     $_SESSION['user_budgetid'] = $this->db_connection->insert_id;
                     
-                    $this->buildFirstTimeBudgetDetails($_SESSION['user_budgetid']);
+                    if ($budgetIdToDuplicate == "new") //create new budget
+                    {
+                        $this->buildFirstTimeBudgetDetails($_SESSION['user_budgetid']);
+                    }
                     
+                    if (!empty($budgetIdToDuplicate)) //duplicate the passed in budgetId
+                    {
+                        $this->duplicateBudgetDetails($_SESSION['user_budgetid'], $budgetIdToDuplicate);
+                    }
+                    else // no id to duplicate, make a new one
+                    {
+                        $this->buildFirstTimeBudgetDetails($_SESSION['user_budgetid']);
+                    }
+
                     $_SESSION['user_has_budget'] = 1;
-                    
-                    $this->messages[] = "Your new budget has been created.";
                 }
                 else
                 {
@@ -86,9 +95,9 @@ class Budget
         if ($sql->execute())
         {
             $ResultsToReturn = $sql->fetchAll(PDO::FETCH_ASSOC);
-            
+
             $sql = $db_connection->prepare("INSERT INTO budgetDetail (budgetId, categoryId) VALUES (:budgetId, :categoryId)");
-            
+
             foreach ($ResultsToReturn as $row)
             {
                 $sql->bindParam(':budgetId', $budgetId);
@@ -96,6 +105,22 @@ class Budget
                 $sql->execute();
             }
         }
+        else
+        {
+            $this->errors[] = "Database connection problem.";
+        }
+    }
+
+    private function duplicateBudgetDetails($newBudgetId, $oldBudgetId)
+    {
+        $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
+        
+        $sql = $db_connection->prepare("INSERT INTO budgetDetail (budgetId, categoryId, budgetSelfAmount, budgetSpouseAmount) SELECT :newBudgetId, categoryId, budgetSelfAmount, budgetSpouseAmount FROM budgetDetail WHERE budgetId = :oldBudgetId");
+
+        $sql->bindParam(':newBudgetId', $newBudgetId);
+        $sql->bindParam(':oldBudgetId', $oldBudgetId);
+
+        $sql->execute();
     }
 
     public function getNumberOfUserBudgets()

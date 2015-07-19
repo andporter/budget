@@ -42,11 +42,12 @@ date_default_timezone_set('America/Denver');
                 <h4><span class="glyphicon glyphicon-plus"></span> Confirm New</h4>
             </div>
             <div class="modal-body">
-                <p>Add new budget?</p>
+                <p>Add new budget? Or Duplicate selected budget?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <a href="index.php?editbudget=new" class="btn btn-success btn-ok" id="addConfirmButton">Yes, Add</a>
+                <a href="#" class="btn btn-success btn-ok" id="duplicateConfirmButton">Duplicate</a>
+                <a href="index.php?editbudget=new" class="btn btn-success btn-ok" id="addConfirmButton">New</a>
             </div>
         </div>
     </div>
@@ -63,7 +64,10 @@ date_default_timezone_set('America/Denver');
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <a href="#" class="btn btn-primary btn-ok" id="editConfirmButton">Yes, Edit</a>
+                <?php if ($_SESSION['user_type'] == "Admin") { ?>
+                    <a href="#" class="btn btn-primary btn-ok" id="baselineConfirmButton">Baseline</a>
+                <?php } ?>
+                <a href="#" class="btn btn-primary btn-ok" id="editConfirmButton">Edit</a>
             </div>
         </div>
     </div>
@@ -80,7 +84,7 @@ date_default_timezone_set('America/Denver');
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <a href="#" class="btn btn-danger btn-ok" id="deleteConfirmButton">Yes, Delete</a>
+                <a href="#" class="btn btn-danger btn-ok" id="deleteConfirmButton">Delete</a>
             </div>
         </div>
     </div>
@@ -128,9 +132,28 @@ date_default_timezone_set('America/Denver');
         
     }
     
+    $('#baselineConfirmButton').click(function (e)
+    {        
+        $('#EditBudgetConfirmModal').modal('hide');
+        $('#progressBarModal').modal('show');
+        
+        if (e.handled !== true) //Checking for the event whether it has occurred or not.
+        { 
+            e.handled = true;
+            
+            var postJSONData = getSelectedRowIDs("json");
+            SendAjax("api/api.php?method=userToggleBudgetBaseline", postJSONData, AjaxSubmit_getBudgets, true);
+        }
+    });
+    
     $('#editConfirmButton').click(function (e)
     {        
         window.location.href="index.php?editbudget="+getSelectedRowIDs();
+    });
+    
+    $('#duplicateConfirmButton').click(function (e)
+    {        
+        window.location.href="index.php?duplicatebudget="+getSelectedRowIDs();
     });
     
     $('#deleteConfirmButton').click(function (e)
