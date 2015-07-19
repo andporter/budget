@@ -14,7 +14,7 @@
         <div class="panel-body">
 <!--            <div class="well">
             </div>-->
-            <form class="form-horizontal" id="formContact" data-parsley-validate>
+            <form class="form-horizontal" id="formDemographics" data-parsley-validate>
                 
                 <div id="nameGroup" class="form-group">
                     <label for="firstName" style="margin-left:15px; width: 100px" >First Name:</label>
