@@ -187,6 +187,7 @@ CREATE TABLE budgetDetail (
     budgetSelfAmount int,
     budgetSpouseAmount int,
     actualAmount int,
+    dateUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (budgetDetailId),
     FOREIGN KEY (budgetId) references budget(budgetId) on delete cascade,
     FOREIGN KEY (categoryId) references category(categoryId) on delete cascade
