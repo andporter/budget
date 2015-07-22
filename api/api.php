@@ -94,7 +94,7 @@ switch ($_GET['method'])
                 {
                     $jsonData = json_decode($_POST["data"], true);
                     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
-                    
+
                     $sql = $db_connection->prepare("DELETE FROM budget WHERE budgetId = :budgetId");
 
                     foreach ($jsonData as $budgetId)
@@ -131,7 +131,7 @@ switch ($_GET['method'])
                 {
                     $jsonData = json_decode($_POST["data"], true);
                     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
-                    
+
                     $sql = $db_connection->prepare("UPDATE budget SET isBaseline = !isBaseline WHERE budgetId = :budgetId");
 
                     foreach ($jsonData as $budgetId)
@@ -226,25 +226,24 @@ switch ($_GET['method'])
                     $jsonData = json_decode($_POST["data"], true);
                     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
 
-                    $sql = $db_connection->prepare("UPDATE users SET firstName = :firstName, lastName = :lastName, phone = :phone, phoneCanText = :phoneCanText, isMarried = :isMarried, spouseFirstName = :spouseFirstName, spouseLastName = :spouseLastName, spouseEmail = :spouseEmail, dependent0_4 = :dependent0_4, dependent5_18 = :dependent5_18, totalDependents = :totalDependents WHERE userId = :userId");
+                    $sql = $db_connection->prepare("UPDATE users SET firstName = :firstName, lastName = :lastName, phone = :phone, phoneCanText = :phoneCanText, spouseFirstName = :spouseFirstName, spouseLastName = :spouseLastName, spouseEmail = :spouseEmail, dependent0_4 = :dependent0_4, dependent5_18 = :dependent5_18 WHERE userId = :userId");
 
-                    foreach ($jsonData as $row)
-                    {
-                        $sql->bindParam(':firstName', $row["firstName"]);
-                        $sql->bindParam(':lastName', $row["lastName"]);
-                        $sql->bindParam(':phone', $row["phone"]);
-                        $sql->bindParam(':phoneCanText', $row["phoneCanText"]);
-                        $sql->bindParam(':isMarried', $row["isMarried"]);
-                        $sql->bindParam(':spouseFirstName', $row["spouseFirstName"]);
-                        $sql->bindParam(':spouseLastName', $row["spouseLastName"]);
-                        $sql->bindParam(':spouseEmail', $row["spouseEmail"]);
-                        $sql->bindParam(':dependent0_4', $row["dependent0_4"]);
-                        $sql->bindParam(':dependent5_18', $row["dependent5_18"]);
-                        $sql->bindParam(':totalDependents', $row["totalDependents"]);
-                        $sql->bindParam(':userId', $_SESSION['user_id']);
+                    $phone = $jsonData['phoneAreaCode'] . '-' . $jsonData['phoneFirstThree'] . '-' . $jsonData['phoneLastFour'];
 
-                        $sql->execute();
-                    }
+                    $sql->bindParam(':firstName', $jsonData["firstName"]);
+                    $sql->bindParam(':lastName', $jsonData["lastName"]);
+                    $sql->bindParam(':phone', $phone);
+                    $sql->bindParam(':phoneCanText', $jsonData["phoneCanText"]);
+                    $sql->bindParam(':isMarried', $jsonData["isMarried"]);
+                    $sql->bindParam(':spouseFirstName', $jsonData["spouseFirstName"]);
+                    $sql->bindParam(':spouseLastName', $jsonData["spouseLastName"]);
+                    $sql->bindParam(':spouseEmail', $jsonData["spouseEmail"]);
+                    $sql->bindParam(':dependent0_4', $jsonData["dependent0_4"]);
+                    $sql->bindParam(':dependent5_18', $jsonData["dependent5_18"]);
+                    //$sql->bindParam(':totalDependents', $jsonData["totalDependents"]);
+                    $sql->bindParam(':userId', $_SESSION['user_id']);
+
+                    $sql->execute();
 
                     $response['code'] = 1;
                     $response['data'] = $api_response_code[$response['code']]['Message'];

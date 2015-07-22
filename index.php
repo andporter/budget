@@ -96,7 +96,6 @@ if ($login->isUserLoggedIn() == true)  //the user is logged in.
 
         case "settings":
             {
-                // show the register view (with the registration form, and messages/errors)
                 require("views/logged_in/user_header_menu.php");
                 require("views/logged_in/user_settings.php");
             }

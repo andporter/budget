@@ -101,7 +101,7 @@ if (isset($login))
 }
 
 if (isset($budget))
-{ // show potential errors / feedback (from login object)
+{ // show potential errors / feedback (from budget object)
     if ($budget->errors)
     {
         foreach ($login->errors as $error)
