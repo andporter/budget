@@ -52,14 +52,22 @@ switch ($_GET['method'])
                 {
                     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
 
-                    if ($_SESSION['user_type'] == "Regular")
+                    $sql = $db_connection->prepare("DROP TEMPORARY TABLE IF EXISTS budgetDetailDateUpdated; CREATE TEMPORARY TABLE budgetDetailDateUpdated (SELECT budgetId, MAX(dateUpdated) dateUpdated from budgetDetail GROUP BY budgetId);");
+                    $sql->execute();
+
+                    $adminquery = "SELECT b.budgetId, b.budgetName, b.dateCreated, IF(b.dateUpdated > bddu.dateUpdated, b.dateUpdated, bddu.dateUpdated) dateUpdated, u.userName FROM budget b JOIN users u ON (b.userId = u.userId) JOIN budgetDetailDateUpdated bddu ON (bddu.budgetId = b.budgetId)";
+
+                    if ($_SESSION['user_type'] == "Admin")
                     {
-                        $sql = $db_connection->prepare("SELECT b.budgetId, b.budgetName, b.dateCreated, b.dateUpdated, u.userName FROM budget b JOIN users u ON (b.userId = u.userId) WHERE u.userId = :userId");
-                        $sql->bindParam(':userId', $_SESSION['user_id']);
+                        $sql = $db_connection->prepare($adminquery);
                     }
-                    elseif ($_SESSION['user_type'] == "Admin")
+                    else //not admin user, filter to only show the logged in user's budgets
                     {
-                        $sql = $db_connection->prepare("SELECT b.budgetId, b.budgetName, b.dateCreated, b.dateUpdated, u.userName FROM budget b JOIN users u ON (b.userId = u.userId)");
+                        $userquery = $adminquery . "WHERE u.userId = :userId";
+
+                        $sql = $db_connection->prepare($userquery);
+
+                        $sql->bindParam(':userId', $_SESSION['user_id']);
                     }
 
                     if ($sql->execute())
@@ -67,6 +75,12 @@ switch ($_GET['method'])
                         $ResultsToReturn = $sql->fetchAll(PDO::FETCH_ASSOC);
                         $response['code'] = 1;
                         $response['data'] = $ResultsToReturn;
+                        $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
+                    }
+                    else
+                    {
+                        $response['code'] = 0;
+                        $response['data'] = $sql->errorInfo();
                         $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
                     }
                 }
@@ -226,7 +240,7 @@ switch ($_GET['method'])
                     $jsonData = json_decode($_POST["data"], true);
                     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
 
-                    $sql = $db_connection->prepare("UPDATE users SET firstName = :firstName, lastName = :lastName, phone = :phone, phoneCanText = :phoneCanText, spouseFirstName = :spouseFirstName, spouseLastName = :spouseLastName, spouseEmail = :spouseEmail, dependent0_4 = :dependent0_4, dependent5_18 = :dependent5_18 WHERE userId = :userId");
+                    $sql = $db_connection->prepare("UPDATE users SET firstName = :firstName, lastName = :lastName, phone = :phone, phoneCanText = :phoneCanText, isMarried = :isMarried, spouseFirstName = :spouseFirstName, spouseLastName = :spouseLastName, spouseEmail = :spouseEmail, dependent0_4 = :dependent0_4, dependent5_18 = :dependent5_18 WHERE userId = :userId");
 
                     $phone = $jsonData['phoneAreaCode'] . '-' . $jsonData['phoneFirstThree'] . '-' . $jsonData['phoneLastFour'];
 
@@ -243,11 +257,18 @@ switch ($_GET['method'])
                     //$sql->bindParam(':totalDependents', $jsonData["totalDependents"]);
                     $sql->bindParam(':userId', $_SESSION['user_id']);
 
-                    $sql->execute();
-
-                    $response['code'] = 1;
-                    $response['data'] = $api_response_code[$response['code']]['Message'];
-                    $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
+                    if ($sql->execute())
+                    {
+                        $response['code'] = 1;
+                        $response['data'] = $api_response_code[$response['code']]['Message'];
+                        $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
+                    }
+                    else
+                    {
+                        $response['code'] = 0;
+                        $response['data'] = $sql->errorInfo();
+                        $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
+                    }
                 }
                 else //not logged in
                 {
