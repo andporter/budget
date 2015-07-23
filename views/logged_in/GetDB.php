@@ -6,7 +6,7 @@ function getDB($CategoryParentType, $CategoryParentOrder)
 
     if ($_SESSION['user_type'] == "Admin") //admin user, does not care to join or compare the userId
     { 
-        $sql = $db_connection->prepare("SELECT b.userId, b.budgetId, cp.categoryParentType, cp.categoryParentOrder, 
+        $sql = $db_connection->prepare("SELECT b.userId, b.budgetId, '0' isBaseline, cp.categoryParentType, cp.categoryParentOrder, 
                                         cp.categoryParentName, c.categoryId, c.categoryOrder, c.categoryName, c.categoryHoverToolTip, 
                                         c.calculatorType, bd.budgetDetailId, bd.budgetSelfAmount, bd.budgetSpouseAmount
                                     FROM categoryParent cp
@@ -20,7 +20,7 @@ function getDB($CategoryParentType, $CategoryParentOrder)
     }
     else //not admin user, join and compare their userId to filter to only show the logged in user's budget
     { 
-        $sql = $db_connection->prepare("SELECT b.userId, b.budgetId, cp.categoryParentType, cp.categoryParentOrder, 
+        $sql = $db_connection->prepare("SELECT b.userId, b.budgetId, b.isBaseline, cp.categoryParentType, cp.categoryParentOrder, 
                                         cp.categoryParentName, c.categoryId, c.categoryOrder, c.categoryName, c.categoryHoverToolTip, 
                                         c.calculatorType, bd.budgetDetailId, bd.budgetSelfAmount, bd.budgetSpouseAmount
                                     FROM categoryParent cp

@@ -72,7 +72,7 @@ if ($sql->execute())
 
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <input type="button" value="Submit" class="btn btn-primary pull-right" onclick="submitDemographicsForm(this.form)"/>
+                        <button type="button" id="buttonSave_formDemographics" data-loading-text="Saving..." class="btn btn-primary pull-right" autocomplete="off">Save</button>
                     </div>
                 </div>
             </form>
@@ -80,12 +80,18 @@ if ($sql->execute())
     </div>
 </div>
 
-<script type = "text/javascript">
-    function submitDemographicsForm(form)
+<script type = "text/javascript">    
+    $('#buttonSave_formDemographics').on('click', function ()
     {
-        var postJSONData = $(form).serializeObject();
+        var btn = $(this).button('loading');
+        
+        var postJSONData = $('#formDemographics').serializeObject();
         postJSONData = JSON.stringify(postJSONData);
 
         SendAjax("api/api.php?method=userDemographicsFormSubmit", postJSONData, "none", true);
-    }
+        
+        setTimeout(function () {
+            btn.button('reset')
+        }, 1500)
+    })
 </script>

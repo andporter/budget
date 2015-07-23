@@ -52,10 +52,11 @@ switch ($_GET['method'])
                 {
                     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
 
+                    //create temp table to calculate the max dateUpdated for the budget
                     $sql = $db_connection->prepare("DROP TEMPORARY TABLE IF EXISTS budgetDetailDateUpdated; CREATE TEMPORARY TABLE budgetDetailDateUpdated (SELECT budgetId, MAX(dateUpdated) dateUpdated from budgetDetail GROUP BY budgetId);");
                     $sql->execute();
 
-                    $adminquery = "SELECT b.budgetId, b.budgetName, b.dateCreated, IF(b.dateUpdated > bddu.dateUpdated, b.dateUpdated, bddu.dateUpdated) dateUpdated, u.userName FROM budget b JOIN users u ON (b.userId = u.userId) JOIN budgetDetailDateUpdated bddu ON (bddu.budgetId = b.budgetId)";
+                    $adminquery = "SELECT b.budgetId, b.budgetName, b.dateCreated, IF(b.dateUpdated > bddu.dateUpdated, b.dateUpdated, bddu.dateUpdated) dateUpdated, u.userName, IF(b.isBaseline='1','Yes','No') isBaseline FROM budget b JOIN users u ON (b.userId = u.userId) JOIN budgetDetailDateUpdated bddu ON (bddu.budgetId = b.budgetId)";
 
                     if ($_SESSION['user_type'] == "Admin")
                     {
