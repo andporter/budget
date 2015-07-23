@@ -240,7 +240,7 @@ switch ($_GET['method'])
                     $jsonData = json_decode($_POST["data"], true);
                     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
 
-                    $sql = $db_connection->prepare("UPDATE users SET firstName = :firstName, lastName = :lastName, phone = :phone, phoneCanText = :phoneCanText, isMarried = :isMarried, spouseFirstName = :spouseFirstName, spouseLastName = :spouseLastName, spouseEmail = :spouseEmail, dependent0_4 = :dependent0_4, dependent5_18 = :dependent5_18 WHERE userId = :userId");
+                    $sql = $db_connection->prepare("UPDATE users SET firstName = :firstName, lastName = :lastName, phone = :phone, phoneCanText = :phoneCanText, isMarried = :isMarried, spouseFirstName = :spouseFirstName, spouseLastName = :spouseLastName, spouseEmail = :spouseEmail, dependent0_4 = :dependent0_4, dependent5_18 = :dependent5_18, dependentAdditional = :dependentAdditional WHERE userId = :userId");
 
                     $phone = $jsonData['phoneAreaCode'] . '-' . $jsonData['phoneFirstThree'] . '-' . $jsonData['phoneLastFour'];
 
@@ -254,7 +254,7 @@ switch ($_GET['method'])
                     $sql->bindParam(':spouseEmail', $jsonData["spouseEmail"]);
                     $sql->bindParam(':dependent0_4', $jsonData["dependent0_4"]);
                     $sql->bindParam(':dependent5_18', $jsonData["dependent5_18"]);
-                    //$sql->bindParam(':totalDependents', $jsonData["totalDependents"]);
+                    $sql->bindParam(':dependentAdditional', $jsonData["dependentAdditional"]);
                     $sql->bindParam(':userId', $_SESSION['user_id']);
 
                     if ($sql->execute())

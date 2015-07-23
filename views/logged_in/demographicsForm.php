@@ -1,7 +1,7 @@
 <?php
 $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
 
-$sql = $db_connection->prepare("SELECT firstName, lastName, phone, phoneCanText, isMarried, spouseFirstName, spouseLastName, spouseEmail, dependent0_4, dependent5_18 FROM users WHERE userId = :userId");
+$sql = $db_connection->prepare("SELECT firstName, lastName, phone, phoneCanText, isMarried, spouseFirstName, spouseLastName, spouseEmail, dependent0_4, dependent5_18, dependentAdditional FROM users WHERE userId = :userId");
 
 $sql->bindParam(':userId', $_SESSION['user_id']);
 
@@ -65,9 +65,9 @@ if ($sql->execute())
                     <input id="dependent5_18" name="dependent5_18" type="text" onkeypress='return isNumberKey(event);' value="<?php echo $ResultsToReturn[0]["dependent5_18"] ?>" style="margin-left:15px">
                 </div>
 
-                <div id="totalHousehold" class="form-group">
-                    <label for="totalHousehold" style="margin-left:15px; width: 400px">Total number of household members you support:</label>
-                    <input type="text" onkeypress='return isNumberKey(event);' style="margin-left:15px">
+                <div id="dependentAdditional" class="form-group">
+                    <label for="dependentAdditional" style="margin-left:15px; width: 400px">Additional household member you support (including yourself and spouse):</label>
+                    <input id="dependentAdditional" name="dependentAdditional" type="text" onkeypress='return isNumberKey(event);' value="<?php echo $ResultsToReturn[0]["dependentAdditional"] ?>" style="margin-left:15px">
                 </div>
 
                 <div class="form-group">
