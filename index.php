@@ -97,6 +97,7 @@ if ($login->isUserLoggedIn() == true)  //the user is logged in.
         case "settings":
             {
                 require("views/logged_in/user_header_menu.php");
+                require("views/logged_in/demographicsForm.php");
                 require("views/logged_in/user_settings.php");
             }
             break;
