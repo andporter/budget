@@ -38,25 +38,46 @@ function getForm($CategoryParentType, $CategoryParentOrder)
     <?php
 }
 ?>
-<div id="expenseReview">
+<div id="incomeReview">
     <div class = 'container theme-showcase'>
-        <h2>Functional Expense Review</h2>
+        <h2>Income Review</h2>
         <?php
-        for ($i = 1; $i <= 9; $i++)
+        for ($i = 1; $i <= 3; $i++)
         {
             $sumtotal += $total;
             $total = 0;
-            getForm("Expense", $i);
+            getForm("Income", $i);
         }
         ?>
-        <div class="row">
-            <h4 class="panel-title">
-                <b>Total Expenses</b>
-            </h4>
+        <div>
+            <div class="row">
+                <h4 class="panel-title col-sm-5">
+                    <b>Gross Income</b>
+                </h4>
+                <div class="col-sm-3">
+                    <span>Amount here</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="panel-body col-sm-5">
+                    <span>Less Federal and State Income Taxes</span>
+                </div>
+                <div class="col-sm-3">
+                    <span>Amount here</span>
+                </div>
+            </div>
+            <div class="row">
+                <h4 class="panel-title col-sm-5">
+                    <b>Net Income</b>
+                </h4>
+                <div class="col-sm-3">
+                    <span>Amount here</span>
+                </div>
+            </div>
+            <div class="panel-body">
+                <input type="button" value="Next" class="btn btn-primary pull-right" onclick="changeForm()" id="nextReview">
+            </div>
         </div>
-        <div class="panel-body">
-            <input type="button" value="Next" class="btn btn-primary pull-right" onclick="changeForm()" id="nextReview">
-        </div>
-        <br>
     </div>
 </div>
+
