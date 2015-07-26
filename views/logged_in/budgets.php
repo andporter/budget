@@ -21,7 +21,7 @@ date_default_timezone_set('America/Denver');
                 {
                     ?>
                     <li><a href="#" id="baselineConfirmButton" title="Toggle Selected Baseline">Baseline</a></li>
-<?php } ?>
+                <?php } ?>
             </ul>
         </div>
         <a href="#DeleteBudgetConfirmModal" data-toggle="modal" role="button" class="btn btn-default" data-placement="bottom" title="Delete Selected Budget"><i class="glyphicon glyphicon-trash"></i> Delete</a>
@@ -130,18 +130,18 @@ date_default_timezone_set('America/Denver');
     }
 
     $('#updateNameConfirmButton').click(function ()
-    {   
+    {
         $('#EditBudgetNameModal').modal('hide');
         $('#progressBarModal').modal('show');
-        
+
         var newBudgetName = $('input[name=newBudgetName]').val();
 
         var postJSONData = '{"newBudgetName" : "' + newBudgetName +
-                           '","budgetIds" : "' + getSelectedRowIDs() +
-                           '"}';
-                   
-                   console.log(postJSONData);
-       
+                '","budgetIds" : "' + getSelectedRowIDs() +
+                '"}';
+
+        console.log(postJSONData);
+
         SendAjax("api/api.php?method=userEditBudgetName", postJSONData, AjaxSubmit_getBudgets, true);
     });
 
