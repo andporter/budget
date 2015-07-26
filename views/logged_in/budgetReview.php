@@ -1,18 +1,21 @@
 <?php
-include('getDB.php');
-$total = 0;
-$sumtotal = 0;
-
+$grossIncome = 0.0;
 function getForm($CategoryParentType, $CategoryParentOrder)
 {
     $ResultsToReturn = getDB($CategoryParentType, $CategoryParentOrder);
+    foreach ($ResultsToReturn as $row)
+    {
+        $total += $row["budgetSelfAmount"] + $row["budgetSpouseAmount"];
+        $grossIncome += $total;
+        $percentage[$ResultsToReturn[0]["categoryParentName"] . 'percent'] = number_format($total / $grossIncome * 100.0, 2);
+    }
     ?>
     <div class="row">
         <div class="col-sm-5">
             <span><?php echo $ResultsToReturn[0]["categoryParentName"]; ?></span>
         </div>
-        <div class="col-sm-1">$&nbsp<?php echo $total ?></div>
-        <div class="col-sm-1"><?php echo $total ?>&nbsp%</div>
+        <div class="col-sm-1">$&nbsp<?php echo number_format($total, 0, '.', ',') ?></div>
+        <div class="col-sm-1"><?php echo number_format($total / $grossIncome * 100) ?>&nbsp%</div>
     </div>
     <?php
 }
@@ -34,7 +37,6 @@ function getForm($CategoryParentType, $CategoryParentOrder)
         <h4 class="panel-title">Expense</h4>
         <div class="panel-body">
             <?php
-            $sumtotal = 0;
             for ($i = 1; $i <= 9; $i++)
             {
                 $sumtotal += $total;
@@ -44,7 +46,18 @@ function getForm($CategoryParentType, $CategoryParentOrder)
             ?>
         </div>
         <div class="row">
-            <h4>Budget Surplus (Deficit)</h4>
+            <h4 class="panel-title col-sm-5">Budget Surplus <font color="red">(Deficit)</font></h4>
+            <div class="col-sm-3">
+                <span><?php
+                    if ($total <= 0.0)
+                    {
+                        echo '<font color="red">$&nbsp' . $sumtotal . '<font>';
+                    } else
+                    {
+                        echo $sumtotal;
+                    }
+                    ?></span>
+            </div>
         </div>
         <div class="panel-body">
             <input type="button" value="Print" class="btn btn-primary pull-right" onclick="changeForm()" id="nextReview">

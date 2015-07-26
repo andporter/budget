@@ -1,7 +1,4 @@
 <?php
-include('getDB.php');
-$total = 0;
-$sumtotal = 0;
 
 function getForm($CategoryParentType, $CategoryParentOrder)
 {
@@ -50,9 +47,12 @@ function getForm($CategoryParentType, $CategoryParentOrder)
         }
         ?>
         <div class="row">
-            <h4 class="panel-title">
+            <h4 class="panel-title col-sm-5">
                 <b>Total Expenses</b>
             </h4>
+            <div class="col-sm-3">
+                <span>$&nbsp<?php echo $grossIncome; ?></span>
+            </div>Ï
         </div>
         <div class="panel-body">
             <input type="button" value="Next" class="btn btn-primary pull-right" onclick="changeForm()" id="nextReview">
