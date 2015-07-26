@@ -4,8 +4,26 @@ date_default_timezone_set('America/Denver');
 
 <div id="divBudgets" class="container-fluid" role="main">
     <div id="budgetTableToolbar" class="btn-group">
-        <a href="#AddBudgetConfirmModal" data-toggle="modal" role="button" class="btn btn-default" data-placement="bottom" title="Add New Budget"><i class="glyphicon glyphicon-plus"></i> Add</a>
-        <a href="#EditBudgetConfirmModal" data-toggle="modal" role="button" class="btn btn-default" data-placement="bottom" title="Edit Selected Budget"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+        <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-plus"></i> Add <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                <li><a href="index.php?editbudget=new" title="Add New Budget">New</a></li>
+                <li><a href="#" id="duplicateConfirmButton" title="Duplicate Selected Budget">Duplicate</a></li>
+            </ul>
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-edit"></i> Edit <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                <li><a href="#" id="editConfirmButton" title="Edit Selected Budget">Edit Budget</a></li>
+                <li><a href="#EditBudgetNameModal" data-toggle="modal" title="Edit Selected Budget Name">Edit Name</a></li>
+                <?php
+                if ($_SESSION['user_type'] == "Admin")
+                {
+                    ?>
+                    <li><a href="#" id="baselineConfirmButton" title="Toggle Selected Baseline">Baseline</a></li>
+<?php } ?>
+            </ul>
+        </div>
         <a href="#DeleteBudgetConfirmModal" data-toggle="modal" role="button" class="btn btn-default" data-placement="bottom" title="Delete Selected Budget"><i class="glyphicon glyphicon-trash"></i> Delete</a>
     </div>
     <table id="budgetTable"
@@ -18,7 +36,6 @@ date_default_timezone_set('America/Denver');
            data-page-size="20"
            data-height="650"
            data-maintain-selected="true"
-           data-show-footer="true"
            data-striped="true"
            data-sort-name="date"
            data-sort-order="desc"
@@ -36,39 +53,19 @@ date_default_timezone_set('America/Denver');
     </table>
 </div>
 
-<div id="AddBudgetConfirmModal" class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+<div id="EditBudgetNameModal" class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content well">
             <div class="modal-header">
-                <h4><span class="glyphicon glyphicon-plus"></span> Confirm New</h4>
+                <h4><span class="glyphicon glyphicon-edit"></span> New Budget Name</h4>
             </div>
             <div class="modal-body">
-                <p>Add new budget? Or Duplicate selected budget?</p>
+                <p>Enter the new Budget Name</p>
+                <input id="newBudgetName" name="newBudgetName" type="text" placeholder="">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <a href="#" class="btn btn-success btn-ok" id="duplicateConfirmButton">Duplicate</a>
-                <a href="index.php?editbudget=new" class="btn btn-success btn-ok" id="addConfirmButton">New</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="EditBudgetConfirmModal" class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content well">
-            <div class="modal-header">
-                <h4><span class="glyphicon glyphicon-edit"></span> Confirm Edit</h4>
-            </div>
-            <div class="modal-body">
-                <p>Edit the selected budget?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <?php if ($_SESSION['user_type'] == "Admin") { ?>
-                    <a href="#" class="btn btn-primary btn-ok" id="baselineConfirmButton">Baseline</a>
-                <?php } ?>
-                <a href="#" class="btn btn-primary btn-ok" id="editConfirmButton">Edit</a>
+                <a href="#" id="updateNameConfirmButton" class="btn btn-primary btn-ok" title="Update Budget Name">Update</a>
             </div>
         </div>
     </div>
@@ -81,11 +78,11 @@ date_default_timezone_set('America/Denver');
                 <h4><span class="glyphicon glyphicon-trash"></span> Confirm Delete</h4>
             </div>
             <div class="modal-body">
-                <p>Delete the selected budget?</p>
+                <p>Delete the selected budget(s)?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <a href="#" class="btn btn-danger btn-ok" id="deleteConfirmButton">Delete</a>
+                <a href="#" class="btn btn-danger btn-ok" id="deleteConfirmButton" title="Delete Selected Budget">Delete</a>
             </div>
         </div>
     </div>
@@ -111,17 +108,17 @@ date_default_timezone_set('America/Denver');
             $('#progressBarModal').modal('hide');
         }, 1000);
     }
-    
+
     function getSelectedRowIDs(dataformat)
     {
         var selectedTableRows = $('#budgetTable').bootstrapTable('getSelections');
         var selectedTableRowIDs = new Array();
-        
-        selectedTableRows.forEach(function (obj) 
+
+        selectedTableRows.forEach(function (obj)
         {
             selectedTableRowIDs.push(obj.budgetId);
         });
-        
+
         if (dataformat === 'json')
         {
             return JSON.stringify(selectedTableRowIDs);
@@ -131,43 +128,48 @@ date_default_timezone_set('America/Denver');
             return selectedTableRowIDs;
         }
     }
-    
-    $('#baselineConfirmButton').click(function (e)
-    {        
-        $('#EditBudgetConfirmModal').modal('hide');
+
+    $('#updateNameConfirmButton').click(function ()
+    {   
+        $('#EditBudgetNameModal').modal('hide');
         $('#progressBarModal').modal('show');
         
-        if (e.handled !== true) //Checking for the event whether it has occurred or not.
-        { 
-            e.handled = true;
-            
-            var postJSONData = getSelectedRowIDs("json");
-            SendAjax("api/api.php?method=userToggleBudgetBaseline", postJSONData, AjaxSubmit_getBudgets, true);
-        }
+        var newBudgetName = $('input[name=newBudgetName]').val();
+
+        var postJSONData = '{"newBudgetName" : "' + newBudgetName +
+                           '","budgetIds" : "' + getSelectedRowIDs() +
+                           '"}';
+                   
+                   console.log(postJSONData);
+       
+        SendAjax("api/api.php?method=userEditBudgetName", postJSONData, AjaxSubmit_getBudgets, true);
     });
-    
-    $('#editConfirmButton').click(function (e)
-    {        
-        window.location.href="index.php?editbudget="+getSelectedRowIDs();
+
+    $('#baselineConfirmButton').click(function ()
+    {
+        $('#progressBarModal').modal('show');
+
+        var postJSONData = getSelectedRowIDs("json");
+        SendAjax("api/api.php?method=userToggleBudgetBaseline", postJSONData, AjaxSubmit_getBudgets, true);
     });
-    
-    $('#duplicateConfirmButton').click(function (e)
-    {        
-        window.location.href="index.php?duplicatebudget="+getSelectedRowIDs();
+
+    $('#editConfirmButton').click(function ()
+    {
+        window.location.href = "index.php?editbudget=" + getSelectedRowIDs();
     });
-    
-    $('#deleteConfirmButton').click(function (e)
-    {        
+
+    $('#duplicateConfirmButton').click(function ()
+    {
+        window.location.href = "index.php?duplicatebudget=" + getSelectedRowIDs();
+    });
+
+    $('#deleteConfirmButton').click(function ()
+    {
         $('#DeleteBudgetConfirmModal').modal('hide');
         $('#progressBarModal').modal('show');
-        
-        if (e.handled !== true) //Checking for the event whether it has occurred or not.
-        { 
-            e.handled = true;
-            
-            var postJSONData = getSelectedRowIDs("json");
-            SendAjax("api/api.php?method=userDeleteBudget", postJSONData, AjaxSubmit_getBudgets, true);
-        }
+
+        var postJSONData = getSelectedRowIDs("json");
+        SendAjax("api/api.php?method=userDeleteBudget", postJSONData, AjaxSubmit_getBudgets, true);
     });
 
 </script>
