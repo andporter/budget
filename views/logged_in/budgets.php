@@ -140,8 +140,6 @@ date_default_timezone_set('America/Denver');
                 '","budgetIds" : "' + getSelectedRowIDs() +
                 '"}';
 
-        console.log(postJSONData);
-
         SendAjax("api/api.php?method=userEditBudgetName", postJSONData, AjaxSubmit_getBudgets, true);
     });
 
