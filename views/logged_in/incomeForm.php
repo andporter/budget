@@ -84,6 +84,20 @@ function getForm($CategoryParentType, $CategoryParentOrder)
     </div>
 </div>
 <script type = "text/javascript">
+ /*   
+    $(".panel").click(function() {
+    $(this).closest(".container").find(".panel").slideToggle();
+});
+*/
+$(".btn").click(function() {
+    $(this).closest(".panel").find(".panel-collapse").collapse('hide');
+    //$(this).next().collapse('show');
+    var next;
+      next = $(this).parent().next().find(".panel-collapse");
+      $("html, body").scrollTop(next.offset().top);
+});
+
+
     function submitForm(form, id) {
         var postJSONData = $(form).serializeArray();
         postJSONData = JSON.stringify(postJSONData);
