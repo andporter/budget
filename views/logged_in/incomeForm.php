@@ -92,9 +92,9 @@ function getForm($CategoryParentType, $CategoryParentOrder)
 $(".btn").click(function() {
     $(this).closest(".panel").find(".panel-collapse").collapse('hide');
     //$(this).next().collapse('show');
-    var next;
-      next = $(this).parent().next().find(".panel-collapse");
-      $("html, body").scrollTop(next.offset().top);
+    //var next;
+      //next = $(this).parent().next().find(".panel-collapse");
+      //$("html, body").scrollTop(next.offset().top);
 });
 
 
