@@ -6,16 +6,16 @@ echo '<div id="expenseReview"><div class = "container theme-showcase"><h2>Functi
 function getForm($CategoryParentType, $CategoryParentOrder)
 {
     $ResultsToReturn = getDB($CategoryParentType, $CategoryParentOrder);
-    echo '<h4 class="panel-title"><b>' . $ResultsToReturn[0]["categoryParentName"] . '</b></h4><div class="panel-body">';
+    echo '<hr><h4 class="panel-title"><b>' . $ResultsToReturn[0]["categoryParentName"] . '</b></h4><div class="panel-body">';
     foreach ($ResultsToReturn as $row)
     {
         $total = $row["budgetSelfAmount"] + $row["budgetSpouseAmount"];
         $subtotal += $total;
         $GLOBALS['totalExpense'] += $total;
-        echo '<div class = "row"><div class="col-sm-5"><h5>' . $row["categoryName"] . '</h5></div><div class = "col-sm-3"><span>$&nbsp' . $total;
+        echo '<div class = "row"><div class="col-sm-5"><span>' . $row["categoryName"] . '</span></div><div class = "col-sm-3"><span>$&nbsp' . $total;
         echo '</span></div></div>';
     }
-    echo '<div class="row"><div class="col-sm-5"><h5><u>Total&nbsp' . $ResultsToReturn[0]["categoryParentName"] . '></u></h5></div>
+    echo '<div class="row"><div class="col-sm-5"><h5><u>Total&nbsp' . $ResultsToReturn[0]["categoryParentName"] . '</u></h5></div>
             <div class="col-sm-1"><u>$&nbsp' . $subtotal . '</u></div><div class="col-sm-2"><u>' . number_format($subtotal / $GLOBALS['grossIncome'] * 100) . '&nbsp%</u></div></div></div>';
 }
 
@@ -25,7 +25,7 @@ for ($i = 1; $i <= 9; $i++)
     getForm("Expense", $i);
 }
 
-echo '<div class="row"><h4 class="panel-title col-sm-5"><b>Total Expenses</b>
+echo '<hr><hr><div class="row"><h4 class="panel-title col-sm-5"><b>Total Expenses</b>
             </h4><div class="col-sm-3"><span>$&nbsp' . $totalExpense . '</span></div></div><div class="panel-body">
             <input type="button" value="Next" class="btn btn-primary pull-right" onclick="changeForm()" id="nextReview"></div><br></div></div>';
 ?>

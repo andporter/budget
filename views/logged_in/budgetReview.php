@@ -24,13 +24,13 @@ for ($i = 1; $i <= 3; $i++)
 {
     getForm("Income", $i);
 }
-echo '</div><h4 class="panel-title">Expense</h4><div class="panel-body">';
+echo '<hr></div><h4 class="panel-title">Expense</h4><div class="panel-body">';
 
 for ($i = 1; $i <= 9; $i++)
 {
     getForm("Expense", $i);
 }
-echo '</div><div class="row"><h4 class="panel-title col-sm-5">Budget Surplus <font color="red">(Deficit)</font></h4><div class="col-sm-3"><span>';
+echo '<hr><hr></div><div class="row"><h4 class="panel-title col-sm-5">Budget Surplus <font color="red">(Deficit)</font></h4><div class="col-sm-3"><span>';
 
 $GLOBALS['net'] = $GLOBALS['grossIncome'] - $GLOBALS['totalExpense'];
 
