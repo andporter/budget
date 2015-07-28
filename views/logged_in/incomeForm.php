@@ -91,10 +91,68 @@ function getForm($CategoryParentType, $CategoryParentOrder)
 */
 $(".btn").click(function() {
     $(this).closest(".panel").find(".panel-collapse").collapse('hide');
-    //$(this).next().collapse('show');
-    //var next;
-      //next = $(this).parent().next().find(".panel-collapse");
-      //$("html, body").scrollTop(next.offset().top);
+    
+    if(($(this).closest(".panel").find(".panel-collapse").attr('id')) == "1Income")
+    {
+        //alert("Here is div 1");
+        //$("#2Income").collapse('show');
+        $("#2Income").collapse('show');
+        
+    }
+    else if(($(this).closest(".panel").find(".panel-collapse").attr('id')) == "2Income")
+    {
+        //alert("Here is div 2");
+        $("#3Income").collapse('show');
+    } 
+    else if(($(this).closest(".panel").find(".panel-collapse").attr('id')) == "3Income")
+    {
+        //alert("Here is div 3");
+        $("#1Expense").collapse('show');
+    }  
+    else if(($(this).closest(".panel").find(".panel-collapse").attr('id')) == "1Expense")
+    {
+        //alert("Here is div 4");
+        $("#2Expense").collapse('show');
+    }
+    else if(($(this).closest(".panel").find(".panel-collapse").attr('id')) == "2Expense")
+    {
+        //alert("Here is div 5");
+        $("#3Expense").collapse('show');
+    }
+    else if(($(this).closest(".panel").find(".panel-collapse").attr('id')) == "3Expense")
+    {
+        //alert("Here is div 6");
+        $("#4Expense").collapse('show');
+    } 
+    else if(($(this).closest(".panel").find(".panel-collapse").attr('id')) == "4Expense")
+    {
+        //alert("Here is div 7");
+        $("#5Expense").collapse('show');
+    }
+    else if(($(this).closest(".panel").find(".panel-collapse").attr('id')) == "5Expense")
+    {
+        //alert("Here is div 8");
+        $("#6Expense").collapse('show');
+    } 
+    else if(($(this).closest(".panel").find(".panel-collapse").attr('id')) == "6Expense")
+    {
+        //alert("Here is div 9");
+        $("#7Expense").collapse('show');
+    }  
+    else if(($(this).closest(".panel").find(".panel-collapse").attr('id')) == "7Expense")
+    {
+        //alert("Here is div 10");
+        $("#8Expense").collapse('show');
+    }
+    else if(($(this).closest(".panel").find(".panel-collapse").attr('id')) == "8Expense")
+    {
+        //alert("Here is div 11");
+        $("#9Expense").collapse('show');
+    }
+    else if(($(this).closest(".panel").find(".panel-collapse").attr('id')) == "9Expense")
+    {
+        //alert("Here is div 12");
+    }  
 });
 
 
