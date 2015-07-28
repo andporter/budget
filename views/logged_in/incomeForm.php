@@ -10,9 +10,9 @@ function getForm($CategoryParentType, $CategoryParentOrder)
     <div class="panel panel-primary">
         <div class="panel-heading" role="tab" id="accordion<?php echo $accordionId; ?>" >
             <h4 class="panel-title">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#<?php echo $accordionId; ?>" aria-expanded="true" aria-controls="<?php echo $accordionId; ?>" >
+                <!--<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#<?php echo $accordionId; ?>" aria-expanded="true" aria-controls="<?php echo $accordionId; ?>" >-->
                     <?php echo $ResultsToReturn[0]["categoryParentOrder"] . ". " . $ResultsToReturn[0]["categoryParentName"]; ?>
-                </a>
+                <!--</a>-->
             </h4>
         </div>
         <div id="<?php echo $accordionId; ?>" class="panel-collapse collapse<?php
@@ -58,7 +58,8 @@ function getForm($CategoryParentType, $CategoryParentOrder)
                     <?php } ?>
                     <div class='form-group'>
                         <div class='col-sm-offset-2 col-sm-10'>
-                            <input type="button" value="Next" class="btn btn-primary pull-right" onclick="submitForm(this.form, this)" id="next<?php echo ($ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"]); ?>">
+                            <input type="button" value="Next" class="btn1 btn-primary pull-right" onclick="submitForm(this.form, this)" id="next<?php echo ($ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"]); ?>">
+                            <input type="button" value="Prev" class="btn2 btn-primary pull-left" onclick="submitForm(this.form, this)" id="prev<?php echo ($ResultsToReturn[0]["categoryParentOrder"] . $ResultsToReturn[0]["categoryParentType"]); ?>">
                         </div>
                     </div>
                 </form>
@@ -84,29 +85,20 @@ function getForm($CategoryParentType, $CategoryParentOrder)
     </div>
 </div>
 <script type = "text/javascript">
- /*   
-    $(".panel").click(function() {
-    $(this).closest(".container").find(".panel").slideToggle();
-});
-*/
-$(".btn").click(function() {
+ 
+$(".btn1").click(function() {
     $(this).closest(".panel").find(".panel-collapse").collapse('hide');
     
     if(($(this).closest(".panel").find(".panel-collapse").attr('id')) == "1Income")
     {
-        //alert("Here is div 1");
-        //$("#2Income").collapse('show');
-        $("#2Income").collapse('show');
-        
+        $("#2Income").collapse('show');   
     }
     else if(($(this).closest(".panel").find(".panel-collapse").attr('id')) == "2Income")
     {
-        //alert("Here is div 2");
         $("#3Income").collapse('show');
     } 
     else if(($(this).closest(".panel").find(".panel-collapse").attr('id')) == "3Income")
     {
-        //alert("Here is div 3");
         $("#1Expense").collapse('show');
     }  
     else if(($(this).closest(".panel").find(".panel-collapse").attr('id')) == "1Expense")
@@ -152,6 +144,68 @@ $(".btn").click(function() {
     else if(($(this).closest(".panel").find(".panel-collapse").attr('id')) == "9Expense")
     {
         //alert("Here is div 12");
+    }  
+});
+
+$(".btn2").click(function() {
+    $(this).closest(".panel").find(".panel-collapse").collapse('hide');
+    
+    if(($(this).closest(".panel").find(".panel-collapse").attr('id')) == "1Income")
+    {
+        //$("#2Income").collapse('show');   
+    }
+    else if(($(this).closest(".panel").find(".panel-collapse").attr('id')) == "2Income")
+    {
+        $("#1Income").collapse('show');
+    } 
+    else if(($(this).closest(".panel").find(".panel-collapse").attr('id')) == "3Income")
+    {
+        $("#2Income").collapse('show');
+    }  
+    else if(($(this).closest(".panel").find(".panel-collapse").attr('id')) == "1Expense")
+    {
+        //alert("Here is div 4");
+        $("#3Income").collapse('show');
+    }
+    else if(($(this).closest(".panel").find(".panel-collapse").attr('id')) == "2Expense")
+    {
+        //alert("Here is div 5");
+        $("#1Expense").collapse('show');
+    }
+    else if(($(this).closest(".panel").find(".panel-collapse").attr('id')) == "3Expense")
+    {
+        //alert("Here is div 6");
+        $("#2Expense").collapse('show');
+    } 
+    else if(($(this).closest(".panel").find(".panel-collapse").attr('id')) == "4Expense")
+    {
+        //alert("Here is div 7");
+        $("#3Expense").collapse('show');
+    }
+    else if(($(this).closest(".panel").find(".panel-collapse").attr('id')) == "5Expense")
+    {
+        //alert("Here is div 8");
+        $("#4Expense").collapse('show');
+    } 
+    else if(($(this).closest(".panel").find(".panel-collapse").attr('id')) == "6Expense")
+    {
+        //alert("Here is div 9");
+        $("#5Expense").collapse('show');
+    }  
+    else if(($(this).closest(".panel").find(".panel-collapse").attr('id')) == "7Expense")
+    {
+        //alert("Here is div 10");
+        $("#6Expense").collapse('show');
+    }
+    else if(($(this).closest(".panel").find(".panel-collapse").attr('id')) == "8Expense")
+    {
+        //alert("Here is div 11");
+        $("#7Expense").collapse('show');
+    }
+    else if(($(this).closest(".panel").find(".panel-collapse").attr('id')) == "9Expense")
+    {
+        //alert("Here is div 12");
+        $("#8Expense").collapse('show');
     }  
 });
 
