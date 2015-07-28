@@ -1,4 +1,5 @@
 <?php
+include 'review.php';
 
 echo '<div id="budgetReview"><div class = "container theme-showcase"><h2>Budget Review</h2><h4 class="panel-title">Income</h4><div class="panel-body">';
 
@@ -15,7 +16,8 @@ function getForm($CategoryParentType, $CategoryParentOrder)
         $GLOBALS['totalExpense'] += $subtotal;
     }
     echo '<div class="row"><div class="col-sm-5"><span>' . $ResultsToReturn[0]["categoryParentName"] . '</span>
-        </div><div class="col-sm-1">$&nbsp' . number_format($subtotal, 0, '.', ',') . '</div><div class="col-sm-1" id="">' . number_format($subtotal / $GLOBALS['grossIncome'] * 100.0) . '&nbsp%</div></div>';
+        </div><div class="col-sm-1">$&nbsp' . number_format($subtotal, 0, '.', ',') . '</div><div class="col-sm-1" id="">'
+            . number_format($subtotal / $GLOBALS['grossIncome'] * 100.0) . '&nbsp%</div></div>';
 }
 
 for ($i = 1; $i <= 3; $i++)
@@ -38,11 +40,6 @@ if ($GLOBALS['net'] <= 0.0)
 } else
 {
     echo '$&nbsp' . $GLOBALS['net'];
-}
-
-for ($i = 0; $i < 12; $i++)
-{
-    
 }
 
 echo '</span></div></div><div class="panel-body"><input type="button" value="Print" class="btn btn-primary pull-right" onclick="changeForm()" id="nextReview"></div><br></div></div>';

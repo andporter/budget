@@ -1,6 +1,7 @@
 <?php
 
 $grossIncome = 0.0;
+$tax = 0.0;
 $totalExpense = 0.0;
 $subtotal = 0.0;
 $total = 0.0;
@@ -18,9 +19,13 @@ for ($i = 1; $i <= 3; $i++)
     }
 }
 
-echo '<div id="review">';
-//include 'incomeReview.php';
-//include 'expenseReview.php';
-include'budgetReview.php';
-echo '</div>';
+// get federal and state withholdings (for net income review)
+for ($i = 1; $i <= 2; $i++)
+{
+    $ResultsToReturn = getDB('Expense', $i);
+    foreach ($ResultsToReturn as $row)
+    {
+        $tax += $row["budgetSelfAmount"] + $row["budgetSpouseAmount"];
+    }
+}
 ?>
