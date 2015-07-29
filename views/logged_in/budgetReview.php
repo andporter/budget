@@ -9,22 +9,23 @@
 
             function getBudgetReviewForm($CategoryParentType, $CategoryParentOrder)
             {
+                $GLOBALS['subtotal'] = 0.0;
                 $ResultsToReturn = getDB($CategoryParentType, $CategoryParentOrder);
                 foreach ($ResultsToReturn as $row)
                 {
                     $total = $row["budgetSelfAmount"] + $row["budgetSpouseAmount"];
-                    $subtotal += $total;
+                    $GLOBALS['subtotal'] += $total;
                 }
                 if ($CategoryParentType == 'Expense')
                 {
-                    $GLOBALS['totalExpense'] += $subtotal;
+                    $GLOBALS['totalExpense'] += $GLOBALS['subtotal'];
                 }
                 ?>
                 <div class="row">
                     <div class="col-sm-5"><span><?php echo $ResultsToReturn[0]["categoryParentName"] ?></span>
                     </div>
-                    <div class="col-sm-1">$&nbsp<?php echo number_format($subtotal, 0, '.', ',') ?></div>
-                    <div class="col-sm-1" ><?php echo number_format($subtotal / $GLOBALS['grossIncome'] * 100.0) ?>&nbsp%</div>
+                    <div class="col-sm-1">$&nbsp<?php echo number_format($GLOBALS['subtotal']) ?></div>
+                    <div class="col-sm-1" ><?php echo number_format($GLOBALS['subtotal'] / $GLOBALS['grossIncome'] * 100.0) ?>&nbsp%</div>
                 </div>
                 <?php
             }
@@ -41,7 +42,7 @@
             <?php
             for ($i = 1; $i <= 9; $i++)
             {
-                getForm("Expense", $i);
+                getBudgetReviewForm("Expense", $i);
             }
             ?>
             <hr><hr>
@@ -53,7 +54,7 @@
 
                     if ($GLOBALS['net'] <= 0.0)
                     {
-                        echo '<font color="red">$&nbsp<' . $GLOBALS['net'] . '</font>';
+                        echo '<font color="red">-&nbsp$&nbsp' . number_format(abs($GLOBALS['net'])) . '</font>';
                     } else
                     {
                         echo '$&nbsp' . $GLOBALS['net'];
@@ -62,7 +63,14 @@
                 </span>
             </div>
         </div>
-        <div class="panel-body"><input type="button" value="Print" class="btn btn-primary pull-right" onclick="changeForm()" id="nextReview"></div>
+        <div class="panel-body"><input type="button" value="Print" class="btn btn-primary pull-right" id="printBudget"></div>
         <br>
     </div>
 </div>
+<script type = "text/javascript">
+    $("#printBudget").on("click", function ()
+    {
+        // print the page
+    });
+
+</script>
