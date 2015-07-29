@@ -58,15 +58,15 @@
 <?php $netIncome = $GLOBALS['grossIncome'] - $tax; ?>
                 <h4 class="panel-title col-sm-5"><b>Net Income</b></h4>
                 <div class="col-sm-1"><span>$&nbsp<?php echo $netIncome; ?></span></div><hr><hr>
-                <input type="button" value="Next" class="btn btn-primary pull-right" id="toExpenseReview">
+                <input type="button" value="Next" class="btn btn-primary pull-right" id="toExpenseForm">
             </div>
         </div>
     </div>
 </div>
 <script type = "text/javascript">
-    $("#toExpenseReview").on("click", function ()
+    $("#toExpenseForm").on("click", function ()
     {
-        window.location.href = "index.php?budgetreview=expense"
+        window.location.href = "index.php?editexpensebudget"
     });
 
 </script>
