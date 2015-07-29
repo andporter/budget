@@ -73,7 +73,6 @@ if ($login->isUserLoggedIn() == true)  //the user is logged in.
                 {
                     require("views/logged_in/user_header_menu.php");
                     require("views/logged_in/incomeForm.php");
-                    //require("views/logged_in/expenseForm.php");
                 }
             }
             break;
@@ -81,7 +80,7 @@ if ($login->isUserLoggedIn() == true)  //the user is logged in.
         case "duplicatebudget":
             {
                 $budget->createNewBudget($_GET['duplicatebudget']); //duplicate passed in budgetId
-            
+
                 if ($budget->errors)
                 {
                     require("views/logged_in/user_header_menu.php");
@@ -91,6 +90,25 @@ if ($login->isUserLoggedIn() == true)  //the user is logged in.
                 {
                     require("views/logged_in/user_header_menu.php");
                     require("views/logged_in/incomeForm.php");
+                }
+            }
+            break;
+            
+        case "budgetreview":
+            {
+                require("views/logged_in/user_header_menu.php");
+            
+                if ($_GET['budgetreview'] == "income")
+                {
+                    require("views/logged_in/incomeReview.php");
+                }
+                elseif ($_GET['budgetreview'] == "expense")
+                {
+                    require("views/logged_in/expenseReview.php");
+                }
+                elseif ($_GET['budgetreview'] == "budget")
+                {
+                    require("views/logged_in/budgetReview.php");
                 }
             }
             break;

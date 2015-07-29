@@ -11,12 +11,5 @@ include_once('GetIncomeOrExpenseForm.php');
         ?>
     </div>
 </div>
-<script type = "text/javascript">
 
-    function submitForm(form) {
-        var postJSONData = $(form).serializeArray();
-        postJSONData = JSON.stringify(postJSONData);
-        SendAjax("api/api.php?method=userBudgetFormSubmit", postJSONData, "none", true);
-    }
-</script>
 </body>

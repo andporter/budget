@@ -10,12 +10,10 @@ function getIncomeOrExpenseForm($CategoryParentType, $CategoryParentOrder)
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#panel<?php echo $panelId; ?>" >
-                    <?php echo $ResultsToReturn[0]["categoryParentOrder"] . ". " . $ResultsToReturn[0]["categoryParentName"]; ?>
-                </a>
+                <?php echo $panelId . ". " . $ResultsToReturn[0]["categoryParentName"]; ?>
             </h4>
         </div>
-        <div id="panel<?php echo $panelId; ?>" class="panel-collapse collapse<?php if ($ResultsToReturn[0]["categoryParentOrder"] == 1){echo ' in';}?>" >
+        <div id="panel<?php echo $CategoryParentType.$panelId; ?>" class="panel-collapse collapse<?php if ($panelId == 1){echo ' in';}?>" >
             <div class="panel-body">
                 <form class='form-horizontal' role='form' id='<?php echo $CategoryParentType . $CategoryParentOrder ?>'>
                     <?php
@@ -53,7 +51,7 @@ function getIncomeOrExpenseForm($CategoryParentType, $CategoryParentOrder)
                     <?php } ?>
                     <div class='form-group'>
                         <div class='col-sm-offset-2 col-sm-10'>
-                            <input type="button" value="Next" class="btn btn-primary pull-right" onclick="submitForm(this.form)" id="next<?php echo $panelId; ?>">
+                            <input type="button" value="Next" class="btn btn-primary pull-right" onclick="submitForm(this.form)" id="next<?php echo $CategoryParentType.$panelId; ?>">
 <!--                            <input type="button" value="Prev" class="btn btn-primary pull-left" onclick="submitForm(this.form)" id="prev<?php //echo $panelId; ?>">-->
                         </div>
                     </div>
@@ -62,10 +60,22 @@ function getIncomeOrExpenseForm($CategoryParentType, $CategoryParentOrder)
         </div>
     </div>
     <script type = "text/javascript">
-    $("#next<?php echo $panelId; ?>").on("click", function() {
-            $("#panel<?php echo $panelId; ?>").collapse('hide');
-            $("#panel<?php echo $panelId + 1; ?>").collapse('show');
-            });
+        $("#next<?php echo $CategoryParentType.$panelId; ?>").on("click", function() 
+        {
+            if (this.id === "nextIncome3")
+            {
+                window.location.href = "index.php?budgetreview=income"
+            }
+            else if (this.id === "nextExpense9")
+            {
+                window.location.href = "index.php?budgetreview=expense"
+            }
+            else
+            {
+                $("#panel<?php echo $CategoryParentType.$panelId; ?>").collapse('hide');
+                $("#panel<?php echo $CategoryParentType.($panelId + 1); ?>").collapse('show');
+            }
+        });
 
             //    $("#prev<?php //echo $panelId;   ?>").on("click", function() {
             //        $("#panel<?php //echo $panelId;   ?>").collapse('hide');

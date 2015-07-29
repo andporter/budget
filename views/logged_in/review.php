@@ -7,7 +7,7 @@ $subtotal = 0.0;
 $total = 0.0;
 $net = 0.0;
 
-include'getDB.php';
+include('GetDB.php');
 
 // get gross income for all reviews
 for ($i = 1; $i <= 3; $i++)
