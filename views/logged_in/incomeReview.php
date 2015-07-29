@@ -1,4 +1,5 @@
-<?php include 'review.php'; ?>
+<?php include('review.php'); ?>
+
 <div id="incomeReview">
     <div class = "container theme-showcase">
         <div class="row">

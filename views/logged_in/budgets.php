@@ -7,7 +7,7 @@ date_default_timezone_set('America/Denver');
         <div class="btn-group">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-plus"></i> Add <span class="caret"></span></button>
             <ul class="dropdown-menu">
-                <li><a href="index.php?editbudget=new" title="Add New Budget">New</a></li>
+                <li><a href="index.php?editincomebudget=new" title="Add New Budget">New</a></li>
                 <li><a href="#" id="duplicateConfirmButton" title="Duplicate Selected Budget">Duplicate</a></li>
             </ul>
         </div>
@@ -153,7 +153,7 @@ date_default_timezone_set('America/Denver');
 
     $('#editConfirmButton').click(function ()
     {
-        window.location.href = "index.php?editbudget=" + getSelectedRowIDs();
+        window.location.href = "index.php?editincomebudget=" + getSelectedRowIDs();
     });
 
     $('#duplicateConfirmButton').click(function ()

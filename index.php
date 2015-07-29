@@ -53,15 +53,15 @@ if ($login->isUserLoggedIn() == true)  //the user is logged in.
             }
             break;
 
-        case "editbudget":
+        case "editincomebudget":
             {
-                if ($_GET['editbudget'] == "new")
+                if ($_GET['editincomebudget'] == "new")
                 {
                     $budget->createNewBudget("new");
                 }
                 else // set the user session budgetId to the budgetId supplied in the url
                 {
-                    $_SESSION['user_budgetid'] = $_GET['editbudget'];
+                    $_SESSION['user_budgetid'] = $_GET['editincomebudget'];
                 }
 
                 if ($budget->errors)
@@ -73,6 +73,21 @@ if ($login->isUserLoggedIn() == true)  //the user is logged in.
                 {
                     require("views/logged_in/user_header_menu.php");
                     require("views/logged_in/incomeForm.php");
+                }
+            }
+            break;
+
+        case "editexpensebudget":
+            {
+                if ($budget->errors)
+                {
+                    require("views/logged_in/user_header_menu.php");
+                    require("views/logged_in/budgets.php");
+                }
+                else
+                {
+                    require("views/logged_in/user_header_menu.php");
+                    require("views/logged_in/expenseForm.php");
                 }
             }
             break;
@@ -93,11 +108,11 @@ if ($login->isUserLoggedIn() == true)  //the user is logged in.
                 }
             }
             break;
-            
+
         case "budgetreview":
             {
                 require("views/logged_in/user_header_menu.php");
-            
+
                 if ($_GET['budgetreview'] == "income")
                 {
                     require("views/logged_in/incomeReview.php");
