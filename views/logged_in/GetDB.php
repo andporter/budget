@@ -9,30 +9,30 @@ function getDB($CategoryParentType, $CategoryParentOrder)
         $sql = $db_connection->prepare("SELECT b.userId, b.budgetId, '0' isBaseline, cp.categoryParentType, cp.categoryParentOrder, 
                                         cp.categoryParentName, c.categoryId, c.categoryOrder, c.categoryName, c.categoryHoverToolTip, 
                                         c.calculatorType, bd.budgetDetailId, bd.budgetSelfAmount, bd.budgetSpouseAmount
-                                    FROM categoryParent cp
-                                    JOIN category c ON (cp.categoryParentId = c.categoryParentId)
-                                    JOIN budgetDetail bd ON (c.categoryId = bd.categoryId)
-                                    JOIN budget b ON (bd.budgetId = b.budgetId)
-                                    WHERE cp.categoryParentOrder = :categoryParentOrder
-                                    AND cp.categoryParentType = :categoryParentType
-                                    AND b.budgetId = :budgetId
-                                    ORDER BY c.categoryOrder");
+                                        FROM categoryParent cp
+                                        JOIN category c ON (cp.categoryParentId = c.categoryParentId)
+                                        JOIN budgetDetail bd ON (c.categoryId = bd.categoryId)
+                                        JOIN budget b ON (bd.budgetId = b.budgetId)
+                                        WHERE cp.categoryParentOrder = :categoryParentOrder
+                                        AND cp.categoryParentType = :categoryParentType
+                                        AND b.budgetId = :budgetId
+                                        ORDER BY c.categoryOrder");
     }
     else //not admin user, join and compare their userId to filter to only show the logged in user's budget
     { 
         $sql = $db_connection->prepare("SELECT b.userId, b.budgetId, b.isBaseline, cp.categoryParentType, cp.categoryParentOrder, 
                                         cp.categoryParentName, c.categoryId, c.categoryOrder, c.categoryName, c.categoryHoverToolTip, 
                                         c.calculatorType, bd.budgetDetailId, bd.budgetSelfAmount, bd.budgetSpouseAmount
-                                    FROM categoryParent cp
-                                    JOIN category c ON (cp.categoryParentId = c.categoryParentId)
-                                    JOIN budgetDetail bd ON (c.categoryId = bd.categoryId)
-                                    JOIN budget b ON (bd.budgetId = b.budgetId)
-                                    JOIN users u ON (b.userId = u.userId)
-                                    WHERE cp.categoryParentOrder = :categoryParentOrder
-                                    AND cp.categoryParentType = :categoryParentType
-                                    AND b.userId = :userId
-                                    AND b.budgetId = :budgetId
-                                    ORDER BY c.categoryOrder");
+                                        FROM categoryParent cp
+                                        JOIN category c ON (cp.categoryParentId = c.categoryParentId)
+                                        JOIN budgetDetail bd ON (c.categoryId = bd.categoryId)
+                                        JOIN budget b ON (bd.budgetId = b.budgetId)
+                                        JOIN users u ON (b.userId = u.userId)
+                                        WHERE cp.categoryParentOrder = :categoryParentOrder
+                                        AND cp.categoryParentType = :categoryParentType
+                                        AND b.userId = :userId
+                                        AND b.budgetId = :budgetId
+                                        ORDER BY c.categoryOrder");
         
         $sql->bindParam(':userId', $_SESSION['user_id']);
     }
@@ -53,5 +53,3 @@ function getDB($CategoryParentType, $CategoryParentOrder)
     }
     return $ResultsToReturn;
 }
-
-?>

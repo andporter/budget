@@ -7,7 +7,7 @@
         <div class="panel-body">
             <?php
 
-            function getForm($CategoryParentType, $CategoryParentOrder)
+            function getBudgetReviewForm($CategoryParentType, $CategoryParentOrder)
             {
                 $ResultsToReturn = getDB($CategoryParentType, $CategoryParentOrder);
                 foreach ($ResultsToReturn as $row)
@@ -31,7 +31,7 @@
 
             for ($i = 1; $i <= 3; $i++)
             {
-                getForm("Income", $i);
+                getBudgetReviewForm("Income", $i);
             }
             ?>
             <hr>

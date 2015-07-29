@@ -73,6 +73,7 @@ if ($login->isUserLoggedIn() == true)  //the user is logged in.
                 {
                     require("views/logged_in/user_header_menu.php");
                     require("views/logged_in/incomeForm.php");
+                    //require("views/logged_in/expenseForm.php");
                 }
             }
             break;

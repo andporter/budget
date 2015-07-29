@@ -6,7 +6,7 @@
         </div>
         <?php
 
-        function getForm($CategoryParentType, $CategoryParentOrder)
+        function getIncomeReviewForm($CategoryParentType, $CategoryParentOrder)
         {
             $ResultsToReturn = getDB($CategoryParentType, $CategoryParentOrder);
             ?><hr><h4 class="panel-title"><b><?php echo $ResultsToReturn[0]["categoryParentName"] ?></b></h4><div class="panel-body"><?php
@@ -37,7 +37,7 @@
         {
             $grossIncome += $subtotal;
             $total = 0;
-            getForm("Income", $i);
+            getIncomeReviewForm("Income", $i);
         }
         ?>
         <hr><hr>

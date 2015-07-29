@@ -4,7 +4,7 @@
         <h2>Functional Expense Review</h2>
         <?php
 
-        function getForm($CategoryParentType, $CategoryParentOrder)
+        function getExpenseReviewForm($CategoryParentType, $CategoryParentOrder)
         {
             $ResultsToReturn = getDB($CategoryParentType, $CategoryParentOrder);
             ?><hr><h4 class="panel-title"><b><?php echo $ResultsToReturn[0]["categoryParentName"] ?></b></h4>
@@ -32,7 +32,7 @@
 
         for ($i = 1; $i <= 9; $i++)
         {
-            getForm("Expense", $i);
+            getExpenseReviewForm("Expense", $i);
         }
         ?>
         <hr><hr>
