@@ -12,3 +12,12 @@ body
     border: 0px;
     background-color: transparent;
 }
+
+.errors {
+    color: red;
+    margin-left: 45px;
+    text-align: left;
+}
+.errors div {
+    float: left;
+}
