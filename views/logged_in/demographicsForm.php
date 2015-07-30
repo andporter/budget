@@ -54,7 +54,7 @@ if ($sql->execute())
                 <div id="divEmail" class="form-group">
                     <label for="spouseEmail" name="spouseEmail" style="margin-left:15px; width: 100px">Email:</label>
                     <input id="spouseEmail" style="margin-left:30px; width: 300px" type="email" name="spouseEmail" placeholder="Email" value="<?php echo $ResultsToReturn[0]["spouseEmail"] ?>" data-parsley-group="email"/>
-                    <div><div id="dependent0_4Error" class="errors" value=""></div></div>
+                    <div><div id="spouseEmailError" class="errors" value=""></div></div>
                 </div>
 
                 <div id="under4" class="form-group">
