@@ -54,7 +54,7 @@ if ($sql->execute())
                 <div id="divEmail" class="form-group">
                     <label for="spouseEmail" name="spouseEmail" style="margin-left:15px; width: 100px">Email:</label>
                     <input id="spouseEmail" style="margin-left:30px; width: 300px" type="email" name="spouseEmail" placeholder="Email" value="<?php echo $ResultsToReturn[0]["spouseEmail"] ?>" data-parsley-group="email"/>
-                    <div><div id="dependent0_4Error" class="errors" value=""></div></div>
+                    <div><div id="spouseEmailError" class="errors" value=""></div></div>
                 </div>
 
                 <div id="under4" class="form-group">
@@ -72,7 +72,7 @@ if ($sql->execute())
                 <div id="dependentAdditional" class="form-group">
                     <label for="dependentAdditional" name="dependentAdditional" style="margin-left:15px; width: 400px">Additional household member you support (including yourself and spouse):</label>
                     <input id="dependentAdditional" name="dependentAdditional" type="text" onkeypress='return isNumberKey(event);' value="<?php echo $ResultsToReturn[0]["dependentAdditional"] ?>" style="margin-left:15px" required>
-                    <div><div id="dependentAdditionalError" value=""></div></div>
+                    <div><div id="dependentAdditionalError" class="errors"  value=""></div></div>
                 </div>
 
                 <div class="form-group">
