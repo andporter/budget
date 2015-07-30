@@ -16,9 +16,10 @@
                 ?>
                     <div class = "row"><div class="col-sm-5"><span><?php echo $row["categoryName"] ?>'</span>
                         </div>
-                        <div class = "col-sm-3"><span>$&nbsp<?php $total = $row["budgetSelfAmount"] + $row["budgetSpouseAmount"];
-        echo $total;
-                ?></span>
+                        <div class = "col-sm-3"><span>$&nbsp<?php
+                                $total = $row["budgetSelfAmount"] + $row["budgetSpouseAmount"];
+                                echo $total;
+                                ?></span>
                         </div>
                     </div><?php
                     $GLOBALS['subtotal'] += $total;
@@ -47,19 +48,9 @@
             <div class="row">
                 <h4 class="panel-title col-sm-5"><b>Gross Income</b></h4>
                 <div class="col-sm-1"><span>$&nbsp<?php echo $GLOBALS['grossIncome'] ?></span></div>
-            </div>
-            <div class="row">
-                <div class="panel-body col-sm-5"><span>Less Federal and State Income Taxes</span></div>
-                <div class="col-sm-1"><font color="red"><span>$&nbsp<?php echo $tax; ?></span></font></div>
-                <div class="col-sm-1"><font color="red"><span><?php echo number_format($GLOBALS['tax'] / $GLOBALS['grossIncome'] * 100) ?>&nbsp%</span></font>
-                </div>
-            </div><hr>
-            <div class="row">
-<?php $netIncome = $GLOBALS['grossIncome'] - $tax; ?>
-                <h4 class="panel-title col-sm-5"><b>Net Income</b></h4>
-                <div class="col-sm-1"><span>$&nbsp<?php echo $netIncome; ?></span></div><hr><hr>
                 <input type="button" value="Next" class="btn btn-primary pull-right" id="toExpenseForm">
             </div>
+            <hr><hr>
         </div>
     </div>
 </div>
