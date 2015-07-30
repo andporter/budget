@@ -70,7 +70,7 @@
 <script type = "text/javascript">
     $("#printBudget").on("click", function ()
     {
-        window.print(); 
+        window.print();
     });
 
 </script>

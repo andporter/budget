@@ -13,18 +13,24 @@
                 foreach ($ResultsToReturn as $row)
                 {
                     $total = $row["budgetSelfAmount"] + $row["budgetSpouseAmount"];
-                    $GLOBALS['subtotal'] += $total;
+                    $subtotal += $total;
                     $GLOBALS['totalExpense'] += $total;
-                    ?>
-                    <div class = "row">
-                        <div class="col-sm-5"><span><?php echo $row["categoryName"] ?></span></div>
-                        <div class = "col-sm-3"><span>$&nbsp<?php echo $total; ?></span></div>
-                    </div>
-                <?php } ?>
+
+                    if ($total > 0.0)
+                    {
+                        ?>
+                        <div class = "row">
+                            <div class="col-sm-5"><span><?php echo $row["categoryName"] ?></span></div>
+                            <div class = "col-sm-3"><span>$&nbsp<?php echo $total; ?></span></div>
+                        </div>
+                        <?php
+                    }
+                }
+                ?>
                 <div class="row">
                     <div class="col-sm-5"><h5><u>Total&nbsp<?php echo $ResultsToReturn[0]["categoryParentName"] ?></u></h5></div>
-                    <div class="col-sm-1"><u>$&nbsp<?php echo $GLOBALS['subtotal'] ?></u></div>
-                    <div class="col-sm-2"><u><?php echo number_format($GLOBALS['subtotal'] / $GLOBALS['grossIncome'] * 100) ?>&nbsp%</u></div>
+                    <div class="col-sm-1"><u>$&nbsp<?php echo number_format($subtotal) ?></u></div>
+                    <div class="col-sm-2"><u><?php echo number_format($subtotal / $GLOBALS['grossIncome'] * 100) ?>&nbsp%</u></div>
                 </div>
             </div>
             <?php
@@ -32,13 +38,12 @@
 
         for ($i = 1; $i <= 9; $i++)
         {
-            $GLOBALS['subtotal'] = 0;
             getExpenseReviewForm("Expense", $i);
         }
         ?>
         <hr><hr>
         <div class="row"><h4 class="panel-title col-sm-5"><b>Total Expenses</b></h4>
-            <div class="col-sm-3"><span>$&nbsp<?php echo $totalExpense ?></span></div>
+            <div class="col-sm-3"><span>$&nbsp<?php echo number_format($totalExpense) ?></span></div>
         </div>
         <div class="panel-body">
             <input type="button" value="Next" class="btn btn-primary pull-right" onclick="" id="toBudgetReview">

@@ -3,8 +3,6 @@
 $grossIncome = 0.0;
 $tax = 0.0;
 $totalExpense = 0.0;
-$subtotal = 0.0;
-$total = 0.0;
 $net = 0.0;
 
 include('GetDB.php');
