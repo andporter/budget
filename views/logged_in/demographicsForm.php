@@ -72,7 +72,7 @@ if ($sql->execute())
                 <div id="dependentAdditional" class="form-group">
                     <label for="dependentAdditional" name="dependentAdditional" style="margin-left:15px; width: 400px">Additional household member you support (including yourself and spouse):</label>
                     <input id="dependentAdditional" name="dependentAdditional" type="text" onkeypress='return isNumberKey(event);' value="<?php echo $ResultsToReturn[0]["dependentAdditional"] ?>" style="margin-left:15px" required>
-                    <div><div id="dependentAdditionalError" value=""></div></div>
+                    <div><div id="dependentAdditionalError" class="errors"  value=""></div></div>
                 </div>
 
                 <div class="form-group">
