@@ -32,6 +32,7 @@
 
         for ($i = 1; $i <= 9; $i++)
         {
+            $GLOBALS['subtotal'] = 0;
             getExpenseReviewForm("Expense", $i);
         }
         ?>
