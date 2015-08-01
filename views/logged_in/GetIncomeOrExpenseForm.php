@@ -31,9 +31,12 @@ function getIncomeOrExpenseForm($CategoryParentType, $CategoryParentOrder)
                                 </div>
                                 <div class = 'col-sm-1'>
                                     <?php
-                                    $x = "self_" . $row["budgetDetailId"] . "_" . $row["categoryId"];
-                                    $$x = new Calculator($row["calculatorType"], $x);
-                                    echo $$x->drawCalculator();
+                                    if ($row["isBaseline"] == "0")
+                                    {
+                                        $x = "self_" . $row["budgetDetailId"] . "_" . $row["categoryId"];
+                                        $$x = new Calculator($row["calculatorType"], $x);
+                                        echo $$x->drawCalculator();
+                                    }
                                     ?>
                                 </div>
                                 <div class = 'col-sm-3'>
@@ -41,9 +44,12 @@ function getIncomeOrExpenseForm($CategoryParentType, $CategoryParentOrder)
                                 </div>
                                 <div class = 'col-sm-1'>
                                     <?php
-                                    $y = "spouse_" . $row["budgetDetailId"] . "_" . $row["categoryId"];
-                                    $$y = new Calculator($row["calculatorType"], $y);
-                                    echo $$y->drawCalculator();
+                                    if ($row["isBaseline"] == "0")
+                                    {
+                                        $y = "spouse_" . $row["budgetDetailId"] . "_" . $row["categoryId"];
+                                        $$y = new Calculator($row["calculatorType"], $y);
+                                        echo $$y->drawCalculator();
+                                    }
                                     ?>
                                 </div>
                             </div>
