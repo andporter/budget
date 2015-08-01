@@ -1,13 +1,5 @@
 <?php
 
-/*
-  Input: $_GET['method'] = []
-
-  Output: A JSON formatted HTTP response
-
-  Original Script: thtp://markroland.com/blog/restful-php-api/
- */
-
 require_once("../classes/Login.php");
 require_once("../config/config.php");
 $login = new Login();
@@ -355,6 +347,7 @@ function deliver_response($api_response)
     // Deliver JSON formatted data
     echo json_encode($api_response);
 
-    // End script process
+    // End script process, error log is just to output a log... not really an error.
+    error_log('UserType: ' . $_SESSION['user_type'] . ', UserName: ' . $_SESSION['user_name'] . ', Method: ' . $_GET['method']);
     exit;
 }

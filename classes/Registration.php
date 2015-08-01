@@ -35,7 +35,11 @@ class Registration
 
         if (isset($_POST["register"]))
         {
-            $this->registerNewUser();
+            $this->registerNewUser($user_type = "Regular");
+        }
+        if (isset($_POST["registeradmin"]))
+        {
+            $this->registerNewUser($user_type = "Admin");
         }
         else if (isset($_POST["changepassword"]))
         {
@@ -51,7 +55,7 @@ class Registration
      * handles the entire registration process. checks all error possibilities
      * and creates a new user in the database if everything is fine
      */
-    private function registerNewUser()
+    private function registerNewUser($user_type = "Regular")
     {
         if (empty($_POST['user_name']))
         {
@@ -127,7 +131,7 @@ class Registration
                 else
                 {
                     // write new user's data into database
-                    $sql = "INSERT INTO users (userName, userPasswordHash, userEmail) VALUES('" . $user_name . "', '" . $user_password_hash . "', '" . $user_email . "');";
+                    $sql = "INSERT INTO users (userName, userType, userPasswordHash, userEmail) VALUES('" . $user_name . "','" . $user_type . "', '" . $user_password_hash . "', '" . $user_email . "');";
                     $query_new_user_insert = $this->db_connection->query($sql);
 
                     // if user has been added successfully
