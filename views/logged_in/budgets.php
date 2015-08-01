@@ -129,7 +129,7 @@ date_default_timezone_set('America/Denver');
 
     function getSelectedRowIDs(dataformat)
     {
-        var selectedTableRows = $('#budgetTable').bootstrapTable('getSelections');
+        var selectedTableRows = $('#budgetTable').bootstrapTable('getAllSelections');
         var selectedTableRowIDs = new Array();
 
         selectedTableRows.forEach(function (obj)
@@ -171,7 +171,7 @@ date_default_timezone_set('America/Denver');
     
     $('#addConfirmButton').click(function ()
     {
-        window.location.href = "index.php?editincomebudget=new&budgetname=" + $('input[name=newBudgetName]').val();;
+        window.location.href = "index.php?editincomebudget=new&budgetname=" + $('input[name=newBudgetName]').val();
     });
 
     $('#editConfirmButton').click(function ()
@@ -181,7 +181,10 @@ date_default_timezone_set('America/Denver');
 
     $('#duplicateConfirmButton').click(function ()
     {
-        window.location.href = "index.php?duplicatebudget=" + getSelectedRowIDs();
+        var rowdata = $('#budgetTable').bootstrapTable('getSelections');
+        console.log(rowdata[0]);
+        console.log(rowdata[0].budgetName);
+        window.location.href = "index.php?duplicatebudget=" + rowdata[0].budgetId + "&budgetname=Duplicate of " + rowdata[0].budgetName;
     });
 
     $('#deleteConfirmButton').click(function ()

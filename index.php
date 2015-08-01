@@ -94,7 +94,7 @@ if ($login->isUserLoggedIn() == true)  //the user is logged in.
 
         case "duplicatebudget":
             {
-                $budget->createNewBudget($budgetName="Duplicate",$budgetIdToDuplicate=$_GET['duplicatebudget']); //duplicate passed in budgetId
+                $budget->createNewBudget($budgetName=$_GET['budgetname'],$budgetIdToDuplicate=$_GET['duplicatebudget']); //duplicate passed in budgetId
 
                 if ($budget->errors)
                 {
