@@ -57,7 +57,7 @@ if ($login->isUserLoggedIn() == true)  //the user is logged in.
             {
                 if ($_GET['editincomebudget'] == "new")
                 {
-                    $budget->createNewBudget($budgetName="Current",$budgetIdToDuplicate="new");
+                    $budget->createNewBudget($budgetName=$_GET['budgetname'],$budgetIdToDuplicate="new");
                 }
                 else // set the user session budgetId to the budgetId supplied in the url
                 {

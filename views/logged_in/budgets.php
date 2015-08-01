@@ -7,7 +7,7 @@ date_default_timezone_set('America/Denver');
         <div class="btn-group">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-plus"></i> Add <span class="caret"></span></button>
             <ul class="dropdown-menu">
-                <li><a href="index.php?editincomebudget=new" title="Add New Budget">New</a></li>
+                <li><a href="#AddBudgetConfirmModal" data-toggle="modal" title="Add New Budget">New</a></li>
                 <li><a href="#" id="duplicateConfirmButton" title="Duplicate Selected Budget">Duplicate</a></li>
             </ul>
         </div>
@@ -15,7 +15,7 @@ date_default_timezone_set('America/Denver');
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-edit"></i> Edit <span class="caret"></span></button>
             <ul class="dropdown-menu">
                 <li><a href="#" id="editConfirmButton" title="Edit Selected Budget">Edit Budget</a></li>
-                <li><a href="#EditBudgetNameModal" data-toggle="modal" title="Edit Selected Budget Name">Edit Name</a></li>
+                <li><a href="#UpdateBudgetNameModal" data-toggle="modal" title="Update Selected Budget Name">Edit Name</a></li>
                 <?php
                 if ($_SESSION['user_type'] == "Admin")
                 {
@@ -53,15 +53,33 @@ date_default_timezone_set('America/Denver');
     </table>
 </div>
 
-<div id="EditBudgetNameModal" class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+<div id="AddBudgetConfirmModal" class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content well">
             <div class="modal-header">
-                <h4><span class="glyphicon glyphicon-edit"></span> New Budget Name</h4>
+                <h4><span class="glyphicon glyphicon-plus"></span> Confirm New</h4>
             </div>
             <div class="modal-body">
                 <p>Enter the new Budget Name</p>
                 <input id="newBudgetName" name="newBudgetName" type="text" placeholder="">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a href="#" id="addConfirmButton" class="btn btn-success btn-ok">New</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="UpdateBudgetNameModal" class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content well">
+            <div class="modal-header">
+                <h4><span class="glyphicon glyphicon-edit"></span> Update Budget Name</h4>
+            </div>
+            <div class="modal-body">
+                <p>Enter the new Budget Name</p>
+                <input id="updateBudgetName" name="updateBudgetName" type="text" placeholder="">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -131,16 +149,16 @@ date_default_timezone_set('America/Denver');
 
     $('#updateNameConfirmButton').click(function ()
     {
-        $('#EditBudgetNameModal').modal('hide');
+        $('#UpdateBudgetNameModal').modal('hide');
         $('#progressBarModal').modal('show');
 
-        var newBudgetName = $('input[name=newBudgetName]').val();
+        var updateBudgetName = $('input[name=updateBudgetName]').val();
 
-        var postJSONData = '{"newBudgetName" : "' + newBudgetName +
+        var postJSONData = '{"updateBudgetName" : "' + updateBudgetName +
                 '","budgetIds" : "' + getSelectedRowIDs() +
                 '"}';
 
-        SendAjax("api/api.php?method=userEditBudgetName", postJSONData, AjaxSubmit_getBudgets, true);
+        SendAjax("api/api.php?method=userUpdateBudgetName", postJSONData, AjaxSubmit_getBudgets, true);
     });
 
     $('#baselineConfirmButton').click(function ()
@@ -149,6 +167,11 @@ date_default_timezone_set('America/Denver');
 
         var postJSONData = getSelectedRowIDs("json");
         SendAjax("api/api.php?method=userToggleBudgetBaseline", postJSONData, AjaxSubmit_getBudgets, true);
+    });
+    
+    $('#addConfirmButton').click(function ()
+    {
+        window.location.href = "index.php?editincomebudget=new&budgetname=" + $('input[name=newBudgetName]').val();;
     });
 
     $('#editConfirmButton').click(function ()

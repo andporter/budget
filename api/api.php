@@ -93,7 +93,7 @@ switch ($_GET['method'])
         }
         break;
 
-    case "userEditBudgetName":
+    case "userUpdateBudgetName":
         {
             try
             {
@@ -104,7 +104,7 @@ switch ($_GET['method'])
                     
                     $sql = $db_connection->prepare("UPDATE budget SET budgetName = :budgetName WHERE budgetId = :budgetId");
                     
-                    $sql->bindParam(':budgetName', $jsonData['newBudgetName']);
+                    $sql->bindParam(':budgetName', $jsonData['updateBudgetName']);
 
                     foreach (explode(",", $jsonData['budgetIds']) as $budgetId)
                     {
