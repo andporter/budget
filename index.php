@@ -45,7 +45,7 @@ if ($login->isUserLoggedIn() == true)  //the user is logged in.
                 }
                 else //No existing budget.
                 {
-                    $budget->createNewBudget("new");
+                    $budget->createNewBudget($budgetName="Current",$budgetIdToDuplicate="new");
                     require("views/logged_in/user_header_menu.php");
                     require("views/logged_in/demographicsForm.php");
                     require("views/logged_in/incomeForm.php");
@@ -57,7 +57,7 @@ if ($login->isUserLoggedIn() == true)  //the user is logged in.
             {
                 if ($_GET['editincomebudget'] == "new")
                 {
-                    $budget->createNewBudget("new");
+                    $budget->createNewBudget($budgetName="Current",$budgetIdToDuplicate="new");
                 }
                 else // set the user session budgetId to the budgetId supplied in the url
                 {
@@ -94,7 +94,7 @@ if ($login->isUserLoggedIn() == true)  //the user is logged in.
 
         case "duplicatebudget":
             {
-                $budget->createNewBudget($_GET['duplicatebudget']); //duplicate passed in budgetId
+                $budget->createNewBudget($budgetName="Duplicate",$budgetIdToDuplicate=$_GET['duplicatebudget']); //duplicate passed in budgetId
 
                 if ($budget->errors)
                 {

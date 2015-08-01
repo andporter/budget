@@ -27,7 +27,7 @@ class Budget
         
     }
 
-    public function createNewBudget($budgetIdToDuplicate)
+    public function createNewBudget($budgetName,$budgetIdToDuplicate)
     {
         // create a database connection, using the constants from config/db.php (which we loaded in index.php)
         $this->db_connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
@@ -52,7 +52,7 @@ class Budget
             }
             else //less than MAX_BUDGETS so create or duplicate one
             {
-                $sql = "INSERT INTO budget (userId, dateCreated) VALUES ('" . $_SESSION['user_id'] . "', NOW());";
+                $sql = "INSERT INTO budget (userId, budgetName, dateCreated) VALUES ('" . $_SESSION['user_id'] . "','" . $budgetName . "', NOW());";
                 $query_new_user_budget = $this->db_connection->query($sql);
 
                 if ($query_new_user_budget)
