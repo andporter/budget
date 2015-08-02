@@ -56,9 +56,11 @@ function getIncomeOrExpenseForm($CategoryParentType, $CategoryParentOrder)
                         </div>
                     <?php } ?>
                     <div class='form-group'>
-                        <div class='col-sm-offset-2 col-sm-10'>
+                        <div class='col-sm-12'>
+                            <?php if ($panelId != 1){?>
+                            <input type="button" value="Back" class="btn btn-primary" onclick="submitForm(this.form)" id="prev<?php echo $CategoryParentType.$panelId; ?>">
+                            <?php } ?>
                             <input type="button" value="Next" class="btn btn-primary pull-right" onclick="submitForm(this.form)" id="next<?php echo $CategoryParentType.$panelId; ?>">
-<!--                            <input type="button" value="Prev" class="btn btn-primary pull-left" onclick="submitForm(this.form)" id="prev<?php //echo $panelId; ?>">-->
                         </div>
                     </div>
                 </form>
@@ -66,22 +68,28 @@ function getIncomeOrExpenseForm($CategoryParentType, $CategoryParentOrder)
         </div>
     </div>
     <script type = "text/javascript">
-        $("#next<?php echo $CategoryParentType.$panelId; ?>").on("click", function() 
-        {
-            if (this.id === "nextIncome3")
+        $("#next<?php echo $CategoryParentType . $panelId; ?>").on("click", function() 
             {
-                window.location.href = "index.php?budgetreview=income"
-            }
-            else if (this.id === "nextExpense9")
+                if (this.id === "nextIncome3")
+                {
+                    window.location.href = "index.php?budgetreview=income"
+                }
+                else if (this.id === "nextExpense9")
+                {
+                    window.location.href = "index.php?budgetreview=expense"
+                }
+                else
+                {
+                    $("#panel<?php echo $CategoryParentType . $panelId; ?>").collapse('hide');
+                    $("#panel<?php echo $CategoryParentType . ($panelId + 1); ?>").collapse('show');
+                }
+            });
+            
+            $("#prev<?php echo $CategoryParentType . $panelId; ?>").on("click", function() 
             {
-                window.location.href = "index.php?budgetreview=expense"
-            }
-            else
-            {
-                $("#panel<?php echo $CategoryParentType.$panelId; ?>").collapse('hide');
-                $("#panel<?php echo $CategoryParentType.($panelId + 1); ?>").collapse('show');
-            }
-        });
+                $("#panel<?php echo $CategoryParentType . $panelId; ?>").collapse('hide');
+                $("#panel<?php echo $CategoryParentType . ($panelId - 1); ?>").collapse('show');
+            });
 
             //    $("#prev<?php //echo $panelId;   ?>").on("click", function() {
             //        $("#panel<?php //echo $panelId;   ?>").collapse('hide');
