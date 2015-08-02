@@ -85,16 +85,11 @@ function getIncomeOrExpenseForm($CategoryParentType, $CategoryParentOrder)
                 }
             });
             
-            $("#prev<?php echo $CategoryParentType . $panelId; ?>").on("click", function() 
+        $("#prev<?php echo $CategoryParentType . $panelId; ?>").on("click", function() 
             {
                 $("#panel<?php echo $CategoryParentType . $panelId; ?>").collapse('hide');
                 $("#panel<?php echo $CategoryParentType . ($panelId - 1); ?>").collapse('show');
             });
-
-            //    $("#prev<?php //echo $panelId;   ?>").on("click", function() {
-            //        $("#panel<?php //echo $panelId;   ?>").collapse('hide');
-            //        $("#panel<?php //echo $panelId - 1;   ?>").collapse('show');
-            //    });
     </script>
     <br>
     <?php
