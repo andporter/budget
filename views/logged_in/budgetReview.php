@@ -3,7 +3,9 @@
 <div id="budgetReview">
     <div class = "container theme-showcase">
         <h2>Budget Review</h2>
-        <h4 class="panel-title">Income</h4>
+        <h4 class="panel-title col-sm-7">Income</h4>
+        <div class="col-sm-1">Actual</div>
+        <div class="col-sm-1">Difference</div>
         <div class="panel-body">
             <?php
 
@@ -26,6 +28,8 @@
                     </div>
                     <div class="col-sm-1">$&nbsp<?php echo number_format($GLOBALS['subtotal']) ?></div>
                     <div class="col-sm-1" ><?php echo number_format($GLOBALS['subtotal'] / $GLOBALS['grossIncome'] * 100.0) ?>&nbsp%</div>
+                    <div class="col-sm-1">_________</div>
+                    <div class="col-sm-1">_________</div>
                 </div>
                 <?php
             }
@@ -35,9 +39,15 @@
                 getBudgetReviewForm("Income", $i);
             }
             ?>
+            <div class="row">
+                <h4 class="col-sm-5"><u>Gross Income</u></h4>
+                <div class="col-sm-1"><u>$&nbsp<?php echo $GLOBALS['grossIncome'] ?></u></div>
+            </div>
             <hr>
         </div>
-        <h4 class="panel-title">Expense</h4>
+        <h4 class="panel-title col-sm-7">Expense</h4>
+        <div class="col-sm-1">Actual</div>
+        <div class="col-sm-1">Difference</div>
         <div class="panel-body">
             <?php
             for ($i = 1; $i <= 9; $i++)
@@ -45,8 +55,12 @@
                 getBudgetReviewForm("Expense", $i);
             }
             ?>
-            <hr><hr>
+            <div class="row">
+                <h4 class="col-sm-5"><u>Total Expenses</u></h4>
+                <div class="col-sm-1"><u>$&nbsp<?php echo $GLOBALS['totalExpense'] ?></u></div>
+            </div>
         </div>
+        <hr><hr>
         <div class="row"><h4 class="panel-title col-sm-5">Budget Surplus <font color="red">(Deficit)</font></h4>
             <div class="col-sm-3"><span>
                     <?php

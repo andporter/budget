@@ -7,7 +7,9 @@
         function getExpenseReviewForm($CategoryParentType, $CategoryParentOrder)
         {
             $ResultsToReturn = getDB($CategoryParentType, $CategoryParentOrder);
-            ?><hr><h4 class="panel-title"><b><?php echo $ResultsToReturn[0]["categoryParentName"] ?></b></h4>
+            ?><hr><h4 class="panel-title col-sm-7"><b><?php echo $ResultsToReturn[0]["categoryParentName"] ?></b></h4>
+            <div class="col-sm-1">Actual</div>
+            <div class="col-sm-1">Difference</div>
             <div class="panel-body">
                 <?php
                 foreach ($ResultsToReturn as $row)
@@ -21,7 +23,9 @@
                         ?>
                         <div class = "row">
                             <div class="col-sm-5"><span><?php echo $row["categoryName"] ?></span></div>
-                            <div class = "col-sm-3"><span>$&nbsp<?php echo $total; ?></span></div>
+                            <div class = "col-sm-2"><span>$&nbsp<?php echo $total; ?></span></div>
+                            <div class="col-sm-1">_________</div>
+                            <div class="col-sm-1">_________</div>
                         </div>
                         <?php
                     }
