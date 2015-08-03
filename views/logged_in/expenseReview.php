@@ -7,7 +7,10 @@
         function getExpenseReviewForm($CategoryParentType, $CategoryParentOrder)
         {
             $ResultsToReturn = getDB($CategoryParentType, $CategoryParentOrder);
-            ?><hr><h4 class="panel-title col-sm-7"><b><?php echo $ResultsToReturn[0]["categoryParentName"] ?></b></h4>
+            ?><hr><h4 class="panel-title col-sm-5"><?php echo substr($ResultsToReturn[0]["categoryParentName"], 7) ?></h4>
+            <div class="col-sm-1">Client</div>
+            <div class="col-sm-1">Spouse</div>
+            <div class="col-sm-1">Total</div>
             <div class="col-sm-1">Actual</div>
             <div class="col-sm-1">Difference</div>
             <div class="panel-body">
@@ -23,7 +26,9 @@
                         ?>
                         <div class = "row">
                             <div class="col-sm-5"><span><?php echo $row["categoryName"] ?></span></div>
-                            <div class = "col-sm-2"><span>$&nbsp<?php echo $total; ?></span></div>
+                            <div class = "col-sm-1"><span>$&nbsp<?php echo number_format($row["budgetSelfAmount"]); ?></span></div>
+                            <div class = "col-sm-1"><span>$&nbsp<?php echo number_format($row["budgetSpouseAmount"]); ?></span></div>
+                            <div class = "col-sm-1"><span>$&nbsp<?php echo number_format($total); ?></span></div>
                             <div class="col-sm-1">_________</div>
                             <div class="col-sm-1">_________</div>
                         </div>
@@ -32,9 +37,9 @@
                 }
                 ?>
                 <div class="row">
-                    <div class="col-sm-5"><h5><u>Total&nbsp<?php echo $ResultsToReturn[0]["categoryParentName"] ?></u></h5></div>
+                    <div class="col-sm-7"><h5><u>Total</u></h5></div>
                     <div class="col-sm-1"><u>$&nbsp<?php echo number_format($subtotal) ?></u></div>
-                    <div class="col-sm-2"><u><?php echo number_format($subtotal / $GLOBALS['grossIncome'] * 100) ?>&nbsp%</u></div>
+                    <div class="col-sm-1"><u><?php echo number_format($subtotal / $GLOBALS['grossIncome'] * 100) ?>&nbsp%</u></div>
                 </div>
             </div>
             <?php

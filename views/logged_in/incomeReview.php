@@ -2,16 +2,16 @@
 
 <div id="incomeReview">
     <div class = "container theme-showcase">
-        <div class="row">
-            <h2 class="col-sm-5">Income Review</h2>
-        </div>
+        <h2>Income Review</h2>
         <?php
 
         function getIncomeReviewForm($CategoryParentType, $CategoryParentOrder)
         {
             $ResultsToReturn = getDB($CategoryParentType, $CategoryParentOrder);
-            ?><hr><h4 class="panel-title col-sm-7"><b><?php echo $ResultsToReturn[0]["categoryParentName"] ?></b></h4>
-
+            ?><hr><h4 class="panel-title col-sm-5"><b><?php echo $ResultsToReturn[0]["categoryParentName"] ?></b></h4>
+            <div class="col-sm-1">Client</div>
+                <div class="col-sm-1">Spouse</div>
+                <div class="col-sm-1">Total</div>
             <div class="col-sm-1">Actual</div>
             <div class="col-sm-1">Difference</div>
             <div class="panel-body"><?php
@@ -23,7 +23,15 @@
                         ?>
                         <div class = "row">
                             <div class="col-sm-5"><span><?php echo $row["categoryName"] ?>'</span></div>
-                            <div class = "col-sm-2"><span>$&nbsp<?php
+                            <div class = "col-sm-1"><span>$&nbsp<?php
+                                    echo number_format($row["budgetSelfAmount"]);
+                                    ?></span>
+                            </div>
+                            <div class = "col-sm-1"><span>$&nbsp<?php
+                                    echo number_format($row["budgetSpouseAmount"]);
+                                    ?></span>
+                            </div>
+                            <div class = "col-sm-1"><span>$&nbsp<?php
                                     echo number_format($total);
                                     ?></span>
                             </div>
@@ -35,7 +43,7 @@
                 }
                 ?>
                 <div class="row">
-                    <div class="col-sm-5"><h5><u>Total&nbsp<?php echo $ResultsToReturn[0]["categoryParentName"] ?></u></h5></div>
+                    <div class="col-sm-7"><h5><u>Total&nbsp<?php echo $ResultsToReturn[0]["categoryParentName"] ?></u></h5></div>
                     <div class="col-sm-1" <?php echo 'id="' . $ResultsToReturn[0]["categoryParentName"] . 'total"' ?>>
                         <u>$&nbsp<?php echo number_format($subtotal) ?></u>
                     </div>
