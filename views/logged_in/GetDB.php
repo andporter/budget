@@ -1,11 +1,24 @@
 <?php
 
+function getNumberOfParentCategories($type)
+{
+    $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
+
+    $sql = $db_connection->prepare("SELECT COUNT(CategoryParentOrder) "
+            . "FROM categoryParent "
+            . "WHERE categoryParentType = '" . $type . "'");
+    if ($sql->execute())
+    {
+        return $sql->fetchAll(PDO::FETCH_COLUMN);
+    }
+}
+
 function getDB($CategoryParentType, $CategoryParentOrder)
 {
     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
 
     if ($_SESSION['user_type'] == "Admin") //admin user, does not care to join or compare the userId
-    { 
+    {
         $sql = $db_connection->prepare("SELECT b.userId, b.budgetId, '0' isBaseline, cp.categoryParentType, cp.categoryParentOrder, 
                                         cp.categoryParentName, c.categoryId, c.categoryOrder, c.categoryName, c.categoryHoverToolTip, 
                                         c.calculatorType, bd.budgetDetailId, bd.budgetSelfAmount, bd.budgetSpouseAmount
@@ -17,9 +30,8 @@ function getDB($CategoryParentType, $CategoryParentOrder)
                                         AND cp.categoryParentType = :categoryParentType
                                         AND b.budgetId = :budgetId
                                         ORDER BY c.categoryOrder");
-    }
-    else //not admin user, join and compare their userId to filter to only show the logged in user's budget
-    { 
+    } else //not admin user, join and compare their userId to filter to only show the logged in user's budget
+    {
         $sql = $db_connection->prepare("SELECT b.userId, b.budgetId, b.isBaseline, cp.categoryParentType, cp.categoryParentOrder, 
                                         cp.categoryParentName, c.categoryId, c.categoryOrder, c.categoryName, c.categoryHoverToolTip, 
                                         c.calculatorType, bd.budgetDetailId, bd.budgetSelfAmount, bd.budgetSpouseAmount
@@ -33,7 +45,7 @@ function getDB($CategoryParentType, $CategoryParentOrder)
                                         AND b.userId = :userId
                                         AND b.budgetId = :budgetId
                                         ORDER BY c.categoryOrder");
-        
+
         $sql->bindParam(':userId', $_SESSION['user_id']);
     }
 

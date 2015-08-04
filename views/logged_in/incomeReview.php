@@ -22,7 +22,7 @@
                     {
                         ?>
                         <div class = "row">
-                            <div class="col-sm-5"><span><?php echo $row["categoryName"] ?>'</span></div>
+                            <div class="col-sm-5"><span><?php echo $row["categoryName"] ?></span></div>
                             <div class = "col-sm-1"><span>$&nbsp<?php
                                     echo number_format($row["budgetSelfAmount"]);
                                     ?></span>
@@ -54,7 +54,7 @@
             </div><?php
         }
 
-        for ($i = 1; $i <= 3; $i++)
+        for ($i = 1; $i <= getNumberOfParentCategories("Income")[0]; $i++)
         {
             getIncomeReviewForm("Income", $i);
         }
