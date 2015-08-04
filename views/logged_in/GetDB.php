@@ -9,7 +9,8 @@ function getNumberOfParentCategories($type)
             . "WHERE categoryParentType = '" . $type . "'");
     if ($sql->execute())
     {
-        return $sql->fetchAll(PDO::FETCH_COLUMN);
+        $result = $sql->fetchAll(PDO::FETCH_COLUMN);
+        return $result[0];
     }
 }
 
