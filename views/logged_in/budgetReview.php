@@ -46,7 +46,7 @@ function getHeader($name)
                 </div>
                 <?php
             }
-            for ($i = 1; $i <= getNumberOfParentCategories("Income")[0]; $i++)
+            for ($i = 1; $i <= getNumberOfParentCategories("Income"); $i++)
             {
                 getBudgetReviewForm("Income", $i);
             }
@@ -60,7 +60,7 @@ function getHeader($name)
         <?php getHeader("Expense"); ?>
         <div class="panel-body">
             <?php
-            for ($i = 1; $i <= getNumberOfParentCategories("Expense")[0]; $i++)
+            for ($i = 1; $i <= getNumberOfParentCategories("Expense"); $i++)
             {
                 getBudgetReviewForm("Expense", $i);
             }

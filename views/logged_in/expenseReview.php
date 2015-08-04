@@ -45,7 +45,7 @@
             <?php
         }
 
-        for ($i = 1; $i <= getNumberOfParentCategories("Expense")[0]; $i++)
+        for ($i = 1; $i <= getNumberOfParentCategories("Expense"); $i++)
         {
             getExpenseReviewForm("Expense", $i);
         }

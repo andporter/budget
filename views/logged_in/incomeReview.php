@@ -54,7 +54,7 @@
             </div><?php
         }
 
-        for ($i = 1; $i <= getNumberOfParentCategories("Income")[0]; $i++)
+        for ($i = 1; $i <= getNumberOfParentCategories("Income"); $i++)
         {
             getIncomeReviewForm("Income", $i);
         }
@@ -62,7 +62,7 @@
         <hr><hr>
         <div>
             <div class="row">
-                <h4 class="panel-title col-sm-5"><b>Gross Income</b></h4>
+                <h4 class="panel-title col-sm-7"><b>Gross Income</b></h4>
                 <div class="col-sm-1"><span>$&nbsp<?php echo number_format($GLOBALS['grossIncome']) ?></span></div>
                 <input type="button" value="Next" class="btn btn-primary pull-right" id="toExpenseForm">
             </div>
