@@ -15,4 +15,5 @@ if ($stmt->execute())
 else 
 {
     echo "Fail";
+    print_r($stmt->errorInfo());
 }    

@@ -37,17 +37,17 @@ date_default_timezone_set('America/Denver');
            data-height="650"
            data-maintain-selected="true"
            data-striped="true"
-           data-sort-name="date"
+           data-sort-name="name"
            data-sort-order="desc"
            data-sortable="true">
         <thead>
             <tr>
                 <th data-field="state" data-checkbox="true"></th>
-                <th class="col-xs-2" data-field="dateCreated" data-sortable="true">Date Created</th>
-                <th class="col-xs-2" data-field="dateUpdated" data-sortable="true">Date Updated</th>
+                <th class="col-xs-2" data-field="name" data-sortable="true">Name</th>
                 <th class="col-xs-5" data-field="budgetName" data-sortable="true">Budget Name</th>
                 <th class="col-xs-1" data-field="isBaseline" data-sortable="true">Baseline</th>
-                <th class="col-xs-2" data-field="userName" data-sortable="true">User</th>
+                <th class="col-xs-2" data-field="dateCreated" data-sortable="true">Date Created</th>
+                <th class="col-xs-2" data-field="dateUpdated" data-sortable="true">Date Updated</th>
             </tr>
         </thead>
     </table>
