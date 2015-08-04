@@ -54,7 +54,7 @@ function getHeader($name)
             ?>
             <div class="row">
                 <h4 class="col-sm-7"><u>Gross Income</u></h4>
-                <div class="col-sm-1"><u>$&nbsp<?php echo $GLOBALS['grossIncome'] ?></u></div>
+                <div class="col-sm-1"><u>$&nbsp<?php echo number_format($GLOBALS['grossIncome']); ?></u></div>
             </div>
             <hr>
         </div>
@@ -68,7 +68,7 @@ function getHeader($name)
             ?>
             <div class="row">
                 <h4 class="col-sm-7"><u>Total Expenses</u></h4>
-                <div class="col-sm-1"><u>$&nbsp<?php echo $GLOBALS['totalExpense'] ?></u></div>
+                <div class="col-sm-1"><u>$&nbsp<?php echo number_format($GLOBALS['totalExpense']); ?></u></div>
             </div>
         </div>
         <hr><hr>
@@ -82,7 +82,7 @@ function getHeader($name)
                         echo '<font color="red">-&nbsp$&nbsp' . number_format(abs($GLOBALS['net'])) . '</font>';
                     } else
                     {
-                        echo '$&nbsp' . $GLOBALS['net'];
+                        echo '$&nbsp' . number_format($GLOBALS['net']);
                     }
                     ?>
                 </span>

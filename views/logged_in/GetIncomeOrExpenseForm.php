@@ -21,7 +21,7 @@ function getIncomeOrExpenseForm($CategoryParentType, $CategoryParentOrder)
                     {
                         ?>
                         <div class = 'form-group'>
-                            <label class = 'control-label col-sm-5' for = 'self_<?php echo $row["categoryId"] ?>'><?php echo $row["categoryOrder"] . '. ' . $row["categoryName"] ?></label>
+                            <label class = 'control-label col-sm-5' for = 'self_<?php echo $row["categoryId"] ?>'><?php echo $row["categoryOrder"] . '. Monthly ' . $row["categoryName"] ?></label>
                             <div class = 'input-group input-group-unstyled'>
                                 <div class = 'col-sm-1'>
                                     <span class='input-group-addon glyphicon glyphicon-info-sign' rel='tooltip' title='<?php echo $row["categoryHoverToolTip"] ?>'></span>
