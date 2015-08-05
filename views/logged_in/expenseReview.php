@@ -54,8 +54,9 @@
         <div class="row"><h4 class="panel-title col-sm-5"><b>Total Expenses</b></h4>
             <div class="col-sm-3"><span>$&nbsp<?php echo number_format($totalExpense) ?></span></div>
         </div>
-        <div class="panel-body">
-            <input type="button" value="Next" class="btn btn-primary pull-right" onclick="" id="toBudgetReview">
+        <div class="panel-body pull-right">
+            <input type="button" value="Back" class="btn btn-primary" id="backButton">
+            <input type="button" value="Next" class="btn btn-primary" id="toBudgetReview">
         </div>
         <br>
     </div>
@@ -63,7 +64,11 @@
 <script type = "text/javascript">
     $("#toBudgetReview").on("click", function ()
     {
-        window.location.href = "index.php?budgetreview=budget"
+        window.location.href = "index.php?budgetreview=budget";
+    });
+
+    $("#backButton").on("click", function () {
+        window.location.href = "index.php?editexpensebudget";
     });
 
 </script>

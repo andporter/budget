@@ -46,6 +46,7 @@ function getHeader($name)
                 </div>
                 <?php
             }
+
             for ($i = 1; $i <= getNumberOfParentCategories("Income"); $i++)
             {
                 getBudgetReviewForm("Income", $i);
@@ -78,7 +79,7 @@ function getHeader($name)
 
                     if ($GLOBALS['net'] <= 0.0)
                     {
-                        echo '<font color="red">-&nbsp$&nbsp' . number_format(abs($GLOBALS['net'])) . '</font>';
+                        echo '<font color="red">($&nbsp' . number_format(abs($GLOBALS['net'])) . ')</font>';
                     } else
                     {
                         echo '$&nbsp' . number_format($GLOBALS['net']);
@@ -87,7 +88,10 @@ function getHeader($name)
                 </span>
             </div>
         </div>
-        <div class="panel-body"><input type="button" value="Print" class="btn btn-primary pull-right" id="printBudget"></div>
+        <div class="panel-body pull-right">
+            <input type="button" value="Back" class="btn btn-primary" id="backButton">
+            <input type="button" value="Print" class="btn btn-primary" id="printBudget">
+        </div>
         <br>
     </div>
 </div>
@@ -95,6 +99,10 @@ function getHeader($name)
     $("#printBudget").on("click", function ()
     {
         window.print();
+    });
+
+    $("#backButton").on("click", function () {
+        window.location.href = "index.php?budgetreview=expense";
     });
 
 </script>

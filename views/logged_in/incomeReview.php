@@ -10,8 +10,8 @@
             $ResultsToReturn = getDB($CategoryParentType, $CategoryParentOrder);
             ?><hr><h4 class="panel-title col-sm-5"><b><?php echo $ResultsToReturn[0]["categoryParentName"] ?></b></h4>
             <div class="col-sm-1">Client</div>
-                <div class="col-sm-1">Spouse</div>
-                <div class="col-sm-1">Total</div>
+            <div class="col-sm-1">Spouse</div>
+            <div class="col-sm-1">Total</div>
             <div class="col-sm-1">Actual</div>
             <div class="col-sm-1">Difference</div>
             <div class="panel-body"><?php
@@ -64,16 +64,24 @@
             <div class="row">
                 <h4 class="panel-title col-sm-7"><b>Gross Income</b></h4>
                 <div class="col-sm-1"><span>$&nbsp<?php echo number_format($GLOBALS['grossIncome']) ?></span></div>
-                <input type="button" value="Next" class="btn btn-primary pull-right" id="toExpenseForm">
+
             </div>
             <hr><hr>
+        </div>
+        <div class="panel-body pull-right">
+            <!-- <input type="button" value="Back" class="btn btn-primary" id="backButton"> -->
+            <input type="button" value="Next" class="btn btn-primary" id="toExpenseForm">
         </div>
     </div>
 </div>
 <script type = "text/javascript">
     $("#toExpenseForm").on("click", function ()
     {
-        window.location.href = "index.php?editexpensebudget"
+        window.location.href = "index.php?editexpensebudget";
     });
+
+//    $("#backButton").on("click", function () {
+//        window.location.href = "index.php?editincomebudget";
+//    });
 
 </script>
