@@ -89,8 +89,7 @@ function getHeader($name)
             </div>
         </div>
         <div class="panel-body pull-right">
-            <input type="button" value="Back" class="btn btn-primary" onClick="history.go(-1);
-                    return true;" id="backButton">
+            <input type="button" value="Done! Back to Dashboard" class="btn btn-primary" id="backButton">
             <input type="button" value="Print" class="btn btn-primary" id="printBudget">
         </div>
         <br>
@@ -100,6 +99,10 @@ function getHeader($name)
     $("#printBudget").on("click", function ()
     {
         window.print();
+    });
+
+    $("#backButton").on("click", function () {
+        window.location.href = "index.php?budgets";
     });
 
 </script>
