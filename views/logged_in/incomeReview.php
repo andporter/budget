@@ -69,7 +69,8 @@
             <hr><hr>
         </div>
         <div class="panel-body pull-right">
-            <!-- <input type="button" value="Back" class="btn btn-primary" id="backButton"> -->
+            <input type="button" value="Back" onClick="history.go(-1);
+                    return true;" class="btn btn-primary" id="backButton">
             <input type="button" value="Next" class="btn btn-primary" id="toExpenseForm">
         </div>
     </div>
@@ -79,9 +80,5 @@
     {
         window.location.href = "index.php?editexpensebudget";
     });
-
-//    $("#backButton").on("click", function () {
-//        window.location.href = "index.php?editincomebudget";
-//    });
 
 </script>
