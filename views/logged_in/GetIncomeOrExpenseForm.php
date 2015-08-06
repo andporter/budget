@@ -70,11 +70,13 @@ function getIncomeOrExpenseForm($CategoryParentType, $CategoryParentOrder)
     <script type = "text/javascript">
         $("#next<?php echo $CategoryParentType . $panelId; ?>").on("click", function() 
             {
-                if (this.id === "nextIncome3")
+                var numIncome = <?php echo getNumberOfParentCategories("Income"); ?>;
+                var numExpense = <?php echo getNumberOfParentCategories("Expense"); ?>;
+                if (this.id === "nextIncome" + numIncome)
                 {
                     window.location.href = "index.php?budgetreview=income"
                 }
-                else if (this.id === "nextExpense9")
+                else if (this.id === "nextExpense" + numExpense)
                 {
                     window.location.href = "index.php?budgetreview=expense"
                 }
