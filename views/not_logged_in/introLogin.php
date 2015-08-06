@@ -3,10 +3,10 @@
     <div class='container theme-showcase'>
         <div class="panel panal-content panel-primary">
             <div class="panel-heading">
-                <h3 class="panel-title"> Cottages of Hope - Budget Assistance</h3>
+                <h3 class="panel-title"> Cottages of Hope - Basic Budget Builder</h3>
             </div>
             <div class="panel-body">
-                This site does cool stuff
+                <center><img src="images/Cottages of Hope Logo.jpg" alt=""/></center>
             </div>
         </div>
     </div>
