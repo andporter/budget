@@ -8,11 +8,10 @@ function getHeader($name)
         <div class="col-sm-1">Spouse</div>
         <div class="col-sm-1">Totals</div>
         <div class="col-sm-1">% Gross</div>
-        <div class="col-sm-1">Actual</div>
-        <div class="col-sm-1">Difference</div>';
+        <div class="col-sm-1"><center>Actual</center></div>
+        <div class="col-sm-1"><center>Difference</center></div>';
 }
 ?>
-
 <div id="budgetReview">
     <div class = "container theme-showcase">
         <h2>Budget Review</h2>
@@ -41,8 +40,8 @@ function getHeader($name)
                     <div class="col-sm-1">$&nbsp<?php echo number_format($spousetotal) ?></div>
                     <div class="col-sm-1">$&nbsp<?php echo number_format($subtotal) ?></div>
                     <div class="col-sm-1" ><?php echo number_format($subtotal / $GLOBALS['grossIncome'] * 100.0) ?>&nbsp%</div>
-                    <div class="col-sm-1">_________</div>
-                    <div class="col-sm-1">_________</div>
+                    <div class="col-sm-1"><center>________</center></div>
+                    <div class="col-sm-1"><center>________</center></div>
                 </div>
                 <?php
             }
