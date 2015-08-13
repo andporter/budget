@@ -27,6 +27,21 @@ function isNumberKey(evt) {
     var charCode = (evt.which) ? evt.which : evt.keyCode;
     return !(charCode > 31 && (charCode < 48 || charCode > 57));
 }
+// dash - 189; space - 32; alpha num - 65-90
+function isAlphaKey(e) {
+    var AllowableCharacters = ' ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-.\'';
+
+    var k = document.all ? parseInt(e.keyCode) : parseInt(e.which);
+    if (k !== 13 && k !== 8 && k !== 0) {
+        if ((e.ctrlKey === false) && (e.altKey === false)) {
+            return (AllowableCharacters.indexOf(String.fromCharCode(k)) !== -1);
+        } else {
+            return true;
+        }
+    } else {
+        return true;
+    }
+}
 
 $(function () {
     $("[rel=tooltip]").tooltip({
