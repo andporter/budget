@@ -48,7 +48,7 @@
                         <u>$&nbsp<?php echo number_format($subtotal) ?></u>
                     </div>
                     <div class="col-sm-2" <?php echo 'id="' . $ResultsToReturn[0]["categoryParentName"] . 'percent"' ?>>
-                        <u><?php echo number_format($subtotal / $GLOBALS['grossIncome'] * 100) ?>&nbsp%</u>
+                        <u><?php echo number_format($subtotal / $GLOBALS['grossIncome'] * 100) ?>&nbsp% gross income</u>
                     </div>
                 </div>
             </div><?php

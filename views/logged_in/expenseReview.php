@@ -39,7 +39,7 @@
                 <div class="row">
                     <div class="col-sm-7"><h5><u>Total</u></h5></div>
                     <div class="col-sm-1"><u>$&nbsp<?php echo number_format($subtotal) ?></u></div>
-                    <div class="col-sm-1"><u><?php echo number_format($subtotal / $GLOBALS['grossIncome'] * 100) ?>&nbsp%</u></div>
+                    <div class="col-sm-2"><u><?php echo number_format($subtotal / $GLOBALS['grossIncome'] * 100) ?>&nbsp% gross income</u></div>
                 </div>
             </div>
             <?php
