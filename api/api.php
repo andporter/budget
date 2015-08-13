@@ -30,7 +30,7 @@ if (HTTPS_required === "TRUE" && $_SERVER['HTTPS'] != 'on')
     $response['data'] = $api_response_code[$response['code']]['Message'];
 
     // Return Response to browser. This will exit the script.
-    deliver_response($response);
+    deliver_json_response($response);
 }
 
 // --- Step 2: Process Request
@@ -68,28 +68,27 @@ switch ($_GET['method'])
                         $ResultsToReturn = $sql->fetchAll(PDO::FETCH_ASSOC);
                         $response['code'] = 1;
                         $response['data'] = $ResultsToReturn;
-                        $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
                     }
                     else
                     {
                         $response['code'] = 0;
                         $response['data'] = $sql->errorInfo();
-                        $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
                     }
                 }
                 else //not logged in
                 {
                     $response['code'] = 3;
                     $response['data'] = $api_response_code[$response['code']]['Message'];
-                    $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
                 }
             }
             catch (Exception $e)
             {
                 $response['code'] = 0;
                 $response['data'] = $e->getMessage();
-                $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
             }
+
+            $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
+            deliver_json_response($response);
         }
         break;
 
@@ -101,9 +100,9 @@ switch ($_GET['method'])
                 {
                     $jsonData = json_decode($_POST["data"], true);
                     $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
-                    
+
                     $sql = $db_connection->prepare("UPDATE budget SET budgetName = :budgetName WHERE budgetId = :budgetId");
-                    
+
                     $sql->bindParam(':budgetName', $jsonData['updateBudgetName']);
 
                     foreach (explode(",", $jsonData['budgetIds']) as $budgetId)
@@ -114,21 +113,21 @@ switch ($_GET['method'])
 
                     $response['code'] = 1;
                     $response['data'] = $api_response_code[$response['code']]['Message'];
-                    $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
                 }
                 else //not logged in
                 {
                     $response['code'] = 3;
                     $response['data'] = $api_response_code[$response['code']]['Message'];
-                    $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
                 }
             }
             catch (Exception $e)
             {
                 $response['code'] = 0;
                 $response['data'] = $e->getMessage();
-                $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
             }
+
+            $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
+            deliver_json_response($response);
         }
         break;
 
@@ -151,21 +150,21 @@ switch ($_GET['method'])
 
                     $response['code'] = 1;
                     $response['data'] = $api_response_code[$response['code']]['Message'];
-                    $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
                 }
                 else //not logged in
                 {
                     $response['code'] = 3;
                     $response['data'] = $api_response_code[$response['code']]['Message'];
-                    $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
                 }
             }
             catch (Exception $e)
             {
                 $response['code'] = 0;
                 $response['data'] = $e->getMessage();
-                $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
             }
+
+            $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
+            deliver_json_response($response);
         }
         break;
 
@@ -188,21 +187,21 @@ switch ($_GET['method'])
 
                     $response['code'] = 1;
                     $response['data'] = $api_response_code[$response['code']]['Message'];
-                    $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
                 }
                 else //not logged in
                 {
                     $response['code'] = 3;
                     $response['data'] = $api_response_code[$response['code']]['Message'];
-                    $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
                 }
             }
             catch (Exception $e)
             {
                 $response['code'] = 0;
                 $response['data'] = $e->getMessage();
-                $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
             }
+
+            $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
+            deliver_json_response($response);
         }
         break;
 
@@ -245,21 +244,21 @@ switch ($_GET['method'])
 
                     $response['code'] = 1;
                     $response['data'] = $api_response_code[$response['code']]['Message'];
-                    $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
                 }
                 else //not logged in
                 {
                     $response['code'] = 3;
                     $response['data'] = $api_response_code[$response['code']]['Message'];
-                    $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
                 }
             }
             catch (Exception $e)
             {
                 $response['code'] = 0;
                 $response['data'] = $e->getMessage();
-                $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
             }
+
+            $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
+            deliver_json_response($response);
         }
         break;
 
@@ -293,41 +292,37 @@ switch ($_GET['method'])
                     {
                         $response['code'] = 1;
                         $response['data'] = $api_response_code[$response['code']]['Message'];
-                        $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
                     }
                     else
                     {
                         $response['code'] = 0;
                         $response['data'] = $sql->errorInfo();
-                        $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
                     }
                 }
                 else //not logged in
                 {
                     $response['code'] = 3;
                     $response['data'] = $api_response_code[$response['code']]['Message'];
-                    $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
                 }
             }
             catch (Exception $e)
             {
                 $response['code'] = 0;
                 $response['data'] = $e->getMessage();
-                $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
             }
+
+            $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
+            deliver_json_response($response);
         }
         break;
 }
-
-// --- Step 3: Deliver Response
-deliver_response($response);
 
 /**
  * Deliver HTTP Response
  * @param string $api_response The desired HTTP response data
  * @return void (will echo json or xlsx)
  * */
-function deliver_response($api_response)
+function deliver_json_response($api_response)
 {
     // Define HTTP responses
     $http_response_code = array(

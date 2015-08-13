@@ -18,4 +18,3 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.8.1/bootstrap-table-all.min.js"></script>
 <script src="js/my.js"></script>
 <script src="js/jquery.serializeObject.js"></script>
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/parsley.js/2.1.2/parsley.min.js"</script>-->
