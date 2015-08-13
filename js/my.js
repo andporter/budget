@@ -29,18 +29,11 @@ function isNumberKey(evt) {
 }
 // dash - 189; space - 32; alpha num - 65-90
 function isAlphaKey(e) {
-    var AllowableCharacters = ' ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-.\'';
+        var k;
+        console.log(e.keyCode);
+        document.all ? k = e.keyCode : k = e.which;
+        return ((k > 63 && k < 91) || (k > 96 && k < 123) || k === 8 || k === 9 || k === 32 || k === 43 || k === 45 || k === 46 || k === 95 || k == 173 || (k >= 37 && k <= 40) || (k >= 48 && k <= 57));
 
-    var k = document.all ? parseInt(e.keyCode) : parseInt(e.which);
-    if (k !== 13 && k !== 8 && k !== 0) {
-        if ((e.ctrlKey === false) && (e.altKey === false)) {
-            return (AllowableCharacters.indexOf(String.fromCharCode(k)) !== -1);
-        } else {
-            return true;
-        }
-    } else {
-        return true;
-    }
 }
 
 $(function () {
