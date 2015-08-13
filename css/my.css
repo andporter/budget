@@ -21,3 +21,70 @@ body
 .errors div {
     float: left;
 }
+
+.colphone .firstSet
+{
+    float:left;
+    width: 25%;
+}
+
+.colphone .secondSet
+{
+    float:left;
+    margin-left:7px;
+    width: 25%;
+}
+
+.colphone .thirdSet
+{
+    float:left;
+    margin-left:7px;
+    width: 40%;
+}
+
+.colphone {
+    margin-left: 15px;
+    float:left;
+    width:150px;
+    text-align:left;
+}
+
+.col1 {
+    margin-left: 15px;
+    float:left;
+    width:150px;
+    text-align:left;
+}
+
+.col2 {
+    margin-left: 15px;
+    //float:left;
+    width:150px;
+    text-align:left;
+}
+
+.col3 {
+    margin-left: 15px;
+    //float:left;
+    width:300px;
+    text-align:left;
+}
+
+.col4 {
+    margin-left: 60px;
+    //float:left;
+    width:490px;
+    text-align:left;
+}
+
+.col5 {
+    margin-left: 15px;
+    //float:left;
+    width:485px;
+    text-align:left;
+}
+
+.col6 {
+    //margin-left: 15px;
+    float:left;
+}
