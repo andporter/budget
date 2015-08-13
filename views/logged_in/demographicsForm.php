@@ -31,9 +31,9 @@ if ($sql->execute())
                 <div id="divPhone" class="form-group">
                     <label for="phone" name="phone" class="col1">Phone:</label>
                     <div class="colphone">
-                    <input type="text" id="phoneAreaCode"  class="firstSet" name="phoneAreaCode" maxlength="3" onkeydown='return isNumberKey(event);' placeholder="###" value="<?php echo substr($ResultsToReturn[0]["phone"], 0, 3) ?>" required/>
-                    <input type="text" id="phoneFirstThree" class="secondSet" name="phoneFirstThree" maxlength="3" onkeydown='return isNumberKey(event);' placeholder="###" value="<?php echo substr($ResultsToReturn[0]["phone"], 4, 3) ?>" required/>
-                    <input type="text" id="phoneLastFour" class="thirdSet" name="phoneLastFour" maxlength="4" onkeydown='return isNumberKey(event);' placeholder="####" value="<?php echo substr($ResultsToReturn[0]["phone"], 8, 4) ?>" required/>
+                    <input type="text" id="phoneAreaCode"  class="firstSet" name="phoneAreaCode" maxlength="3" onkeypress='return isNumberKey(event);' placeholder="###" value="<?php echo substr($ResultsToReturn[0]["phone"], 0, 3) ?>" required/>
+                    <input type="text" id="phoneFirstThree" class="secondSet" name="phoneFirstThree" maxlength="3" onkeypress='return isNumberKey(event);' placeholder="###" value="<?php echo substr($ResultsToReturn[0]["phone"], 4, 3) ?>" required/>
+                    <input type="text" id="phoneLastFour" class="thirdSet" name="phoneLastFour" maxlength="4" onkeypress='return isNumberKey(event);' placeholder="####" value="<?php echo substr($ResultsToReturn[0]["phone"], 8, 4) ?>" required/>
                     </div>
                     <label for="doYouText" id="doYouText" name="doYouText" class="col2">Do You Text:</label>
                     
@@ -75,19 +75,19 @@ if ($sql->execute())
 
                 <div id="under4" class="form-group">
                     <label for="dependent0_4" name="dependent0_4" class="col3" >Number of Children 0-4 you support:</label>
-                    <input id="dependent0_4" name="dependent0_4" class="col2" type="text" maxlength="3" onkeydown='return isNumberKey(event);' value="<?php echo $ResultsToReturn[0]["dependent0_4"] ?>" style="margin-left:15px" required>
+                    <input id="dependent0_4" name="dependent0_4" class="col2" type="text" maxlength="3" onkeypress='return isNumberKey(event);' value="<?php echo $ResultsToReturn[0]["dependent0_4"] ?>" style="margin-left:15px" required>
                     <div><div id="dependent0_4Error" class="errors" value=""></div></div>
                 </div>
 
                 <div id="over5" class="form-group">
                     <label for="dependent5_18" name="dependent5_18" class="col3" >Number of Children 5-18 you support:</label>
-                    <input id="dependent5_18" name="dependent5_18" class="col2" type="text" maxlength="3" onkeydown='return isNumberKey(event);' value="<?php echo $ResultsToReturn[0]["dependent5_18"] ?>" style="margin-left:15px" required>
+                    <input id="dependent5_18" name="dependent5_18" class="col2" type="text" maxlength="3" onkeypress='return isNumberKey(event);' value="<?php echo $ResultsToReturn[0]["dependent5_18"] ?>" style="margin-left:15px" required>
                     <div><div id="dependent5_18Error" class="errors" value=""></div></div>
                 </div>
 
                 <div id="dependentAdditional" class="form-group">
                     <label for="dependentAdditional" name="dependentAdditional" class="col3" >Additional household member you support (including yourself and spouse):</label>
-                    <input id="dependentAdditional" name="dependentAdditional" class="col2" type="text" maxlength="3" onkeydown='return isNumberKey(event);' value="<?php echo $ResultsToReturn[0]["dependentAdditional"] ?>" style="margin-left:15px" required>
+                    <input id="dependentAdditional" name="dependentAdditional" class="col2" type="text" maxlength="3" onkeypress='return isNumberKey(event);' value="<?php echo $ResultsToReturn[0]["dependentAdditional"] ?>" style="margin-left:15px" required>
                     <div><div id="dependentAdditionalError" class="errors"  value=""></div></div>
                 </div>
 
