@@ -89,6 +89,7 @@ function getHeader($name)
         </div>
         <div class="panel-body pull-right">
             <input type="button" value="Done! Back to Dashboard" class="btn btn-primary" id="backButton">
+            <a href="api/api.php?method=userBudgetExcelExport" class="btn btn-primary">Excel</a>
             <input type="button" value="Print" class="btn btn-primary" id="printBudget">
         </div>
         <br>

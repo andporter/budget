@@ -315,13 +315,57 @@ switch ($_GET['method'])
             deliver_json_response($response);
         }
         break;
+
+    case "userBudgetExcelExport":
+        {
+            try
+            {
+                if ($login->isUserLoggedIn() == true) //requires login
+                {
+                    require_once '../views/logged_in/GetDB.php';
+
+                    $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
+
+                    $sql = $db_connection->prepare("SELECT cp.categoryParentType Type, cp.categoryParentName Category, c.categoryName Name, bd.budgetSelfAmount Self, bd.budgetSpouseAmount Spouse, bd.budgetSelfAmount+bd.budgetSpouseAmount Total
+                                        FROM categoryParent cp
+                                        JOIN category c ON (cp.categoryParentId = c.categoryParentId)
+                                        JOIN budgetDetail bd ON (c.categoryId = bd.categoryId)
+                                        JOIN budget b ON (bd.budgetId = b.budgetId)
+                                        WHERE b.budgetId = :budgetId
+                                        ORDER BY cp.categoryParentType, cp.categoryParentOrder, c.categoryOrder");
+
+                    $sql->bindParam(':budgetId', $_SESSION['user_budgetid']);
+
+                    if ($sql->execute())
+                    {
+                        $ResultsToReturn = $sql->fetchAll(PDO::FETCH_ASSOC);
+                        $response['code'] = 1;
+                        $response['data'] = $ResultsToReturn;
+                    }
+                    else
+                    {
+                        $response['code'] = 0;
+                        $response['data'] = $sql->errorInfo();
+                    }
+                }
+                else //not logged in
+                {
+                    $response['code'] = 3;
+                    $response['data'] = $api_response_code[$response['code']]['Message'];
+                }
+            }
+            catch (Exception $e)
+            {
+                $response['code'] = 0;
+                $response['data'] = $e->getMessage();
+            }
+
+            $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
+            deliver_excel_response($response, "Budget");
+        }
+        break;
 }
 
-/**
- * Deliver HTTP Response
- * @param string $api_response The desired HTTP response data
- * @return void (will echo json or xlsx)
- * */
 function deliver_json_response($api_response)
 {
     // Define HTTP responses
@@ -341,8 +385,41 @@ function deliver_json_response($api_response)
 
     // Deliver JSON formatted data
     echo json_encode($api_response);
+    exit;
+}
 
-    // End script process, error log is just to output a log... not really an error.
-    error_log('UserType: ' . $_SESSION['user_type'] . ', UserName: ' . $_SESSION['user_name'] . ', Method: ' . $_GET['method']);
+function deliver_excel_response($api_response, $filename)
+{
+    // Define HTTP responses
+    $http_response_code = array(
+        200 => 'OK',
+        400 => 'Bad Request',
+        401 => 'Unauthorized',
+        403 => 'Forbidden',
+        404 => 'Not Found'
+    );
+
+    // Set HTTP Response
+    header('HTTP/1.1 ' . $api_response['status'] . ' ' . $http_response_code[$api_response['status']]);
+
+    require_once("../classes/PHPExcel.php");
+
+    // Create new PHPExcel object
+    $objPHPExcel = new PHPExcel();
+
+    $objPHPExcel->getActiveSheet()->fromArray(array_keys($api_response['data'][0]), NULL, 'A1'); //header row
+    $objPHPExcel->getActiveSheet()->fromArray($api_response['data'], NULL, 'A2'); //data rows
+
+    foreach (range('A', $objPHPExcel->getActiveSheet()->getHighestDataColumn()) as $col)
+    {
+        $objPHPExcel->getActiveSheet()->getColumnDimension($col)->setAutoSize(true);
+    }
+
+    // Redirect output to a client’s web browser (Excel2007)
+    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    header('Content-Disposition: attachment;filename="' . $filename . '.xlsx"');
+
+    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+    $objWriter->save('php://output');
     exit;
 }
