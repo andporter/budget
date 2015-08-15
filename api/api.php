@@ -392,10 +392,6 @@ switch ($_GET['method'])
                         $ResultsToReturn[] = array('', '', '', '');
                     }
 
-                    
-//                    print_r($ResultsToReturn);
-//                    exit();
-
                     $response['code'] = 1;
                     $response['data'] = $ResultsToReturn;
                 }
@@ -403,12 +399,14 @@ switch ($_GET['method'])
                 {
                     $response['code'] = 3;
                     $response['data'] = $api_response_code[$response['code']]['Message'];
+                    deliver_json_response($response);
                 }
             }
             catch (Exception $e)
             {
                 $response['code'] = 0;
                 $response['data'] = $e->getMessage();
+                deliver_json_response($response);
             }
 
             $response['status'] = $api_response_code[$response['code']]['HTTP Response'];
