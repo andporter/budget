@@ -324,29 +324,80 @@ switch ($_GET['method'])
                 {
                     require_once '../views/logged_in/GetDB.php';
 
-                    $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
+                    function getData($CategoryParentType, $CategoryParentOrder)
+                    {
+                        $db_connection = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
 
-                    $sql = $db_connection->prepare("SELECT cp.categoryParentType Type, cp.categoryParentName Category, c.categoryName Name, bd.budgetSelfAmount Self, bd.budgetSpouseAmount Spouse, bd.budgetSelfAmount+bd.budgetSpouseAmount Total
+                        $sql = $db_connection->prepare("SELECT cp.categoryParentType Type, cp.categoryParentName Category, c.categoryName Name, bd.budgetSelfAmount Self, bd.budgetSpouseAmount Spouse, bd.budgetSelfAmount+bd.budgetSpouseAmount Total
                                         FROM categoryParent cp
                                         JOIN category c ON (cp.categoryParentId = c.categoryParentId)
                                         JOIN budgetDetail bd ON (c.categoryId = bd.categoryId)
                                         JOIN budget b ON (bd.budgetId = b.budgetId)
-                                        WHERE b.budgetId = :budgetId
+                                        WHERE cp.categoryParentType = :categoryParentType
+                                        AND cp.categoryParentOrder = :categoryParentOrder
+                                        AND b.budgetId = :budgetId
                                         ORDER BY cp.categoryParentType, cp.categoryParentOrder, c.categoryOrder");
 
-                    $sql->bindParam(':budgetId', $_SESSION['user_budgetid']);
+                        $sql->bindParam(':categoryParentType', $CategoryParentType);
+                        $sql->bindParam(':categoryParentOrder', $CategoryParentOrder);
+                        $sql->bindParam(':budgetId', $_SESSION['user_budgetid']);
 
-                    if ($sql->execute())
-                    {
-                        $ResultsToReturn = $sql->fetchAll(PDO::FETCH_ASSOC);
-                        $response['code'] = 1;
-                        $response['data'] = $ResultsToReturn;
+                        if ($sql->execute())
+                        {
+                            return $sql->fetchAll(PDO::FETCH_NUM);
+                        }
                     }
-                    else
+                    
+                    $ResultsToReturn = array();
+                    
+                    $ResultsToReturn[] = array('Income', '', '', '');
+                    for ($i = 1; $i <= getNumberOfParentCategories("Income"); $i++)
                     {
-                        $response['code'] = 0;
-                        $response['data'] = $sql->errorInfo();
+                        $Results = getData("Income", $i);
+                        
+                        $selfTotal = 0;
+                        $spouseTotal = 0;
+                        $total = 0;
+                        
+                        $ResultsToReturn[] = array($Results[0][1], 'Self', 'Spouse', 'Total');
+                        foreach ($Results as $row)
+                        {
+                            $ResultsToReturn[] = array($row[2], $row[3], $row[4], $row[5]);
+                            $selfTotal += $row[3];
+                            $spouseTotal += $row[4];
+                            $total += $row[5];
+                        }
+                        $ResultsToReturn[] = array("Total ".$Results[0][1], $selfTotal, $spouseTotal, $total);
+                        $ResultsToReturn[] = array('', '', '', '');
                     }
+                    
+                    $ResultsToReturn[] = array('Expenses', '', '', '');
+                    for ($i = 1; $i <= getNumberOfParentCategories("Expense"); $i++)
+                    {
+                        $Results = getData("Expense", $i);
+                        
+                        $selfTotal = 0;
+                        $spouseTotal = 0;
+                        $total = 0;
+                        
+                        $ResultsToReturn[] = array($Results[0][1], 'Self', 'Spouse', 'Total');
+                        foreach ($Results as $row)
+                        {
+                            $ResultsToReturn[] = array($row[2], $row[3], $row[4], $row[5]);
+                            $selfTotal += $row[3];
+                            $spouseTotal += $row[4];
+                            $total += $row[5];
+                        }
+                        $ResultsToReturn[] = array("Total ".$Results[0][1], $selfTotal, $spouseTotal, $total);
+                        $ResultsToReturn[] = array('', '', '', '');
+                    }
+
+                    
+//                    print_r($ResultsToReturn);
+//                    exit();
+
+                    $response['code'] = 1;
+                    $response['data'] = $ResultsToReturn;
                 }
                 else //not logged in
                 {
@@ -407,8 +458,8 @@ function deliver_excel_response($api_response, $filename)
     // Create new PHPExcel object
     $objPHPExcel = new PHPExcel();
 
-    $objPHPExcel->getActiveSheet()->fromArray(array_keys($api_response['data'][0]), NULL, 'A1'); //header row
-    $objPHPExcel->getActiveSheet()->fromArray($api_response['data'], NULL, 'A2'); //data rows
+    //$objPHPExcel->getActiveSheet()->fromArray(array_keys($api_response['data'][0]), NULL, 'A1'); //header row
+    $objPHPExcel->getActiveSheet()->fromArray($api_response['data'], NULL, 'A1'); //data rows
 
     foreach (range('A', $objPHPExcel->getActiveSheet()->getHighestDataColumn()) as $col)
     {
