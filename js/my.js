@@ -56,5 +56,5 @@ $(function () {
 function submitForm(form) {
     var postJSONData = $(form).serializeArray();
     postJSONData = JSON.stringify(postJSONData);
-    SendAjax("api/api.php?method=userBudgetFormSubmit", postJSONData, "none", true);
+    SendAjax("api/api.php?method=userBudgetFormSubmit", postJSONData, "none", false);
 }
