@@ -23,6 +23,8 @@ function getHeader($name)
             {
                 $GLOBALS['subtotal'] = 0.0;
                 $ResultsToReturn = getDB($CategoryParentType, $CategoryParentOrder);
+                $clienttotal = 0;
+                $spousetotal = 0;
                 foreach ($ResultsToReturn as $row)
                 {
                     $clienttotal += $row["budgetSelfAmount"];

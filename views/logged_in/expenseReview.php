@@ -15,6 +15,7 @@
             <div class="col-sm-1">Difference</div>
             <div class="panel-body">
                 <?php
+                $subtotal = 0;
                 foreach ($ResultsToReturn as $row)
                 {
                     $total = $row["budgetSelfAmount"] + $row["budgetSpouseAmount"];

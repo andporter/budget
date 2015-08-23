@@ -58,9 +58,9 @@ function getIncomeOrExpenseForm($CategoryParentType, $CategoryParentOrder)
                     <div class='form-group'>
                         <div class='col-sm-12'>
                             <?php if ($panelId != 1){?>
-                            <input type="button" value="Back" class="btn btn-primary" onclick="submitForm(this.form)" id="prev<?php echo $CategoryParentType.$panelId; ?>">
+                            <input type="button" value="Back" class="btn btn-primary" id="prev<?php echo $CategoryParentType.$panelId; ?>">
                             <?php } ?>
-                            <input type="button" value="Next" class="btn btn-primary pull-right" onclick="submitForm(this.form)" id="next<?php echo $CategoryParentType.$panelId; ?>">
+                            <input type="button" value="Next" class="btn btn-primary pull-right" id="next<?php echo $CategoryParentType.$panelId; ?>">
                         </div>
                     </div>
                 </form>
@@ -70,6 +70,7 @@ function getIncomeOrExpenseForm($CategoryParentType, $CategoryParentOrder)
     <script type = "text/javascript">
         $("#next<?php echo $CategoryParentType . $panelId; ?>").on("click", function() 
             {
+                submitForm(this.form);
                 var numIncome = <?php echo getNumberOfParentCategories("Income"); ?>;
                 var numExpense = <?php echo getNumberOfParentCategories("Expense"); ?>;
                 if (this.id === "nextIncome" + numIncome)
@@ -89,6 +90,7 @@ function getIncomeOrExpenseForm($CategoryParentType, $CategoryParentOrder)
             
         $("#prev<?php echo $CategoryParentType . $panelId; ?>").on("click", function() 
             {
+                submitForm(this.form);
                 $("#panel<?php echo $CategoryParentType . $panelId; ?>").collapse('hide');
                 $("#panel<?php echo $CategoryParentType . ($panelId - 1); ?>").collapse('show');
             });
